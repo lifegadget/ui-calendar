@@ -1,6 +1,6 @@
 {
   "name": "ui-calendar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Calendar (and time) based controls for ambition Ember applications.",
   "directories": {
     "doc": "doc",
@@ -11,11 +11,25 @@
     "build": "ember build",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "git@github.com:lifegadget/ui-calendar.git",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Ken Snyder",
+  "main": "index.js",
+  "files": [
+    "Brocfile.js",
+    "LICENSE.md",
+    "README.md",
+    "addon",
+    "app",
+    "bower.json",
+    "config",
+    "index.js",
+    "package.json",
+    "testem.json",
+    "vendor"
+  ],
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.2",
@@ -35,6 +49,7 @@
     "ember-moment": "^1.1.1",
     "ember-try": "0.0.4",
     "ui-bs-button-choice": "0.0.11",
+    "ui-button": "0.0.13",
     "ui-icon": "0.0.14"
   },
   "keywords": [

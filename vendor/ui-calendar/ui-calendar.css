@@ -64,3 +64,22 @@
   color: #676767;
   font-size: 0.8em;
 }
+.mini-datetime .ampm.dim {
+  color: #BEBEBE;
+  font-size: 0.8em;
+}
+
+
+/* FONT SIZING */
+.mini-datetime.font-tiny {
+  font-size: 9px;
+}
+.mini-datetime.font-small {
+  font-size: 10px;
+}
+.mini-datetime.font-large {
+  font-size: 18px;
+}
+.mini-datetime.font-huge {
+  font-size: 22px;
+}

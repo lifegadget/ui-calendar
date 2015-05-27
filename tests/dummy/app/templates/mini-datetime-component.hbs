@@ -1,10 +1,94 @@
 <h3>Basic Example</h3>
 
-<div class="example" style="width:{{exampleContainerWidth}}px">{{mini-datetime value='2015-05-04 12:34:00'}}</div>
+<examples>
+  <widget style="width:{{exampleContainerWidth}}px">
+    <div class="example" >
+    {{mini-datetime
+      value='2015-05-04 14:45:00'
+      size=fontSize
+      font=fontFamily
+    }}
+    </div>
+  </widget>
+  <sidecar>
+  &nbsp;<br/>
+    \{{ <br/>
+      &nbsp;&nbsp;<b>mini-datetime</b> <br/>
+      &nbsp;&nbsp;value='2015-05-04 14:45:00' <br/>
+      &nbsp;&nbsp;size='{{fontSize}}' <br/>
+      &nbsp;&nbsp;font='{{fontFamily}}' <br/>
+    }}
+  </sidecar>
+</examples>
+
 <desc>
   <p>There above example takes a timedate string and then paints it into the space the containing provides.</p>
   <p>
     Using the buttons below you can try adjusting the container size to see the responsive nature of the default component. Notice that at the smaller sizes you start to have clipping on the right hand side.
   </p>
-  {{ui-button-radio choices=containerWidths selected=exampleContainerWidth defaultValue='250'}}
+  <em>Container Size: </em>
+  {{ui-button-radio choices=containerWidths selected=exampleContainerWidth defaultValue='250'}}<br/>
+  <p>&nbsp;</p>
+  In order to address this, one approach is just to adjust the size property to get the fonts
+  down to a size that fits what the container is offering
+  <p>&nbsp;</p>
+  <em>Font Size: </em>
+  {{ui-button-radio choices='tiny,small,normal,large,huge' selected=fontSize defaultValue='normal'}}<br/>
+  <p>&nbsp;</p>
+  By default the font used is that <em>inherited</em> from the surrounding DOM. In this example that is a monospaced font but you can specify what you want as the default font by stating it in the <code>font</code>
+  property.
+  <p>&nbsp;</p>
+  <em>Font Family: </em>
+  {{ui-button-radio choices='inherit,fantasy,monospace,cursive,serif,sans-serif' selected=fontFamily defaultValue='inherit'}}<br/>
+
+</desc>
+
+<p class='section-break'>
+  &nbsp;
+  <h3 >Start, Stop, and Duration</h3>
+</p>
+<examples>
+  <widget>
+    <div class="example" >
+      {{mini-datetime
+        value='2015-05-04 12:34:00'
+        stopTime=stopTime
+        duration=duration
+        size=fontSize
+        font=fontFamily
+        ampm=ampm
+        showDuration=showDuration
+      }}
+    </div>
+  </widget>
+  <sidecar>
+  &nbsp;<br/>
+    \{{ <br/>
+      &nbsp;&nbsp;<b>mini-datetime</b> <br/>
+      &nbsp;&nbsp;value='2015-05-04 12:34:00' <br/>{{#if apiIsDuration}}
+      &nbsp;&nbsp;<em>duration={{controller.duration}}</em><br/>{{else}}
+      &nbsp;&nbsp;<em>stopTime={{stopTime}}</em><br/>{{/if}}
+      &nbsp;&nbsp;size='{{fontSize}}' <br/>
+      &nbsp;&nbsp;font='{{fontFamily}}' <br/>
+      &nbsp;&nbsp;ampm={{ampm}}<br/>
+    }}
+  </sidecar>
+  <sidecar>
+    API<br/>
+    {{ui-button-radio choices='stopTime,stopTime(long),duration' selected=apiType}}<br/>
+    UI<br/>
+    {{ui-button-radio choices='implicit,stopTime,duration' selected=uiType}}<br/>
+    Time Format<br/>
+    {{ui-toggle-button off='24hr time' on='am/pm' value=ampm}}<br/>
+  </sidecar>
+</examples>
+<desc>
+  In the example above we've added another property "stopTime" which allows another <em>datetime</em> object to be included as the "stop time". Another similar alternative would be to instead specify the
+  <code>duration</code> property which is the number minutes which is really just another way of providing the
+  same information but having both input formats helps to provide a more flexible API surface for two very common
+  ways of expressing this kind of information.
+</desc>
+<desc>
+  In addition to providing two interfaces, the user interface can also be asked to display the secondary date information as a <em>duration</em> or a concluding <em>time</em>. The components attempts to be smart by mimicking the input format to the user interface for intra-day durations. For any multi-day durations the
+  component switches to <em>duration </em> mode.
 </desc>

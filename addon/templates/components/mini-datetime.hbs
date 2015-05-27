@@ -7,10 +7,18 @@
 </div>
 <div class="time flexy-grow vertical">
   <div class="from flex-item">
-    {{moment value 'HH:MM'}}<span class="ampm">{{moment value 'a'}}</span>
+    {{moment value _timeFormat}}{{#if ampm}}<span class="ampm">{{moment value 'a'}}</span>{{/if}}
   </div>
-  <div class="to flex-item">
-    to {{moment value 'HH:MM'}}
-  </div>
+  {{#if _showStopTime}}
+    <div class="to flex-item">
+      until {{moment stopTime _timeFormat}}{{#if ampm}}<span class="ampm dim">{{moment value 'a'}}</span>{{/if}}
+    </div>
+  {{/if}}
+  {{#if _showDuration}}
+    <div class="to flex-item">
+      for {{_durationPretty}}
+    </div>
+  {{/if}}
+
 </div>
 {{yield}}
