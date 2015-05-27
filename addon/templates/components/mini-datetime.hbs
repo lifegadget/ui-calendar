@@ -1,0 +1,16 @@
+<div class="date flex-item">
+<div class="vflexy">
+    <div class="dow">{{moment value 'dddd'}}</div>
+    <div class="dom">{{moment value 'DD'}}</div>
+    <div class="month">{{moment value 'MMMM'}}</div>
+</div>
+</div>
+<div class="time flexy-grow vertical">
+  <div class="from flex-item">
+    {{moment value 'HH:MM'}}<span class="ampm">{{moment value 'a'}}</span>
+  </div>
+  <div class="to flex-item">
+    to {{moment value 'HH:MM'}}
+  </div>
+</div>
+{{yield}}

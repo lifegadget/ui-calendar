@@ -1,0 +1,66 @@
+/* FLEXBOX */
+.flexy {
+  display: flex;
+}
+
+.flexy-grow {
+  flex-grow: 3;
+}
+
+.flexy-item {
+  flex-item: 1;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* DATE TIME STYLING */
+.mini-datetime {
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+.mini-datetime .date {
+  padding: .5em 1em .5em 1em;
+  text-align: center;
+}
+.mini-datetime .date .dow {
+  font-size: 1em;
+  padding-bottom: .25em;
+  border-bottom: 1px solid lightgrey;
+  text-align: center;
+}
+.mini-datetime .date .dom {
+  font-size: 3em;
+}
+.mini-datetime .date .month {
+  border-top: 1px solid lightgrey;
+  text-align: center;
+  padding-top: .25em;
+}
+
+.mini-datetime .time {
+  text-align: center;
+  vertical-align: middle;
+  border: 0;
+  border-left: 1px solid lightgrey;
+  padding-left: 1em;
+}
+.mini-datetime .time .from {
+  font-size: 2.5em;
+  color: #1F1F1F;
+}
+.mini-datetime .time .to {
+  font-size: 1.2em;
+  color: #BFBFBF;
+  float:right;
+}
+
+.mini-datetime .ampm {
+  color: #676767;
+  font-size: 0.8em;
+}
