@@ -6,7 +6,13 @@ import layout from '../templates/components/mini-datetime';
 export default Ember.Component.extend({
   layout: layout,
   classNames: ['ui-calendar', 'mini-datetime', 'flexy'],
+  classNameBindings: ['_size'],
   value: null,
+  size: null,
+  _size: on('init',computed('size', function() {
+    const size = this.get('size');
+    return size === 'default' ? '' : `font-${size}`;
+  })),
   // use either duration or stopTime, not both
   duration: null, // measured in # of minutes
   stopTime: null,

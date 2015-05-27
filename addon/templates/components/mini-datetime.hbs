@@ -7,10 +7,12 @@
 </div>
 <div class="time flexy-grow vertical">
   <div class="from flex-item">
-    {{moment value 'HH:MM'}}<span class="ampm">{{moment value 'a'}}</span>
+    {{moment value 'h:mm'}}<span class="ampm">{{moment value 'a'}}</span>
   </div>
-  <div class="to flex-item">
-    to {{moment value 'HH:MM'}}
-  </div>
+  {{#if _stopTime}}
+    <div class="to flex-item">
+      to {{moment value 'h:mm'}}
+    </div>
+  {{/if}}
 </div>
 {{yield}}

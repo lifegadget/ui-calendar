@@ -9,6 +9,7 @@ export default Ember.Controller.extend({
     { id: 350, name: '350px' },
     { id: 400, name: '400px' }
   ],
-  exampleContainerWidth: '250'
+  exampleContainerWidth: '250',
+  fontSize: 'normal'
 
 });

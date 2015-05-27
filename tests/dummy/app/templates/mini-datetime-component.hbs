@@ -1,10 +1,32 @@
 <h3>Basic Example</h3>
 
-<div class="example" style="width:{{exampleContainerWidth}}px">{{mini-datetime value='2015-05-04 12:34:00'}}</div>
+<examples>
+  <widget style="width:{{exampleContainerWidth}}px">
+    <div class="example" >{{mini-datetime value='2015-05-04 12:34:00' size=fontSize}}</div>
+  </widget>
+  <sidecar>
+    \{{mini-datetime value='2015-05-04 12:34:00' size='{{fontSize}}' }}
+  </sidecar>
+</examples>
+
 <desc>
   <p>There above example takes a timedate string and then paints it into the space the containing provides.</p>
   <p>
     Using the buttons below you can try adjusting the container size to see the responsive nature of the default component. Notice that at the smaller sizes you start to have clipping on the right hand side.
   </p>
-  {{ui-button-radio choices=containerWidths selected=exampleContainerWidth defaultValue='250'}}
+  <em>Container Size: </em>
+  {{ui-button-radio choices=containerWidths selected=exampleContainerWidth defaultValue='250'}}<br/>
+  <p>&nbsp;</p>
+  In order to address this, one approach is just to adjust the size property to get the fonts
+  down to a size that fits what the container is offering
+  <p>&nbsp;</p>
+  <em>Font Size: </em>
+  {{ui-button-radio choices='tiny,small,normal,large,huge' selected=fontSize defaultValue='normal'}}<br/>
+  <p>&nbsp;</p>
+  By default the font used is that <em>inherited</em> from the surrounding DOM. In this example that is a monospaced font but you can specify what you want as the default font by stating it in the <code>font</code>
+  property.
+  <p>&nbsp;</p>
+  <em>Font Family: </em>
+  {{ui-button-radio choices='inherit,fantasy,monospace,cursive,serif,sanserif' selected=fontFamily defaultValue='inherit'}}<br/>
+
 </desc>

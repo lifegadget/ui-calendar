@@ -248,6 +248,7 @@ examples {
     vertical-align: middle;
     margin-bottom: 15px;
     padding: 0;
+    padding-bottom: 15px;
 }
 
 examples widget:before {
@@ -289,6 +290,14 @@ examples sourcecode {
 
 examples sourcecode pre.ui-code-highlight {
     margin-bottom: 0;
+}
+examples sidecar {
+    -webkit-flex-grow: 3;
+    -moz-flex-grow: 3;
+    -ms-flex-grow: 3;
+    -o-flex-grow: 3;
+    flex-grow: 3;
+    padding:15px;
 }
 
 indent {
