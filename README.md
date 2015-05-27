@@ -1,35 +1,32 @@
-# ui-input ![ ](https://travis-ci.org/lifegadget/ui-input.svg) [![npm version](https://badge.fury.io/js/ui-input.svg)](http://badge.fury.io/js/ui-input)
-> Input controls for ambitious Ember applications.
+# ui-calendar ![ ](https://travis-ci.org/lifegadget/ui-calendar.svg) [![npm version](https://badge.fury.io/js/ui-calendar.svg)](http://badge.fury.io/js/ui-calendar)
+> calendar controls for ambitious Ember applications.
 
 ## Install ##
 
 
 - Ember-CLI versions 0.2.3+
     ````bash
-    ember install ui-input
+    ember install ui-calendar
     ````
 
 - Earlier CLI versions
     ````bash
-    npm install ui-input --save-dev
-    ember g ui-input
+    npm install ui-calendar --save-dev
+    ember g ui-calendar
     ````
 
 ## Usage ##
 For more details on the syntax check out the interactive demo:
 
-> [ui-input demo and examples](http://development.ui-input.divshot.io)
-
-![ ](docs/images/screen-shot.png)
-
+> [ui-calendar demo and examples](http://development.ui-calendar.divshot.io)
 
 
 ## Version Compatibility
 
 This may very well work with older version of Ember and Ember-CLI but it was intended for:
 
-- Ember 1.11.0+
-- Ember-CLI 0.2.3+
+- Ember 1.12.0+
+- Ember-CLI 0.2.5+
 
 ## Repo Contribution
 
