@@ -9,7 +9,7 @@ import layout from '../templates/components/mini-datetime';
 export default Ember.Component.extend({
   layout: layout,
   classNames: ['ui-calendar', 'mini-datetime', 'flexy'],
-  classNameBindings: ['_size'],
+  classNameBindings: ['_size','disabled:disabled:enabled'],
   attributeBindings: ['_style:style'],
   value: null,
   size: null,

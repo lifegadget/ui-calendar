@@ -1,3 +1,6 @@
+<h3 class="title"><b>Component</b>::mini-datetime</h3>
+<desc>A lightweight component for displaying both date and time in a relatively small screen real estate.</desc>
+
 <h3>Basic Example</h3>
 
 <examples>
@@ -92,3 +95,49 @@
   In addition to providing two interfaces, the user interface can also be asked to display the secondary date information as a <em>duration</em> or a concluding <em>time</em>. The components attempts to be smart by mimicking the input format to the user interface for intra-day durations. For any multi-day durations the
   component switches to <em>duration </em> mode.
 </desc>
+
+<p class='section-break'>
+  &nbsp;
+  <h3>Bits and Bobs</h3>
+</p>
+<examples>
+  <widget>
+    <div class="example" >
+      {{mini-datetime
+        value='2015-05-04 12:34:00'
+        stopTime=stopTime
+        duration=duration
+        size=fontSize
+        font=fontFamily
+        ampm=ampm
+        showDuration=showDuration
+        disabled=disabled
+      }}
+    </div>
+  </widget>
+  <sidecar>
+  &nbsp;<br/>
+    \{{ <br/>
+      &nbsp;&nbsp;<b>mini-datetime</b> <br/>
+      &nbsp;&nbsp;value='2015-05-04 12:34:00' <br/>{{#if apiIsDuration}}
+      &nbsp;&nbsp;<em>duration={{controller.duration}}</em><br/>{{else}}
+      &nbsp;&nbsp;<em>stopTime={{stopTime}}</em><br/>{{/if}}
+      &nbsp;&nbsp;<em>disabled={{disabled}}</em><br/>
+    }}
+  </sidecar>
+  <sidecar>
+    Disabling<br/>
+    {{ui-toggle-button off='enabled' on='disabled' value=disabled}}<br/>
+    UI<br/>
+    {{ui-button-radio choices='implicit,stopTime,duration' selected=bar}}<br/>
+    Time Format<br/>
+    {{ui-toggle-button off='24hr time' on='am/pm' value=foo}}<br/>
+  </sidecar>
+</examples>
+<desc>
+  In the example above we've added another property "stopTime" which allows another <em>datetime</em> object to be included as the "stop time". Another similar alternative would be to instead specify the
+  <code>duration</code> property which is the number minutes which is really just another way of providing the
+  same information but having both input formats helps to provide a more flexible API surface for two very common
+  ways of expressing this kind of information.
+</desc>
+

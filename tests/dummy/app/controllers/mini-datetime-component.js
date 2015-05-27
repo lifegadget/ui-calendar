@@ -48,6 +48,7 @@ export default Ember.Controller.extend({
   uiIsDuration: computed('apiType', function() {
     return this.get('uiType') === 'duration';
   }),
-  ampm: true
+  ampm: true,
+  disabled: false
 
 });

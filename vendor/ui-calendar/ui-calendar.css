@@ -83,3 +83,15 @@
 .mini-datetime.font-huge {
   font-size: 22px;
 }
+
+/* VISUAL STATES */
+.mini-datetime.disabled .ampm,
+.mini-datetime.disabled .time .from {
+  color: #CACACA;
+}
+.mini-datetime.disabled {
+  color: #CACACA;
+  background-color: #F6F6F6;
+}
+
+
