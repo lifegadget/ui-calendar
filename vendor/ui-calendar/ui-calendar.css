@@ -64,6 +64,10 @@
   color: #676767;
   font-size: 0.8em;
 }
+.mini-datetime .ampm.dim {
+  color: #BEBEBE;
+  font-size: 0.8em;
+}
 
 
 /* FONT SIZING */
