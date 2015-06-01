@@ -2,6 +2,15 @@
 .flexy {
   display: flex;
 }
+.flexy.space-between {
+  justify-content: space-between;
+}
+.flexy.flex-start {
+  justify-content: flex-start;
+}
+.flexy.middle {
+  align-content: center;
+}
 
 .flexy-grow {
   flex-grow: 3;
@@ -71,15 +80,19 @@
 
 
 /* FONT SIZING */
+.ui-calendar .change-actions.font-tiny,
 .mini-datetime.font-tiny {
   font-size: 9px;
 }
+.ui-calendar .change-actions.font-small,
 .mini-datetime.font-small {
   font-size: 10px;
 }
+.ui-calendar .change-actions.font-large,
 .mini-datetime.font-large {
   font-size: 18px;
 }
+.ui-calendar .change-actions.font-huge,
 .mini-datetime.font-huge {
   font-size: 22px;
 }
@@ -94,4 +107,31 @@
   background-color: #F6F6F6;
 }
 
+/* ACTION SUPPORT */
+.mini-datetime.action-support {
+  cursor: pointer;
+}
+.mini-datetime.action-support .date:hover {
+  background-color: #EFEFEF;
+}
+.mini-datetime.action-support .time:hover {
+  background-color: #EFEFEF;
+}
+
+.mini-datetime .date.changing-date {
+  background-color: #F7F7F7;
+}
+.mini-datetime .time.changing-time {
+  background-color: #F7F7F7;
+}
+
+.ui-calendar .change-actions {
+  padding-top: 15px;
+  font-size: 1em;
+}
+
+.ui-calendar .time .pad {
+  padding: 0;
+  margin: 0;
+}
 

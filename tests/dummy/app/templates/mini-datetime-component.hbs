@@ -112,6 +112,7 @@
         ampm=ampm
         showDuration=showDuration
         disabled=disabled
+        actionSupport=actionSupport
       }}
     </div>
   </widget>
@@ -122,16 +123,17 @@
       &nbsp;&nbsp;value='2015-05-04 12:34:00' <br/>{{#if apiIsDuration}}
       &nbsp;&nbsp;<em>duration={{controller.duration}}</em><br/>{{else}}
       &nbsp;&nbsp;<em>stopTime={{stopTime}}</em><br/>{{/if}}
-      &nbsp;&nbsp;<em>disabled={{disabled}}</em><br/>
+      &nbsp;&nbsp;<em>disabled={{disabled}}</em><br/>{{#if actionSupport}}
+      &nbsp;&nbsp;<em>actionSupport=true</em><br/>{{/if}}
     }}
   </sidecar>
   <sidecar>
     Disabling<br/>
     {{ui-toggle-button off='enabled' on='disabled' value=disabled}}<br/>
+    Action Support<br/>
+    {{ui-toggle-button off='off' on='on' value=actionSupport defaultValue=false}}<br/>
     TBD<br/>
     {{ui-button-radio choices='1,2,3' selected=bar}}<br/>
-    TBD<br/>
-    {{ui-toggle-button off='off' on='on' value=foo}}<br/>
   </sidecar>
 </examples>
 <desc>

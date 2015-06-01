@@ -2,7 +2,7 @@ import Ember from 'ember';
 const { computed, observer, $, A, run, on, typeOf, debug, keys, get, set, inject } = Ember;    // jshint ignore:line
 
 export default Ember.Controller.extend({
-  queryParams: ['exampleContainerWidth','fontSize','fontFamily'],
+  queryParams: ['exampleContainerWidth','fontSize','fontFamily','actionSupport'],
 
   containerWidths: [
     { id: 200, name: '200px' },

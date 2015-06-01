@@ -8,8 +8,8 @@ import layout from '../templates/components/mini-datetime';
 
 export default Ember.Component.extend({
   layout: layout,
-  classNames: ['ui-calendar', 'mini-datetime', 'flexy'],
-  classNameBindings: ['_size','disabled:disabled:enabled', 'actionSupport:action-support'],
+  classNames: ['ui-calendar'],
+  classNameBindings: ['actionSupport:action-support'],
   attributeBindings: ['_style:style'],
   value: null,
   size: null,
@@ -93,5 +93,24 @@ export default Ember.Component.extend({
     }).join('; '));
 
     return styles ? styleString : null;
-  })
+  }),
+  // ACTIONS
+  actions: {
+    changeDate: function() {
+      const actionSupport = this.get('actionSupport');
+      if(actionSupport) {
+        console.log('change date');
+        this.set('changingTime', false);
+        this.toggleProperty('changingDate');
+      }
+    },
+    changeTime: function() {
+      const actionSupport = this.get('actionSupport');
+      if(actionSupport) {
+        console.log('change time');
+        this.set('changingDate', false);
+        this.toggleProperty('changingTime');
+      }
+    }
+  }
 });

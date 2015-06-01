@@ -1,24 +1,38 @@
-<div class="date flex-item">
-<div class="vflexy">
-    <div class="dow">{{moment value 'dddd'}}</div>
-    <div class="dom">{{moment value 'DD'}}</div>
-    <div class="month">{{moment value 'MMMM'}}</div>
-</div>
-</div>
-<div class="time flexy-grow vertical">
-  <div class="from flex-item">
-    {{moment value _timeFormat}}{{#if ampm}}<span class="ampm">{{moment value 'a'}}</span>{{/if}}
+<div
+  class="flexy mini-datetime {{if actionSupport 'action-support'}} {{_size}} {{if disabled 'disabled' 'enabled'}}">
+  <div class="date flex-item {{if changingDate 'changing-date'}}" {{action 'changeDate'}}>
+  <div class="vflexy">
+      <div class="dow">{{moment value 'dddd'}}</div>
+      <div class="dom">{{moment value 'DD'}}</div>
+      <div class="month">{{moment value 'MMMM'}}</div>
   </div>
-  {{#if _showStopTime}}
-    <div class="to flex-item">
-      until {{moment stopTime _timeFormat}}{{#if ampm}}<span class="ampm dim">{{moment value 'a'}}</span>{{/if}}
+  </div>
+  <div class="time flexy-grow vertical {{if changingTime 'changing-time'}}"
+    {{action 'changeTime'}}>
+    <div class="from flex-item">
+      {{moment value _timeFormat}}{{#if ampm}}<span class="ampm">{{moment value 'a'}}</span>{{/if}}
     </div>
-  {{/if}}
-  {{#if _showDuration}}
-    <div class="to flex-item">
-      for {{_durationPretty}}
-    </div>
-  {{/if}}
-
+    {{#if _showStopTime}}
+      <div class="to flex-item">
+        until {{moment stopTime _timeFormat}}{{#if ampm}}<span class="ampm dim">{{moment value 'a'}}</span>{{/if}}
+      </div>
+    {{/if}}
+    {{#if _showDuration}}
+      <div class="to flex-item">
+        for {{_durationPretty}}
+      </div>
+    {{/if}}
+  </div>
 </div>
+
+{{#if actionSupport}}
+<div class="change-actions">
+  {{#if changingDate}}
+    {{mini-date-change value=value stopTime=stopTime}}
+  {{/if}}
+  {{#if changingTime}}
+    {{mini-time-change value=value stopTime=stopTime action=changeCompleted}}
+  {{/if}}
+</div>
+{{/if}}
 {{yield}}

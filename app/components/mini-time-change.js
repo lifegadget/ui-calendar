@@ -1,0 +1,1 @@
+export { default } from 'ui-calendar/components/mini-time-change';

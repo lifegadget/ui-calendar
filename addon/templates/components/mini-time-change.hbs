@@ -1,0 +1,17 @@
+<div class="time flex-item">
+  <div class="flexy">
+    <div class="pad flexy-item">&nbsp;</div>
+    <div class="left flexy-item" {{action 'decreaseTime'}}>
+      {{ui-icon icon='chevron-left' size='2x'}}
+    </div>
+    <div class="time flexy-grow">
+      {{input type='range' min=0 max=numberOfBlocks value=minutesBlock}}
+    </div>
+    <div class="duration flexy-item">
+      <span  {{action 'increaseTime'}}>
+        {{ui-icon icon='chevron-right' size='2x'}}
+      </span>
+    </div>
+    <div class="pad flexy-item">&nbsp;</div>
+  </div>
+</div>

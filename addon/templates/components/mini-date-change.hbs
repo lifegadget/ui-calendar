@@ -1,0 +1,22 @@
+<div class="left flex-item">
+  <span  {{action 'decreaseDateRange'}}>
+    {{ui-icon icon='chevron-left' size='3x'}}
+  </span>
+</div>
+<div class="date-range flex-item">
+  {{#each _dateRange as |dateChoice|}}
+  {{#ui-button}}
+    {{moment dateChoice "dd"}}<br/>
+    <b>{{moment dateChoice "DD"}}</b><br/>
+    {{moment dateChoice "MMM"}}
+  {{/ui-button }}
+  {{/each}}
+</div>
+<div class="right flex-item">
+  <span  {{action 'increaseDateRange'}}>
+    {{ui-icon icon='chevron-right' size='3x' cursor=true}}
+  </span>
+</div>
+
+
+{{yield}}
