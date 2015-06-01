@@ -128,16 +128,21 @@
   <sidecar>
     Disabling<br/>
     {{ui-toggle-button off='enabled' on='disabled' value=disabled}}<br/>
-    UI<br/>
-    {{ui-button-radio choices='implicit,stopTime,duration' selected=bar}}<br/>
-    Time Format<br/>
-    {{ui-toggle-button off='24hr time' on='am/pm' value=foo}}<br/>
+    TBD<br/>
+    {{ui-button-radio choices='1,2,3' selected=bar}}<br/>
+    TBD<br/>
+    {{ui-toggle-button off='off' on='on' value=foo}}<br/>
   </sidecar>
 </examples>
 <desc>
-  In the example above we've added another property "stopTime" which allows another <em>datetime</em> object to be included as the "stop time". Another similar alternative would be to instead specify the
-  <code>duration</code> property which is the number minutes which is really just another way of providing the
-  same information but having both input formats helps to provide a more flexible API surface for two very common
-  ways of expressing this kind of information.
+  The are a number of visual flurishes which can be set as well:
+  <ul>
+    <li>
+      The first is the <code>disabled</code> flag. Setting this to true will result in a dimmed visual effect that
+      should indicate that this state is frozen or locked in some way.
+    </li>
+    <li></li>
+    <li></li>
+  </ul>
 </desc>
 
