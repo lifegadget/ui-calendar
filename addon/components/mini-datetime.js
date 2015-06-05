@@ -161,7 +161,6 @@ export default Ember.Component.extend({
   _durationPretty: computed('_duration', function() {
     const duration = this.get('_duration');
     const hour = 60;
-    console.log('pretifying %s', duration);
     const dayThreashold = hour * 24;
     if(duration > dayThreashold) {
       const precise = duration % dayThreashold === 0 ? '' : '+';
@@ -214,13 +213,11 @@ export default Ember.Component.extend({
     timeChanged: function(minutes) {
       const {_startTime, _duration} = this.getProperties('_startTime', '_duration');
       const newStartTime = specifyMinuteOffset(_startTime, minutes);
-      console.log('time change: %s. startTime: %s', minutes, _startTime);
       this.set('_startTime', newStartTime);
       this.set('_stopTime', specifyMinuteOffset(newStartTime, _duration + getMinutes(newStartTime)));
     },
     durationChanged: function(minutes) {
       const _startTime = this.get('_startTime');
-      console.log('duration change:', minutes);
       this.set('_duration', minutes);
       this.set('_stopTime', getMoment(_startTime, minutes));
     },

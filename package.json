@@ -1,6 +1,6 @@
 {
   "name": "ui-calendar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Calendar (and time) based controls for ambition Ember applications.",
   "directories": {
     "doc": "doc",
@@ -50,7 +50,7 @@
     "ember-moment": "^1.1.1",
     "ember-try": "0.0.4",
     "ui-bs-button-choice": "0.0.11",
-    "ui-button": "0.0.14",
+    "ui-button": "0.0.15",
     "ui-icon": "0.0.14"
   },
   "keywords": [
