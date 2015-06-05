@@ -30,7 +30,7 @@ const getMomentDiff = (a,b) => {
 };
 const getMinutes = m => {
   return m.diff(m.clone().startOf('day'),'minutes');
-}
+  };
 const getDuration = (thingy, context) => {
   switch(typeOf(thingy)) {
     case 'number':
@@ -44,6 +44,7 @@ const getDuration = (thingy, context) => {
       } else {
         thingy = null;
       }
+      break;
     default:
       thingy = null;
   }
@@ -211,7 +212,7 @@ export default Ember.Component.extend({
       this.set('_startTime', startTime.clone().year(yyyy).month(mm - 1).date(dd));
     },
     timeChanged: function(minutes) {
-      const {_startTime, stopTime, _duration} = this.getProperties('_startTime', 'stopTime', '_duration');
+      const {_startTime, _duration} = this.getProperties('_startTime', '_duration');
       const newStartTime = specifyMinuteOffset(_startTime, minutes);
       console.log('time change: %s. startTime: %s', minutes, _startTime);
       this.set('_startTime', newStartTime);

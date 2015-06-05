@@ -41,7 +41,7 @@ export default Ember.Component.extend({
     decreaseDateRange: function() {
       this.set('dateRangeOffset', this.get('dateRangeOffset') - 1);
     },
-    changed: function(newValue, oldValue) {
+    changed: function(newValue) {
       this.sendAction('changed', ...newValue.split('-'));
     }
 

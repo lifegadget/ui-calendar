@@ -1,6 +1,5 @@
 import Ember from 'ember';
 const { computed, observer, $, A, run, on, typeOf, debug, keys, get, set, inject } = Ember;    // jshint ignore:line
-const dateTimeFormat = 'YYYY-MM-DD HH:mm:ss';
 import layout from '../templates/components/mini-time-change';
 import moment from 'moment';
 const calculateMinutesBlock = function(context) {
@@ -21,7 +20,7 @@ const getMinutesInDay = thingy => {
       thingy = 0; // unspecified defaults to stroke of midnight (could make it current time but more expensive)
       break;
     case 'string':
-      thingy = moment(thingy);
+      thingy = moment(thingy); // jshint ignore:line
     case 'object':
       thingy = thingy.diff(thingy.clone().startOf('day'),'minutes'); // assumes its a moment object
       break;

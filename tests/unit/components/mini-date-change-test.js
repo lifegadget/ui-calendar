@@ -1,8 +1,15 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { initialize } from '../../../initializers/ember-moment';
 
 moduleForComponent('mini-date-change', 'Unit | Component | mini date change', {
   // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
+  needs: ['component:ui-icon', 'component:ui-buttons', 'component:ui-radio-button'],
+  setup: function (container) {
+      Ember.run(function () {
+          initialize(container);
+      });
+  }
 });
 
 test('it renders', function(assert) {

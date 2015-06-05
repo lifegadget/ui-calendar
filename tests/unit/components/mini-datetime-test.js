@@ -4,7 +4,7 @@ import { initialize } from '../../../initializers/ember-moment';
 
 moduleForComponent('mini-datetime', 'Unit | Component | mini datetime', {
   // Specify the other units that are required for this test
-  // needs: ['helper:moment']
+  needs: ['component:ui-icon'],
   setup: function (container) {
     Ember.run(function () {
       initialize(container);
