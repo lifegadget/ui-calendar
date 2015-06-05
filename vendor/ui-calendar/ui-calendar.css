@@ -135,3 +135,20 @@
   margin: 0;
 }
 
+.ui-calendar .pointer {
+  cursor: pointer;
+}
+
+.ui-calendar .noselect {
+  -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.ui-calendar .duration {
+  text-align: center;
+  padding-top: 12px;
+}

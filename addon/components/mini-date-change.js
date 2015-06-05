@@ -6,7 +6,7 @@ import moment from 'moment';
 
 export default Ember.Component.extend({
   layout: layout,
-  classNames: ['mini-change','date','flexy','space-between','middle'],
+  classNames: ['mini-change','date','flexy','space-between','middle', 'noselect'],
 
   // START/STOP VALUES
   value: null,
@@ -41,6 +41,9 @@ export default Ember.Component.extend({
     decreaseDateRange: function() {
       this.set('dateRangeOffset', this.get('dateRangeOffset') - 1);
     },
+    changed: function(newValue, oldValue) {
+      this.sendAction('changed', ...newValue.split('-'));
+    }
 
   }
 

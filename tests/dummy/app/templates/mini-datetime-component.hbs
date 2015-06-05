@@ -54,7 +54,7 @@
   <widget>
     <div class="example" >
       {{mini-datetime
-        value='2015-05-04 12:34:00'
+        startTime='2015-05-04 12:34:00'
         stopTime=stopTime
         duration=duration
         size=fontSize
@@ -68,7 +68,7 @@
   &nbsp;<br/>
     \{{ <br/>
       &nbsp;&nbsp;<b>mini-datetime</b> <br/>
-      &nbsp;&nbsp;value='2015-05-04 12:34:00' <br/>{{#if apiIsDuration}}
+      &nbsp;&nbsp;startTime='2015-05-04 12:34:00' <br/>{{#if apiIsDuration}}
       &nbsp;&nbsp;<em>duration={{controller.duration}}</em><br/>{{else}}
       &nbsp;&nbsp;<em>stopTime={{stopTime}}</em><br/>{{/if}}
       &nbsp;&nbsp;size='{{fontSize}}' <br/>

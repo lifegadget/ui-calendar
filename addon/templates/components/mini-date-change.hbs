@@ -4,13 +4,15 @@
   </span>
 </div>
 <div class="date-range flex-item">
-  {{#each _dateRange as |dateChoice|}}
-  {{#ui-button}}
-    {{moment dateChoice "dd"}}<br/>
-    <b>{{moment dateChoice "DD"}}</b><br/>
-    {{moment dateChoice "MMM"}}
-  {{/ui-button }}
-  {{/each}}
+  {{#ui-buttons changed='changed' as |group|}}
+    {{#each _dateRange as |dateChoice|}}
+    {{#ui-radio-button value=(moment dateChoice 'YYYY-MM-DD') group=group}}
+      {{moment dateChoice "dd"}}<br/>
+      <b>{{moment dateChoice "DD"}}</b><br/>
+      {{moment dateChoice "MMM"}}
+    {{/ui-radio-button }}
+    {{/each}}
+  {{/ui-buttons}}
 </div>
 <div class="right flex-item">
   <span  {{action 'increaseDateRange'}}>
