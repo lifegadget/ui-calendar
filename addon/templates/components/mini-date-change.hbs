@@ -7,13 +7,13 @@
   {{#ui-buttons changed='changed' as |group|}}
     {{#each _dateRange as |dateChoice|}}
     {{#ui-radio-button
-      value=(moment dateChoice 'YYYY-MM-DD')
+      value=(moment-format dateChoice 'YYYY-MM-DD')
       group=group
       size=size
     }}
-      {{moment dateChoice "dd"}}<br/>
-      <b>{{moment dateChoice "DD"}}</b><br/>
-      {{moment dateChoice "MMM"}}
+      {{moment-format dateChoice "dd"}}<br/>
+      <b>{{moment-format dateChoice "DD"}}</b><br/>
+      {{moment-format dateChoice "MMM"}}
     {{/ui-radio-button }}
     {{/each}}
   {{/ui-buttons}}

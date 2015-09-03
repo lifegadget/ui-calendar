@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import moment from 'moment';
-import SharedStyle from '../mixins/shared-style';
+import SharedStylist from 'ember-cli-stylist/mixins/shared-stylist';
 const TIME_FORMAT = 'HH:mm:ss';
-const { computed, observer, $, A, run, on, typeOf, debug, keys, get, set, inject } = Ember;    // jshint ignore:line
+const { keys, create } = Object; // jshint ignore:line
+const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, set, inject, isEmpty} = Ember;  // jshint ignore:line
 const getMoment = (thingy, minutes) => {
   switch(typeOf(thingy)) {
     case 'string':
@@ -57,7 +58,10 @@ const specifyMinuteOffset = (day, minutes) => {
 
 import layout from '../templates/components/mini-datetime';
 
-export default Ember.Component.extend(SharedStyle,{
+export default Ember.Component.extend(SharedStylist,{
+  layout: layout,
+  classNames: ['ui-calendar'],
+  classNameBindings: ['actionSupport:action-support','_font', '_size'],
   // API Surface
   // -------------
   // one way interface
@@ -70,7 +74,7 @@ export default Ember.Component.extend(SharedStyle,{
   actionSupport: false,
   maxWidth: null,
   size: 'normal',
-  font: computed.alias('fontFamily'),
+  font: 'inherit',
   showDuration: null,
   numDateChoices: 4,
 
@@ -116,17 +120,17 @@ export default Ember.Component.extend(SharedStyle,{
   // end one-way proxies
   // -------------------
 
-  layout: layout,
-  classNames: ['ui-calendar'],
-  classNameBindings: ['actionSupport:action-support'],
-  attributeBindings: ['_style:style'],
 
   _timeFormat: computed('ampm', function() {
     return this.get('ampm') ? 'h:mm' : 'H:mm';
   }),
   _size: on('init',computed('size', function() {
     const size = this.get('size');
-    return size === 'default' || size === null ? null : `font-${size}`;
+    return size === 'default' || size === null ? null : `size-${size}`;
+  })),
+  _font: on('init',computed('font', function() {
+    const font = this.get('font');
+    return font === 'default' || font === null ? null : `font-${font}`;
   })),
   // Duration versus Stop Time Logic
   _showDuration: on('init', computed('showDuration','duration','stopTime', function() {

@@ -1,98 +1,102 @@
+{{#demo-css}}
 <h3 class="title"><b>Component</b>::mini-datetime</h3>
 <desc>A lightweight component for displaying both date and time in a relatively small screen real estate.</desc>
 
 <h3>Basic Example</h3>
 
-<examples>
-  <widget style="width:{{exampleContainerWidth}}px">
-    <div class="example" >
+<row>
+  <widget class="{{if containerSize 'wide'}}">
     {{mini-datetime
       value='2015-05-04 14:45:00'
       size=fontSize
       font=fontFamily
     }}
-    </div>
   </widget>
-  <sidecar>
-  &nbsp;<br/>
-    \{{ <br/>
-      &nbsp;&nbsp;<b>mini-datetime</b> <br/>
-      &nbsp;&nbsp;value='2015-05-04 14:45:00' <br/>
-      &nbsp;&nbsp;size='{{fontSize}}' <br/>
-      &nbsp;&nbsp;font='{{fontFamily}}' <br/>
+  <code>
+    {{display-component componentName='mini-datetime'
+      value='2015-05-04 14:45:00'
+      size=fontSize
+      font=fontFamily
     }}
-  </sidecar>
-</examples>
+  </code>
+  <description>
+    <p>
+      This example takes a timedate string and then paints it into the space the container provides
+      using CSS flexbox as the underlying layout.
+    </p>
+    <p>
+      Using the button below allows you to toggle between two container sizes to provide a view on how
+      the component fills in the available space.
+    </p>
+    container size: {{ui-toggle-button on='wide' off='narrow' value=containerSize}}
+  </description>
+</row>
 
-<desc>
-  <p>There above example takes a timedate string and then paints it into the space the containing provides.</p>
+<row>
   <p>
-    Using the buttons below you can try adjusting the container size to see the responsive nature of the default component. Notice that at the smaller sizes you start to have clipping on the right hand side.
+    Two other style properties that can be passed to the component are font <i>size</i> and <i>family</i>.
+    Rather than actually setting the <prop>style</prop> on the various DIV's we instead use a set of CSS
+    classes which can be easily overriden by the user and exposed to lower risk of XSS attacks.
   </p>
-  <em>Container Size: </em>
-  {{ui-button-radio choices=containerWidths selected=exampleContainerWidth defaultValue='350'}}<br/>
-  <p>&nbsp;</p>
-  In order to address this, one approach is just to adjust the size property to get the fonts
-  down to a size that fits what the container is offering
-  <p>&nbsp;</p>
-  <em>Font <b>Size</b>: </em>
-  {{ui-button-radio choices='tiny,small,default,large,huge' selected=fontSize defaultValue='normal'}}<br/>
-  <p>&nbsp;</p>
-  By default the font used is that <em>inherited</em> from the surrounding DOM. In this example that is a monospaced font but you can specify what you want as the default font by stating it in the <code>font</code>
-  property.
-  <p>&nbsp;</p>
-  <em><b>Font</b> Family: </em>
-  {{ui-button-radio choices='inherit,fantasy,monospace,cursive,serif,sans-serif' selected=fontFamily defaultValue='inherit'}}<br/>
+</row>
+<row>
+  <column>
+    Try adjusting the two properties and then inspect the HTML with your debugger.
+    You will see that the <prop>size</prop> parameter translates into a css property
+    of <css>.size-XXX</css> and <css>.font-YYY</css> respectively.
+  </column>
+  <column>
+    size: {{radio-buttons buttons='tiny,small,default,large,huge' value=fontSize defaultValue='normal' size='small'}}<br/>
+    family: {{radio-buttons buttons='inherit,fantasy,monospace,cursive,serif,sans-serif' value=fontFamily defaultValue='inherit' size='small'}}<br/>
+  </column>
+</row>
 
-</desc>
 
-<p class='section-break'>
-  &nbsp;
-  <h3 >Start, Stop, and Duration</h3>
-</p>
-<examples>
+<h3 >Start, Stop, and Duration</h3>
+<row>
   <widget>
-    <div class="example" >
-      {{mini-datetime
-        startTime='2015-05-04 12:34:00'
-        stopTime=stopTime
-        duration=duration
-        size=fontSize
-        font=fontFamily
-        ampm=ampm
-        cursor=cursorString
-        showDuration=showDuration
-      }}
-    </div>
-  </widget>
-  <sidecar>
-  &nbsp;<br/>
-    \{{ <br/>
-      &nbsp;&nbsp;<b>mini-datetime</b> <br/>
-      &nbsp;&nbsp;startTime='2015-05-04 12:34:00' <br/>{{#if apiIsDuration}}
-      &nbsp;&nbsp;<em>duration={{controller.duration}}</em><br/>{{else}}
-      &nbsp;&nbsp;<em>stopTime={{stopTime}}</em><br/>{{/if}}
-      &nbsp;&nbsp;size='{{fontSize}}' <br/>
-      &nbsp;&nbsp;font='{{fontFamily}}' <br/>{{#if cursor}}
-      &nbsp;&nbsp;cursor='not-allowed' <br/>{{/if}}
-      &nbsp;&nbsp;ampm={{ampm}}<br/>
+    {{mini-datetime
+      startTime='2015-05-04 12:34:00'
+      stopTime=stopTime
+      duration=duration
+      size=fontSize
+      font=fontFamily
+      ampm=ampm
+      cursor=cursorString
+      showDuration=showDuration
     }}
-  </sidecar>
-  <sidecar>
-    API<br/>
-    {{ui-button-radio choices='stopTime,stopTime(long),duration' selected=apiType}}<br/>
-    UI<br/>
-    {{ui-button-radio choices='implicit,stopTime,duration' selected=uiType}}<br/>
-    <div class="col-xs-5">
-      Time Format<br/>
-    {{ui-toggle-button off='24hr time' on='am/pm' value=ampm}}<br/>
+  </widget>
+  <code>
+    {{display-component componentName='mini-datetime'
+      startTime='2015-05-04 12:34:00'
+      stopTime=stopTime
+      duration=duration
+      size=fontSize
+      font=fontFamily
+      ampm=ampm
+      cursor=cursorString
+      showDuration=showDuration
+    }}
+  </code>
+  <description>
+    <div class="row">
+      API<br/>
+      {{radio-buttons buttons='stopTime,stopTime(long),duration' value=apiType size='small'}}<br/>
+      UI<br/>
+      {{radio-buttons buttons='implicit,stopTime,duration' value=uiType size='small'}}<br/>
+      <div class="col-xs-5">
+        Time Format<br/>
+      {{ui-toggle-button off='24hr time' on='am/pm' value=ampm size='small'}}<br/>
+      </div>
+      <div class="col-xs-7">
+        Cursor<br/>
+        {{ui-toggle-button off='default' on='not-allowed' value=cursor size='small'}}<br/>
+      </div>
     </div>
-    <div class="col-xs-7">
-      Cursor<br/>
-      {{ui-toggle-button off='default' on='not-allowed' value=cursor}}<br/>
-    </div>
-  </sidecar>
-</examples>
+
+  </description>
+</row>
+
 <desc>
   In the example above we've added another property "stopTime" which allows another <em>datetime</em> object to be included as the "stop time". Another similar alternative would be to instead specify the
   <code>duration</code> property which is the number minutes which is really just another way of providing the
@@ -104,49 +108,44 @@
   component switches to <em>duration </em> mode.
 </desc>
 
-<p class='section-break'>
-  &nbsp;
-  <h3>Data Down, Actions Up</h3>
-</p>
-<examples>
-  <widget class='wide'>
-    <div class="example" >
-      {{mini-datetime
-        value='2015-05-04 12:34:00'
-        stopTime=stopTime
-        duration=duration
-        size=fontSize
-        font=fontFamily
-        ampm=ampm
-        showDuration=showDuration
-        disabled=disabled
-        actionSupport=actionSupport
-        numDateChoices=numDateChoices
-      }}
-    </div>
-  </widget>
-  <sidecar>
-  &nbsp;<br/>
-    \{{ <br/>
-      &nbsp;&nbsp;<b>mini-datetime</b> <br/>
-      &nbsp;&nbsp;value='2015-05-04 12:34:00' <br/>{{#if apiIsDuration}}
-      &nbsp;&nbsp;<em>duration={{controller.duration}}</em><br/>{{else}}
-      &nbsp;&nbsp;<em>stopTime={{stopTime}}</em><br/>{{/if}}
-      &nbsp;&nbsp;<em>numDateChoices={{numDateChoices}}</em><br/>
-      &nbsp;&nbsp;<em>disabled={{disabled}}</em><br/>{{#if actionSupport}}
-      &nbsp;&nbsp;<em>actionSupport=true</em><br/>{{/if}}
+<h3>Data Down, Actions Up</h3>
+<row>
+  <widget>
+    {{mini-datetime
+      value='2015-05-04 12:34:00'
+      stopTime=stopTime
+      duration=duration
+      size=fontSize
+      font=fontFamily
+      ampm=ampm
+      showDuration=showDuration
+      disabled=disabled
+      actionSupport=actionSupport
+      numDateChoices=numDateChoices
     }}
-  </sidecar>
-  <sidecar>
+  </widget>
+  <code>
+    {{display-component componentName='mini-datetime'
+      value='2015-05-04 12:34:00'
+      stopTime=stopTime
+      duration=duration
+      size=fontSize
+      font=fontFamily
+      ampm=ampm
+      showDuration=showDuration
+      disabled=disabled
+      actionSupport=actionSupport
+      numDateChoices=numDateChoices
+    }}
+  </code>
+  <description>
     Disabling<br/>
     {{ui-toggle-button off='enabled' on='disabled' value=disabled}}<br/>
     Action Support<br/>
     {{ui-toggle-button off='off' on='on' value=actionSupport defaultValue=false}}<br/>
     # of Date Choices<br/>
-    {{ui-button-radio choices='4,5,6' selected=numDateChoices}}<br/>
-  </sidecar>
-</examples>
-<desc>
+    {{radio-buttons buttons='4,5,6' value=numDateChoices}}<br/>
+  </description>
+</row>
 
-</desc>
-
+{{/demo-css}}

@@ -1,5 +1,6 @@
 import Ember from 'ember';
-const { computed, observer, $, A, run, on, typeOf, debug, keys, get, set, inject } = Ember;    // jshint ignore:line
+const { keys, create } = Object; // jshint ignore:line
+const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, set, inject, isEmpty} = Ember;  // jshint ignore:line
 import layout from '../templates/components/mini-time-change';
 import moment from 'moment';
 const calculateMinutesBlock = function(context) {
