@@ -272,6 +272,9 @@ examples widget {
         width: 100%;
     }
 }
+examples widget.wide {
+  width: 50%;
+}
 
 examples sourcecode {
     -webkit-flex-grow: 3;

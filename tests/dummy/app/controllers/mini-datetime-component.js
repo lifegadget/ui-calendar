@@ -11,8 +11,8 @@ export default Ember.Controller.extend({
     { id: 350, name: '350px' },
     { id: 400, name: '400px' }
   ],
-  exampleContainerWidth: '250',
-  fontSize: 'normal',
+  exampleContainerWidth: '350',
+  fontSize: 'default',
   fontFamily: 'inherit',
   apiType: 'stopTime',
   _apiType: on('init', observer('apiType', function() {
@@ -49,6 +49,10 @@ export default Ember.Controller.extend({
     return this.get('uiType') === 'duration';
   }),
   ampm: true,
-  disabled: false
+  disabled: false,
+  cursorString: computed('cursor', function() {
+    return this.get('cursor') ? 'not-allowed' : null;
+  }),
+  actionSupport: true,
 
 });

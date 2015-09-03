@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import moment from 'moment';
+import SharedStyle from '../mixins/shared-style';
+const TIME_FORMAT = 'HH:mm:ss';
 const { computed, observer, $, A, run, on, typeOf, debug, keys, get, set, inject } = Ember;    // jshint ignore:line
-const htmlSafe = Ember.String.htmlSafe;
-const styleProperties = ['_styleFontFamily', '_styleMaxWidth'];
 const getMoment = (thingy, minutes) => {
   switch(typeOf(thingy)) {
     case 'string':
@@ -57,7 +57,7 @@ const specifyMinuteOffset = (day, minutes) => {
 
 import layout from '../templates/components/mini-datetime';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(SharedStyle,{
   // API Surface
   // -------------
   // one way interface
@@ -66,12 +66,13 @@ export default Ember.Component.extend({
   stopTime: null,
   duration: null,
   // two way interfaces
-  size: null,
   ampm: true,
   actionSupport: false,
   maxWidth: null,
-  font: 'inherit',
+  size: 'normal',
+  font: computed.alias('fontFamily'),
   showDuration: null,
+  numDateChoices: 4,
 
   // one-way proxies
   // ---------------
@@ -125,7 +126,7 @@ export default Ember.Component.extend({
   }),
   _size: on('init',computed('size', function() {
     const size = this.get('size');
-    return size === 'default' ? '' : `font-${size}`;
+    return size === 'default' || size === null ? null : `font-${size}`;
   })),
   // Duration versus Stop Time Logic
   _showDuration: on('init', computed('showDuration','duration','stopTime', function() {
@@ -172,24 +173,7 @@ export default Ember.Component.extend({
       return  duration + ' minutes';
     }
   }),
-  // STYLE ATTRIBUTES
-  _styleFontFamily: computed('font', function() {
-    const font = this.get('font');
-    return font ? `font-family: ${font}` : '';
-  }),
-  _styleMaxWidth: computed('maxWidth', function() {
-    const maxWidth = this.get('maxWidth');
-    return maxWidth ? `max-width: ${maxWidth}` : '';
-  }),
-  // STYLER
-  _style: computed(...styleProperties,function() {
-    const styles = this.getProperties(...styleProperties);
-    const styleString = htmlSafe(keys(styles).map((key) => {
-      return styles[key];
-    }).join('; '));
 
-    return styles ? styleString : null;
-  }),
   // ACTIONS
   actions: {
     changeDate: function() {
@@ -209,17 +193,25 @@ export default Ember.Component.extend({
     dateChanged: function(yyyy,mm,dd) {
       const startTime = this.get('_startTime');
       this.set('_startTime', startTime.clone().year(yyyy).month(mm - 1).date(dd));
+      this.sendAction('dateChanged', yyyy, mm, dd);
     },
     timeChanged: function(minutes) {
       const {_startTime, _duration} = this.getProperties('_startTime', '_duration');
       const newStartTime = specifyMinuteOffset(_startTime, minutes);
-      this.set('_startTime', newStartTime);
-      this.set('_stopTime', specifyMinuteOffset(newStartTime, _duration + getMinutes(newStartTime)));
+      const newStopTime=specifyMinuteOffset(newStartTime, _duration + getMinutes(newStartTime));
+      if(newStartTime.format(TIME_FORMAT) !== _startTime.format(TIME_FORMAT) ) {
+        this.set('_startTime', newStartTime);
+        this.set('_stopTime', newStopTime);
+        this.sendAction('timeChanged', newStopTime.format('HH'), newStopTime.format('mm'), newStopTime.format('ss'));
+      }
     },
     durationChanged: function(minutes) {
       const _startTime = this.get('_startTime');
+      const _stopTime = getMoment(_startTime, minutes);
       this.set('_duration', minutes);
-      this.set('_stopTime', getMoment(_startTime, minutes));
+      this.notifyPropertyChange('_duration');
+      this.set('_stopTime', _stopTime);
+      this.sendAction('timeChanged', _stopTime.format('HH'), _stopTime.format('mm'), _stopTime.format('ss'));
     },
   }
 });

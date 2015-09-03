@@ -21,14 +21,14 @@ export default Ember.Component.extend({
   }),
 
   dateRangeOffset: 0,
-  dateRangeSize: 4,
-  _dateRange: computed('value','stopTime','dateRangeOffset', 'dateRangeSize', function() {
+  numDateChoices: 4,
+  _dateRange: computed('value','stopTime','dateRangeOffset', 'numDateChoices', function() {
     const currentStart = this.get('_value');
     // const currentStop = this.get('_stopTime');
-    const {dateRangeSize, dateRangeOffset} = this.getProperties('dateRangeSize', 'dateRangeOffset');
-    const offsetDays = dateRangeOffset * dateRangeSize;
+    const {numDateChoices, dateRangeOffset} = this.getProperties('numDateChoices', 'dateRangeOffset');
+    const offsetDays = dateRangeOffset * numDateChoices;
     let dates = new A([]);
-    for(var i=0; i < dateRangeSize; i++) {
+    for(var i=0; i < numDateChoices; i++) {
       dates.pushObject(currentStart.clone().add(offsetDays + i, 'days'));
     }
 

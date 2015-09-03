@@ -36,6 +36,7 @@
 .mini-datetime .date {
   padding: .5em 1em .5em 1em;
   text-align: center;
+  min-width: 7.5em; /* keeps Wednesday from changing width */
 }
 .mini-datetime .date .dow {
   font-size: 1em;
@@ -78,7 +79,6 @@
   font-size: 0.8em;
 }
 
-
 /* FONT SIZING */
 .ui-calendar .change-actions.font-tiny,
 .mini-datetime.font-tiny {
@@ -96,6 +96,7 @@
 .mini-datetime.font-huge {
   font-size: 22px;
 }
+
 
 /* VISUAL STATES */
 .mini-datetime.disabled .ampm,

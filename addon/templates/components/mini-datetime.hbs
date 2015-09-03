@@ -26,13 +26,24 @@
 </div>
 
 {{#if actionSupport}}
-<div class="change-actions">
-  {{#if changingDate}}
-    {{mini-date-change value=value stopTime=stopTime changed='dateChanged'}}
-  {{/if}}
-  {{#if changingTime}}
-    {{mini-time-change time=value duration=_duration timeChanged='timeChanged' durationChanged='durationChanged'}}
-  {{/if}}
-</div>
+  <div class="change-actions">
+    {{#if changingDate}}
+      {{mini-date-change
+        value=value
+        size=size
+        stopTime=stopTime
+        changed='dateChanged'
+        numDateChoices=numDateChoices
+      }}
+    {{/if}}
+    {{#if changingTime}}
+      {{mini-time-change
+        time=value
+        duration=_duration
+        timeChanged='timeChanged'
+        durationChanged='durationChanged'
+      }}
+    {{/if}}
+  </div>
 {{/if}}
 {{yield}}

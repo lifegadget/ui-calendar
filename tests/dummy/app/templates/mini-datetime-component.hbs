@@ -30,18 +30,18 @@
     Using the buttons below you can try adjusting the container size to see the responsive nature of the default component. Notice that at the smaller sizes you start to have clipping on the right hand side.
   </p>
   <em>Container Size: </em>
-  {{ui-button-radio choices=containerWidths selected=exampleContainerWidth defaultValue='250'}}<br/>
+  {{ui-button-radio choices=containerWidths selected=exampleContainerWidth defaultValue='350'}}<br/>
   <p>&nbsp;</p>
   In order to address this, one approach is just to adjust the size property to get the fonts
   down to a size that fits what the container is offering
   <p>&nbsp;</p>
-  <em>Font Size: </em>
-  {{ui-button-radio choices='tiny,small,normal,large,huge' selected=fontSize defaultValue='normal'}}<br/>
+  <em>Font <b>Size</b>: </em>
+  {{ui-button-radio choices='tiny,small,default,large,huge' selected=fontSize defaultValue='normal'}}<br/>
   <p>&nbsp;</p>
   By default the font used is that <em>inherited</em> from the surrounding DOM. In this example that is a monospaced font but you can specify what you want as the default font by stating it in the <code>font</code>
   property.
   <p>&nbsp;</p>
-  <em>Font Family: </em>
+  <em><b>Font</b> Family: </em>
   {{ui-button-radio choices='inherit,fantasy,monospace,cursive,serif,sans-serif' selected=fontFamily defaultValue='inherit'}}<br/>
 
 </desc>
@@ -60,6 +60,7 @@
         size=fontSize
         font=fontFamily
         ampm=ampm
+        cursor=cursorString
         showDuration=showDuration
       }}
     </div>
@@ -72,7 +73,8 @@
       &nbsp;&nbsp;<em>duration={{controller.duration}}</em><br/>{{else}}
       &nbsp;&nbsp;<em>stopTime={{stopTime}}</em><br/>{{/if}}
       &nbsp;&nbsp;size='{{fontSize}}' <br/>
-      &nbsp;&nbsp;font='{{fontFamily}}' <br/>
+      &nbsp;&nbsp;font='{{fontFamily}}' <br/>{{#if cursor}}
+      &nbsp;&nbsp;cursor='not-allowed' <br/>{{/if}}
       &nbsp;&nbsp;ampm={{ampm}}<br/>
     }}
   </sidecar>
@@ -81,8 +83,14 @@
     {{ui-button-radio choices='stopTime,stopTime(long),duration' selected=apiType}}<br/>
     UI<br/>
     {{ui-button-radio choices='implicit,stopTime,duration' selected=uiType}}<br/>
-    Time Format<br/>
+    <div class="col-xs-5">
+      Time Format<br/>
     {{ui-toggle-button off='24hr time' on='am/pm' value=ampm}}<br/>
+    </div>
+    <div class="col-xs-7">
+      Cursor<br/>
+      {{ui-toggle-button off='default' on='not-allowed' value=cursor}}<br/>
+    </div>
   </sidecar>
 </examples>
 <desc>
@@ -98,10 +106,10 @@
 
 <p class='section-break'>
   &nbsp;
-  <h3>Bits and Bobs</h3>
+  <h3>Data Down, Actions Up</h3>
 </p>
 <examples>
-  <widget>
+  <widget class='wide'>
     <div class="example" >
       {{mini-datetime
         value='2015-05-04 12:34:00'
@@ -113,6 +121,7 @@
         showDuration=showDuration
         disabled=disabled
         actionSupport=actionSupport
+        numDateChoices=numDateChoices
       }}
     </div>
   </widget>
@@ -123,6 +132,7 @@
       &nbsp;&nbsp;value='2015-05-04 12:34:00' <br/>{{#if apiIsDuration}}
       &nbsp;&nbsp;<em>duration={{controller.duration}}</em><br/>{{else}}
       &nbsp;&nbsp;<em>stopTime={{stopTime}}</em><br/>{{/if}}
+      &nbsp;&nbsp;<em>numDateChoices={{numDateChoices}}</em><br/>
       &nbsp;&nbsp;<em>disabled={{disabled}}</em><br/>{{#if actionSupport}}
       &nbsp;&nbsp;<em>actionSupport=true</em><br/>{{/if}}
     }}
@@ -132,19 +142,11 @@
     {{ui-toggle-button off='enabled' on='disabled' value=disabled}}<br/>
     Action Support<br/>
     {{ui-toggle-button off='off' on='on' value=actionSupport defaultValue=false}}<br/>
-    TBD<br/>
-    {{ui-button-radio choices='1,2,3' selected=bar}}<br/>
+    # of Date Choices<br/>
+    {{ui-button-radio choices='4,5,6' selected=numDateChoices}}<br/>
   </sidecar>
 </examples>
 <desc>
-  The are a number of visual flurishes which can be set as well:
-  <ul>
-    <li>
-      The first is the <code>disabled</code> flag. Setting this to true will result in a dimmed visual effect that
-      should indicate that this state is frozen or locked in some way.
-    </li>
-    <li></li>
-    <li></li>
-  </ul>
+
 </desc>
 
