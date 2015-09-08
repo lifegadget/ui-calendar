@@ -54,7 +54,7 @@
 
 <h3 >Start, Stop, and Duration</h3>
 <row>
-  <widget>
+  <widget class="{{if containerSize 'wide'}}">
     {{mini-datetime
       startTime='2015-05-04 12:34:00'
       stopTime=stopTime
@@ -110,7 +110,7 @@
 
 <h3>Data Down, Actions Up</h3>
 <row>
-  <widget>
+  <widget class="{{if containerSize 'wide'}}">
     {{mini-datetime
       value='2015-05-04 12:34:00'
       stopTime=stopTime

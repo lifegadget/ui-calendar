@@ -1,25 +1,24 @@
-<div class="time flex-item">
-  <div class="flexy">
-    <div class="pad flexy-item pointer">&nbsp;</div>
-    <div class="left flexy-item" {{action 'decreaseTime'}}>
-      {{ui-icon icon='chevron-left' size='2x'}}
-    </div>
-    <div class="time flexy-grow">
-      {{input type='range' min=0 max=numberOfBlocks value=minutesBlock class='needsclick'}}
-    </div>
-    <div class="pad flexy-item pointer">
-      <span {{action 'increaseTime'}}>
-        {{ui-icon icon='chevron-right' size='2x'}}
-      </span>
-    </div>
-    <div class="pad flexy-item">&nbsp;</div>
+{{! TOP ROW }}
+<div class="time">
+  <div class="left decrease-time" {{action 'decreaseTime'}}>
+    {{ui-icon icon='chevron-left' size='2x'}}
+  </div>
+  <div class="start-time">
+    {{input type='range' min=0 max=numberOfBlocks value=minutesBlock class='needsclick'}}
+  </div>
+  <div class="pad flexy-item pointer">
+    <span class="right increase-time" {{action 'increaseTime'}}>
+      {{ui-icon icon='chevron-right' size='2x'}}
+    </span>
   </div>
 </div>
-<div class="duration flex-item ">
+
+{{! BOTTOM ROW }}
+<div class="duration">
   {{radio-buttons
-    type='radio'
-    defaultValue=_duration
+    value=_duration
     buttons=_durationChoices
-    changed='durationChanged'
+    changed='onDurationChange'
+    stretch=true
   }}
 </div>

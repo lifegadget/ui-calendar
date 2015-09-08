@@ -79,6 +79,38 @@
   font-size: 0.8em;
 }
 
+/* FLOATERS */
+.ui-calendar.floater {
+  display: flex;
+  top: 10px;
+  min-width: 300px;
+  flex-direction: column;
+  justify-content: stretch;
+  align-content: stretch;
+}
+.ui-calendar.floater > div {
+  display: flex;
+}
+.mini-time-change .time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.mini-time-change .time > div {
+  display: flex;
+}
+.mini-time-change .time .start-time {
+  flex-grow: 1;
+}
+.mini-time-change .time .duration {
+  flex-grow: 1;
+  width: auto;
+  justify-content: center;
+  align-content: center;
+}
+
+
+
 /* FONT SIZING */
 .ui-calendar .change-actions.size-tiny,
 .mini-datetime.size-tiny {
@@ -169,6 +201,6 @@
 }
 
 .ui-calendar .duration {
-  text-align: center;
   padding-top: 12px;
+  justify-content: space-between;
 }

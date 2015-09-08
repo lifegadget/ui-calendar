@@ -32,7 +32,8 @@ const getMinutesInDay = thingy => {
 
 export default Ember.Component.extend({
   layout: layout,
-  classNames: ['ui-calendar','mini-change','time', 'noselect'],
+  classNames: ['ui-calendar','mini-time-change', 'noselect', 'floater'],
+  durationChoices: [30,45,60,90,120],
 
   value: computed.alias('time'),
   time: null,
@@ -48,7 +49,7 @@ export default Ember.Component.extend({
   }),
   _minutesObserver: observer('minutes', function() {
     const minutes = this.get('minutes');
-    this.sendAction('timeChanged', minutes);
+    this.sendAction('onTimeChange', minutes);
   }),
   duration: null,
   _duration: computed('duration', {
@@ -57,20 +58,27 @@ export default Ember.Component.extend({
     },
     get: function() {
       const duration = this.get('duration');
-      return typeOf(duration) ? duration : 0;
+      return typeOf(duration) === 'number' ? duration : 0;
     }
   }),
   _durationObserver: observer('_duration', function() {
     const duration = this.get('_duration');
-    this.sendAction('durationChanged', duration);
+    this.sendAction('onDurationChange', duration);
   }),
-  _durationChoices: [
-    { title: '30m', value: 30 },
-    { title: '45m', value: 45 },
-    { title: '60m', value: 60 },
-    { title: '90m', value: 90 },
-    { title: '120m', value: 120 },
-  ],
+  _durationChoices: computed(function() {
+    let choices = this.get('durationChoices');
+    if(typeOf(choices) === 'string') {
+      choices = choices.split(',');
+    }
+    if(typeOf(choices) !== 'array') {
+      debug('durationChoices must be set to an array value!');
+      return [];
+    }
+
+    return choices.map( choice => {
+      return typeOf(choice) === 'object' ? choice : { title: `${choice}m`, value: Number(choice) };
+    });
+  }),
   minutesBlock: computed('minutes', {
     // explicit changes from slider control
     set: function(index,value) {
@@ -99,8 +107,11 @@ export default Ember.Component.extend({
       this.set('minutes', minutes);
     },
     // same thing but for a change in duration
-    durationChanged: function(minutes) {
-      this.set('_duration', minutes);
+    onDurationChange: function(action, values) {
+      let minutes = values.pop(); // values are an array but in this case a single element array
+      if(action === 'values') {
+        this.set('_duration', minutes);
+      }
     },
   }
 

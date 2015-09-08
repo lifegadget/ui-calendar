@@ -47,12 +47,9 @@ code {
 h3 code {
     font-size: 3rem;
 }
-a code:hover {
-    background-color: #37AA26;
-}
-code:active {
-    color: white;
-    background-color: #15520B;
+
+a {
+  padding: 5px 3px 5px 3px;
 }
 a:hover {
     text-decoration: none;

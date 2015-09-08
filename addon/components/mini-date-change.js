@@ -7,7 +7,7 @@ import moment from 'moment';
 
 export default Ember.Component.extend({
   layout: layout,
-  classNames: ['mini-change','date','flexy','space-between','middle', 'noselect'],
+  classNames: ['ui-calendar', 'mini-date-change','flexy','space-between','middle', 'noselect', 'floater'],
 
   // START/STOP VALUES
   value: null,

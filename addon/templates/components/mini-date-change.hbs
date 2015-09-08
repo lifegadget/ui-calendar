@@ -6,7 +6,7 @@
 <div class="date-range flex-item">
   {{#ui-buttons changed='changed' as |group|}}
     {{#each _dateRange as |dateChoice|}}
-    {{#ui-radio-button
+    {{#ui-button
       value=(moment-format dateChoice 'YYYY-MM-DD')
       group=group
       size=size
@@ -14,7 +14,7 @@
       {{moment-format dateChoice "dd"}}<br/>
       <b>{{moment-format dateChoice "DD"}}</b><br/>
       {{moment-format dateChoice "MMM"}}
-    {{/ui-radio-button }}
+    {{/ui-button }}
     {{/each}}
   {{/ui-buttons}}
 </div>

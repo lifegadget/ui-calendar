@@ -199,23 +199,23 @@ export default Ember.Component.extend(SharedStylist,{
       this.set('_startTime', startTime.clone().year(yyyy).month(mm - 1).date(dd));
       this.sendAction('dateChanged', yyyy, mm, dd);
     },
-    timeChanged: function(minutes) {
+    onTimeChange: function(minutes) {
       const {_startTime, _duration} = this.getProperties('_startTime', '_duration');
       const newStartTime = specifyMinuteOffset(_startTime, minutes);
       const newStopTime=specifyMinuteOffset(newStartTime, _duration + getMinutes(newStartTime));
       if(newStartTime.format(TIME_FORMAT) !== _startTime.format(TIME_FORMAT) ) {
         this.set('_startTime', newStartTime);
         this.set('_stopTime', newStopTime);
-        this.sendAction('timeChanged', newStopTime.format('HH'), newStopTime.format('mm'), newStopTime.format('ss'));
+        this.sendAction('onTimeChange', newStopTime.format('HH'), newStopTime.format('mm'), newStopTime.format('ss'));
       }
     },
-    durationChanged: function(minutes) {
+    onDurationChange: function(minutes) {
       const _startTime = this.get('_startTime');
       const _stopTime = getMoment(_startTime, minutes);
       this.set('_duration', minutes);
       this.notifyPropertyChange('_duration');
       this.set('_stopTime', _stopTime);
-      this.sendAction('timeChanged', _stopTime.format('HH'), _stopTime.format('mm'), _stopTime.format('ss'));
+      this.sendAction('onTimeChange', _stopTime.format('HH'), _stopTime.format('mm'), _stopTime.format('ss'));
     },
   }
 });
