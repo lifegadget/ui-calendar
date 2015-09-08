@@ -1,4 +1,8 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import Ember from 'ember';
+const { keys, create } = Object; // jshint ignore:line
+const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, set, inject, isEmpty} = Ember;  // jshint ignore:line
+
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 const getMinutes = m => m.diff(m.clone().startOf('day'),'minutes');
@@ -19,7 +23,7 @@ test('it renders', function(assert) {
 });
 
 test('receives a change-time action', function(assert) {
-  assert.expect(1);
+  assert.expect(2);
   var dateString = '2015-05-04 14:45:00';
   var minutes = getMinutes(moment(dateString));
 
@@ -27,8 +31,13 @@ test('receives a change-time action', function(assert) {
     assert.equal(newMinutes, minutes + 1, 'clicking on right chevron has increased minutes by one');
   });
   this.render(hbs`
-    {{mini-datetime value=dateString onTimeChange=onTimeChange}}
+    {{mini-datetime value=dateString onTimeChange='onTimeChange'}}
   `);
 
-  this.$('.time .right').click();
+  this.$('.display.time').click();
+  run.next(()=> {
+    assert.equal(this.$('.increase-time').length, 1, 'increase-time button is available');
+    this.$('.increase-time').click();
+  });
+
 });

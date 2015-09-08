@@ -31,7 +31,7 @@ const getMomentDiff = (a,b) => {
 };
 const getMinutes = m => {
   return m.diff(m.clone().startOf('day'),'minutes');
-  };
+};
 const getDuration = (thingy, context) => {
   switch(typeOf(thingy)) {
     case 'number':
@@ -204,6 +204,8 @@ export default Ember.Component.extend(SharedStylist,{
       const newStartTime = specifyMinuteOffset(_startTime, minutes);
       const newStopTime=specifyMinuteOffset(newStartTime, _duration + getMinutes(newStartTime));
       if(newStartTime.format(TIME_FORMAT) !== _startTime.format(TIME_FORMAT) ) {
+        console.log('time changed: %sm; start time: %s', minutes, _startTime.format('YYYY-MM-DD HH:MM:SS'));
+
         this.set('_startTime', newStartTime);
         this.set('_stopTime', newStopTime);
         this.sendAction('onTimeChange', newStopTime.format('HH'), newStopTime.format('mm'), newStopTime.format('ss'));
@@ -212,9 +214,10 @@ export default Ember.Component.extend(SharedStylist,{
     onDurationChange: function(minutes) {
       const _startTime = this.get('_startTime');
       const _stopTime = getMoment(_startTime, minutes);
+      console.log('duration changed: %sm; stop time: %s', minutes, _stopTime.format('YYYY-MM-DD HH:MM:SS'));
       this.set('_duration', minutes);
       this.notifyPropertyChange('_duration');
-      this.set('_stopTime', _stopTime);
+      // this.set('_stopTime', _stopTime);
       this.sendAction('onTimeChange', _stopTime.format('HH'), _stopTime.format('mm'), _stopTime.format('ss'));
     },
   }

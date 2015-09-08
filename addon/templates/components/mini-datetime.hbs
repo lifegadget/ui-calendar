@@ -8,7 +8,8 @@
   <div class="display time flexy-grow vertical {{if changingTime 'changing-time'}}"
     {{action 'changeTime'}}>
     <div class="from">
-      {{moment-format _startTime _timeFormat}}{{#if ampm}}<span class="ampm">{{moment-format _startTime 'a'}}</span>{{/if}}
+      {{moment-format _startTime _timeFormat}}{{#if ampm}}
+      <span class="ampm">{{moment-format _startTime 'a'}}</span>{{/if}}
     </div>
     {{#if _showStopTime}}
       <div class="to">
