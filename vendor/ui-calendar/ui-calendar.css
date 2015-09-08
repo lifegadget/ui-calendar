@@ -1,30 +1,26 @@
 /* FLEXBOX */
-.flexy {
+.mini-datetime {
   display: flex;
 }
-.flexy.space-between {
-  justify-content: space-between;
-}
-.flexy.flex-start {
-  justify-content: flex-start;
-}
-.flexy.middle {
-  align-content: center;
-}
-
-.flexy-grow {
-  flex-grow: 3;
-}
-
-.flexy-item {
-  flex-item: 1;
-}
-
-.vertical {
+.mini-datetime .display.date,
+.mini-datetime .display.time {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  flex-flow: center;
+}
+.mini-datetime .display.time {
+  flex: 1 1;
+}
+.mini-datetime .display.time > div {
+  margin:0;
+  padding: 10px 0 10px 0;
+}
+.mini-datetime .display > div {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1;
   justify-content: center;
+  align-items: baseline;
 }
 
 /* DATE TIME STYLING */
@@ -54,11 +50,9 @@
 }
 
 .mini-datetime .time {
-  text-align: center;
-  vertical-align: middle;
   border: 0;
   border-left: 1px solid lightgrey;
-  padding-left: 1em;
+  padding: 0 .25em 0 .25em;
 }
 .mini-datetime .time .from {
   font-size: 2.5em;
@@ -67,7 +61,6 @@
 .mini-datetime .time .to {
   font-size: 1.2em;
   color: #BFBFBF;
-  float:right;
 }
 
 .mini-datetime .ampm {
