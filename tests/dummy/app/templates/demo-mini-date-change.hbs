@@ -1,0 +1,38 @@
+{{#demo-css}}
+<h3 class="title"><b>Component</b>::mini-time-change</h3>
+<desc>A helper component to the <prop>mini-datetime</prop> component which provides a UI for changing the <i>date</i> part of the datetime.</desc>
+
+<h3>Basic Example</h3>
+
+<row>
+  <widget class="{{if containerSize 'wide'}}">
+    {{mini-date-change
+      datetime='2015-05-04 14:45:00'
+      changed='dateChanged'
+      numDateChoices=numDateChoices
+    }}
+  </widget>
+  <code>
+    {{display-component componentName='mini-date-change'
+      datetime='2015-05-04 14:45:00'
+      changed='onDateChanged'
+      numDateChoices=numDateChoices
+    }}
+  </code>
+  <description>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </p>
+  </description>
+</row>
+<row>
+  <description>
+    <p>
+      The two key input properties -- <prop>datetime</prop> (or <i>value</i> which is an alias) and <prop>numDateChoices</prop> -- are one way bindings so the container (most likely to be the <b>mini-datetime</b> component) will listen to the action <prop>onDateChange</prop> which will return an array of the format: <code>[ YYYY, MM, DD ]</code>. You can see this in action by interacting with the widget above.
+    </p>
+    container size: {{ui-toggle-button on='wide' off='narrow' value=containerSize}}
+  </description>
+</row>
+
+
+{{/demo-css}}

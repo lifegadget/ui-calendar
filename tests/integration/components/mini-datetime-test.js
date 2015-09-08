@@ -23,7 +23,7 @@ test('it renders', function(assert) {
 });
 
 test('receives a change-time action', function(assert) {
-  assert.expect(2);
+  assert.expect(3);
   var dateString = '2015-05-04 14:45:00';
   var minutes = getMinutes(moment(dateString));
 
@@ -33,9 +33,10 @@ test('receives a change-time action', function(assert) {
   this.render(hbs`
     {{mini-datetime value=dateString onTimeChange='onTimeChange'}}
   `);
-
+  assert.equal(this.$('.display.time').length, 1, 'PREP: increase-time button is available');
   this.$('.display.time').click();
   run.next(()=> {
+    console.log(this.$('.mini-time-change'));
     assert.equal(this.$('.increase-time').length, 1, 'increase-time button is available');
     this.$('.increase-time').click();
   });

@@ -6,22 +6,62 @@
 .mini-datetime .display.time {
   display: flex;
   flex-direction: column;
-  flex-flow: center;
+  transition: all;
+  transition-duration: 0.5s;
 }
 .mini-datetime .display.time {
   flex: 1 1;
 }
 .mini-datetime .display.time > div {
   margin:0;
-  padding: 10px 0 10px 0;
 }
 .mini-datetime .display > div {
   display: flex;
   flex-direction: row;
   flex: 1 1;
   justify-content: center;
-  align-items: baseline;
+  align-items: center;
 }
+.ui-calendar.mini-date-change {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.mini-date-change > div.side {
+  display: flex;
+  flex-shrink: 1;
+}
+.mini-date-change > div.date-range {
+  display: flex;
+  flex: 4 0;
+}
+
+/* FLOATERS */
+.ui-calendar.floater {
+  top: 10px;
+  min-width: 300px;
+  cursor: pointer;
+}
+.mini-time-change .time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.mini-time-change .time > div {
+  display: flex;
+}
+.mini-time-change .time .start-time {
+  flex-grow: 1;
+}
+.mini-time-change .time .duration {
+  flex-grow: 1;
+  width: auto;
+  justify-content: center;
+  align-content: center;
+}
+
+
 
 /* DATE TIME STYLING */
 .mini-datetime {
@@ -71,37 +111,6 @@
   color: #BEBEBE;
   font-size: 0.8em;
 }
-
-/* FLOATERS */
-.ui-calendar.floater {
-  display: flex;
-  top: 10px;
-  min-width: 300px;
-  flex-direction: column;
-  justify-content: stretch;
-  align-content: stretch;
-}
-.ui-calendar.floater > div {
-  display: flex;
-}
-.mini-time-change .time {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.mini-time-change .time > div {
-  display: flex;
-}
-.mini-time-change .time .start-time {
-  flex-grow: 1;
-}
-.mini-time-change .time .duration {
-  flex-grow: 1;
-  width: auto;
-  justify-content: center;
-  align-content: center;
-}
-
 
 
 /* FONT SIZING */

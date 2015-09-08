@@ -1,26 +1,27 @@
-<div
-  class="mini-datetime {{if actionSupport 'action-support'}} {{_size}} {{if disabled 'disabled' 'enabled'}}">
+<div class="mini-datetime {{if actionSupport 'action-support'}} {{_size}} {{if disabled 'disabled' 'enabled'}}">
   <div class="display date {{if changingDate 'changing-date'}}" {{action 'changeDate'}}>
     <div class="dow">{{moment-format _startTime 'dddd'}}</div>
     <div class="dom">{{moment-format _startTime 'DD'}}</div>
     <div class="month">{{moment-format _startTime 'MMMM'}}</div>
   </div>
-  <div class="display time flexy-grow vertical {{if changingTime 'changing-time'}}"
+  <div class="display time {{if changingTime 'changing-time'}}"
     {{action 'changeTime'}}>
+    <div class="pad vertical"></div>
     <div class="from">
       {{moment-format _startTime _timeFormat}}{{#if ampm}}
       <span class="ampm">{{moment-format _startTime 'a'}}</span>{{/if}}
     </div>
-    {{#if _showStopTime}}
-      <div class="to">
-        until {{moment-format _stopTime _timeFormat}}{{#if ampm}}<span class="ampm dim">{{moment-format _stopTime 'a'}}</span>{{/if}}
-      </div>
-    {{/if}}
-    {{#if _showDuration}}
-      <div class="to">
+    {{#if durationIsSet}}
+    <div class="to">
+      {{#if showDuration}}
         for {{_durationPretty}}
-      </div>
+      {{else}}
+        until&nbsp;<span class="stop-time">{{moment-format _stopTime _timeFormat}}</span>
+        {{#if ampm}}<span class="ampm dim">{{moment-format _stopTime 'a'}}</span>{{/if}}
+      {{/if}}
+    </div>
     {{/if}}
+    <div class="pad vertical"></div>
   </div>
 </div>
 

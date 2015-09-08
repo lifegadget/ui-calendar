@@ -56,9 +56,8 @@
 <row>
   <widget class="{{if containerSize 'wide'}}">
     {{mini-datetime
-      startTime='2015-05-04 12:34:00'
-      stopTime=stopTime
-      duration=duration
+      startTime='2015-05-04 13:34:00'
+      duration=d1
       size=fontSize
       font=fontFamily
       ampm=ampm
@@ -68,9 +67,8 @@
   </widget>
   <code>
     {{display-component componentName='mini-datetime'
-      startTime='2015-05-04 12:34:00'
-      stopTime=stopTime
-      duration=duration
+      startTime='2015-05-04 13:34:00'
+      duration=d1
       size=fontSize
       font=fontFamily
       ampm=ampm
@@ -79,11 +77,15 @@
     }}
   </code>
   <description>
-    <div class="row">
-      API<br/>
-      {{radio-buttons buttons='stopTime,stopTime(long),duration' value=apiType size='small'}}<br/>
-      UI<br/>
-      {{radio-buttons buttons='implicit,stopTime,duration' value=uiType size='small'}}<br/>
+   <div class="row">
+     <div class="col-xs-4">Ending Style:</div>
+     <div class="col-xs-8">{{radio-buttons buttons='stop time:::null,duration:::true' value=showDuration size='small' stretch=true defaultValue=true}}</div>
+   </div>
+   <div class="row">
+     <div class="col-xs-4">Duration:</div>
+     <div class="col-xs-8">{{radio-buttons buttons='0:::0,30:::30,60:::60,90:::90' value=d1 size='small' stretch=true}}</div>
+   </div>
+   <div class="row">
       <div class="col-xs-5">
         Time Format<br/>
       {{ui-toggle-button off='24hr time' on='am/pm' value=ampm size='small'}}<br/>
@@ -112,8 +114,7 @@
 <row>
   <widget class="{{if containerSize 'wide'}}">
     {{mini-datetime
-      value='2015-05-04 12:34:00'
-      stopTime=stopTime
+      value='2015-05-04 13:34:00'
       duration=duration
       size=fontSize
       font=fontFamily
@@ -126,8 +127,7 @@
   </widget>
   <code>
     {{display-component componentName='mini-datetime'
-      value='2015-05-04 12:34:00'
-      stopTime=stopTime
+      value='2015-05-04 13:34:00'
       duration=duration
       size=fontSize
       font=fontFamily
