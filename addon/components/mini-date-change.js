@@ -33,7 +33,7 @@ export default Ember.Component.extend({
   // is component's internal value equal to the containers value
   _inSync: computed('value', '_value', function() {
     let {value,_value} = this.getProperties('value','_value');
-    if(typeOf(value) === 'string') {
+    if(typeOf(value) !== 'instance') {
       value = moment(value);
     }
 

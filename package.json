@@ -1,7 +1,7 @@
 {
   "name": "ui-calendar",
-  "version": "0.0.3",
-  "description": "Calendar (and time) based controls for ambition Ember applications.",
+  "version": "0.1.0",
+  "description": "Date and time based controls for ambition Ember applications.",
   "directories": {
     "doc": "doc",
     "test": "tests"
