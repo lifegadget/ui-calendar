@@ -7,6 +7,8 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('mini-datetime-component');
+  this.route('demo-mini-time-change');
+  this.route('demo-mini-date-change');
 });
 
 export default Router;

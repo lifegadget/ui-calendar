@@ -1,22 +1,70 @@
 /* FLEXBOX */
-.flexy {
+.mini-datetime {
   display: flex;
 }
-
-.flexy-grow {
-  flex-grow: 3;
-}
-
-.flexy-item {
-  flex-item: 1;
-}
-
-.vertical {
+.mini-datetime .display.date,
+.mini-datetime .display.time {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  transition: all;
+  transition-duration: 0.5s;
 }
+.mini-datetime .display.time {
+  flex: 1 1;
+}
+.mini-datetime .display.time > div {
+  margin:0;
+}
+.mini-datetime .display > div {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1;
+  justify-content: center;
+  align-items: center;
+}
+.ui-calendar.mini-date-change {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.mini-date-change > div.side {
+  display: flex;
+  flex-shrink: 1;
+}
+.mini-date-change > div.date-range {
+  display: flex;
+  flex: 4 0;
+}
+.mini-date-change > div.date-range .btn {
+  padding-left: 0;
+  padding-right: 0;
+}
+/* FLOATERS */
+.ui-calendar.floater {
+  top: 10px;
+  min-width: 300px;
+  cursor: pointer;
+}
+.mini-time-change .time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.mini-time-change .time > div {
+  display: flex;
+}
+.mini-time-change .time .start-time {
+  flex-grow: 1;
+}
+.mini-time-change .time .duration {
+  flex-grow: 1;
+  width: auto;
+  justify-content: center;
+  align-content: center;
+}
+
+
 
 /* DATE TIME STYLING */
 .mini-datetime {
@@ -27,6 +75,7 @@
 .mini-datetime .date {
   padding: .5em 1em .5em 1em;
   text-align: center;
+  min-width: 7.5em; /* keeps Wednesday from changing width */
 }
 .mini-datetime .date .dow {
   font-size: 1em;
@@ -44,11 +93,9 @@
 }
 
 .mini-datetime .time {
-  text-align: center;
-  vertical-align: middle;
   border: 0;
   border-left: 1px solid lightgrey;
-  padding-left: 1em;
+  padding: 0 .25em 0 .25em;
 }
 .mini-datetime .time .from {
   font-size: 2.5em;
@@ -57,7 +104,6 @@
 .mini-datetime .time .to {
   font-size: 1.2em;
   color: #BFBFBF;
-  float:right;
 }
 
 .mini-datetime .ampm {
@@ -71,17 +117,41 @@
 
 
 /* FONT SIZING */
-.mini-datetime.font-tiny {
+.ui-calendar .change-actions.size-tiny,
+.mini-datetime.size-tiny {
   font-size: 9px;
 }
-.mini-datetime.font-small {
+.ui-calendar .change-actions.size-small,
+.mini-datetime.size-small {
   font-size: 10px;
 }
-.mini-datetime.font-large {
+.ui-calendar .change-actions.size-large,
+.mini-datetime.size-large {
   font-size: 18px;
 }
-.mini-datetime.font-huge {
+.ui-calendar .change-actions.size-huge,
+.mini-datetime.size-huge {
   font-size: 22px;
+}
+
+/* FONT FAMILIES */
+.ui-calendar.font-inherit {
+  font-family: inherit;
+}
+.ui-calendar.font-fantasy {
+  font-family: fantasy;
+}
+.ui-calendar.font-monospace {
+  font-family: monospace;
+}
+.ui-calendar.font-cursive {
+  font-family: cursive;
+}
+.ui-calendar.font-serif {
+  font-family: serif;
+}
+.ui-calendar.font-sans-serif {
+  font-family: sans-serif;
 }
 
 /* VISUAL STATES */
@@ -94,4 +164,48 @@
   background-color: #F6F6F6;
 }
 
+/* ACTION SUPPORT */
+.mini-datetime.action-support {
+  cursor: pointer;
+}
+.mini-datetime.action-support .date:hover {
+  background-color: #EFEFEF;
+}
+.mini-datetime.action-support .time:hover {
+  background-color: #EFEFEF;
+}
 
+.mini-datetime .date.changing-date {
+  background-color: #F7F7F7;
+}
+.mini-datetime .time.changing-time {
+  background-color: #F7F7F7;
+}
+
+.ui-calendar .change-actions {
+  padding-top: 15px;
+  font-size: 1em;
+}
+
+.ui-calendar .time .pad {
+  padding: 0;
+  margin: 0;
+}
+
+.ui-calendar .pointer {
+  cursor: pointer;
+}
+
+.ui-calendar .noselect {
+  -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+.ui-calendar .duration {
+  padding-top: 12px;
+  justify-content: space-between;
+}

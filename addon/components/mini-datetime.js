@@ -1,40 +1,75 @@
 import Ember from 'ember';
 import moment from 'moment';
-const { computed, observer, $, A, run, on, typeOf, debug, keys, get, set, inject } = Ember;    // jshint ignore:line
-const htmlSafe = Ember.String.htmlSafe;
-const styleProperties = ['_styleFontFamily', '_styleMaxWidth'];
+import SharedStylist from 'ember-cli-stylist/mixins/shared-stylist';
+const TIME_FORMAT = 'HH:mm:ss';
+const { keys, create } = Object; // jshint ignore:line
+const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, set, inject, isEmpty} = Ember;  // jshint ignore:line
+const specifyMinuteOffset = (day, minutes) => {
+  return day ? day.clone().startOf('day').add(minutes, 'minutes') : null;
+};
 
 import layout from '../templates/components/mini-datetime';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(SharedStylist,{
   layout: layout,
-  classNames: ['ui-calendar', 'mini-datetime', 'flexy'],
-  classNameBindings: ['_size','disabled:disabled:enabled', 'actionSupport:action-support'],
-  attributeBindings: ['_style:style'],
-  value: null,
-  size: null,
+  classNames: ['ui-calendar','noselect'],
+  classNameBindings: ['actionSupport:action-support','_font', '_size'],
+  // API Surface
+  // -------------
+  // one way interface
+  value: computed.alias('startTime'),
+  startTime: null,
+  stopTime: null,
+  duration: 60,
+  // two way interfaces
   ampm: true,
   actionSupport: false,
+  maxWidth: null,
+  size: 'normal',
+  font: 'inherit',
+  showDuration: null,
+  numDateChoices: 4,
+
+  // Boolean flags
+  durationIsSet: computed.bool('_duration'),
+
+  // one-way proxies
+  // ---------------
+  _startTime: computed('startTime', {
+    set: function(_,value) {
+      return value;
+    },
+    get: function() {
+      const startTime = this.get('startTime');
+
+      return typeOf(startTime) === 'class' && startTime._isAMomentObject ? startTime : moment(this.get('startTime'));
+    }
+  }),
+  _duration: computed('duration', {
+    set: function(_,value) {
+      return value;
+    },
+    get: function() {
+      return this.get('duration');
+    }
+  }),
+  _stopTime: computed('_duration','_startTime', function() {
+    const {_duration, _startTime} = this.getProperties('_duration', '_startTime');
+    return moment(_startTime).add(_duration, 'minutes');
+  }),
+
   _timeFormat: computed('ampm', function() {
     return this.get('ampm') ? 'h:mm' : 'H:mm';
   }),
   _size: on('init',computed('size', function() {
     const size = this.get('size');
-    return size === 'default' ? '' : `font-${size}`;
+    return size === 'default' || size === null ? null : `size-${size}`;
   })),
-  // use either duration or stopTime, not both
-  duration: null, // measured in # of minutes
-  _duration: computed('duration', function() {
-    const { duration, stopTime, value } = this.getProperties('duration','stopTime', 'value');
-    const calcDuration = (start,stop) => {
-      return Math.abs(moment(start).diff(moment(stop), 'minutes'));
-    };
-    return duration ? duration : calcDuration(value, stopTime);
-  }),
-  stopTime: null,
-  _stopTime: on('init', computed('stopTime','_showDuration', function() {
-    return this.get('stopTime') && !this.get('_showDuration');
+  _font: on('init',computed('font', function() {
+    const font = this.get('font');
+    return font === 'default' || font === null ? null : `font-${font}`;
   })),
+
   _durationPretty: computed('_duration', function() {
     const duration = this.get('_duration');
     const hour = 60;
@@ -49,49 +84,54 @@ export default Ember.Component.extend({
       return  duration + ' minutes';
     }
   }),
-  showDuration: null,
-  _showDuration: on('init',computed('showDuration','duration','stopTime', 'value', function() {
-    const { showDuration, duration, stopTime } = this.getProperties('showDuration', 'duration', 'stopTime');
-    if(showDuration !== null) {
-      return showDuration; // UI style has been explicitly stated
-    } else {
-      // detect usage
-      if(duration && stopTime) {
-        debug('mini-datetime recieved a duration AND a stopTime; use one or the other not both.');
-        return true;
-      } else if(duration && !stopTime) {
-        return true;
-      } else if(stopTime && !duration) {
-        const startTime = this.get('value');
-        const daysApart = Math.abs(moment(startTime).diff(stopTime,'days',true));
-        return daysApart > 1 ? true : false;
+
+  // ACTIONS
+  actions: {
+    // Adds/removes the mini-date-change helper to the UI
+    changeDate: function() {
+      const actionSupport = this.get('actionSupport');
+      if(actionSupport) {
+        this.set('changingTime', false);
+        this.toggleProperty('changingDate');
       }
-
-      return false;
-    }
-  })),
-  _showStopTime: computed('_showDuration','stopTime', function() {
-    const { _showDuration, stopTime } = this.getProperties('_showDuration', 'stopTime');
-    return stopTime && !_showDuration;
-  }),
-  // STYLE ATTRIBUTES
-  font: 'inherit',
-  _styleFontFamily: computed('font', function() {
-    const font = this.get('font');
-    return font ? `font-family: ${font}` : '';
-  }),
-  maxWidth: null,
-  _styleMaxWidth: computed('maxWidth', function() {
-    const maxWidth = this.get('maxWidth');
-    return maxWidth ? `max-width: ${maxWidth}` : '';
-  }),
-  // STYLER
-  _style: computed(...styleProperties,function() {
-    const styles = this.getProperties(...styleProperties);
-    const styleString = htmlSafe(keys(styles).map((key) => {
-      return styles[key];
-    }).join('; '));
-
-    return styles ? styleString : null;
-  })
+    },
+    // Adds/removes the mini-date-time helper to the UI
+    changeTime: function() {
+      const actionSupport = this.get('actionSupport');
+      if(actionSupport) {
+        this.set('changingDate', false);
+        this.toggleProperty('changingTime');
+      }
+    },
+    onDateChange: function(yyyy,mm,dd) {
+      const newDate = this.get('_startTime').clone().year(yyyy).month(mm - 1).date(dd);
+      this.set('_startTime', newDate);
+      this.sendAction('onChange', 'date', {
+        date: [yyyy, mm, dd],
+        startTime: this.get('_startTime'),
+        duration: this.get('_duration')
+      });
+    },
+    onTimeChange: function(minutes) {
+      const {_startTime} = this.getProperties('_startTime');
+      const newStartTime = specifyMinuteOffset(_startTime, minutes);
+      if(newStartTime.format(TIME_FORMAT) !== _startTime.format(TIME_FORMAT) ) {
+        this.set('_startTime', newStartTime);
+        this.sendAction('onChange', 'start-time', {
+          startTime: newStartTime,
+          oldStartTime: _startTime,
+          stopTime: this.get('_stopTime'),
+          duration: this.get('_duration')
+        });
+      }
+    },
+    onDurationChange: function(minutes) {
+      this.set('_duration', minutes);
+      this.sendAction('onChange', 'duration', {
+        duration: minutes,
+        startTime: this.get('_startTime'),
+        stopTime: this.get('_stopTime')
+      });
+    },
+  }
 });
