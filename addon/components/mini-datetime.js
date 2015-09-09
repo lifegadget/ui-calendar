@@ -40,7 +40,9 @@ export default Ember.Component.extend(SharedStylist,{
       return value;
     },
     get: function() {
-      return moment(this.get('startTime'));
+      const startTime = this.get('startTime');
+
+      return typeOf(startTime) === 'class' && startTime._isAMomentObject ? startTime : moment(this.get('startTime'));
     }
   }),
   _duration: computed('duration', {
@@ -55,9 +57,6 @@ export default Ember.Component.extend(SharedStylist,{
     const {_duration, _startTime} = this.getProperties('_duration', '_startTime');
     return moment(_startTime).add(_duration, 'minutes');
   }),
-  // end one-way proxies
-  // -------------------
-
 
   _timeFormat: computed('ampm', function() {
     return this.get('ampm') ? 'h:mm' : 'H:mm';
@@ -107,7 +106,7 @@ export default Ember.Component.extend(SharedStylist,{
     onDateChange: function(yyyy,mm,dd) {
       const newDate = this.get('_startTime').clone().year(yyyy).month(mm - 1).date(dd);
       console.log('start time[%s,%s,%s]: %o', yyyy,mm,dd,newDate);
-      // this.set('_startTime', newDate);
+      this.set('_startTime', newDate);
       this.sendAction('onChange', 'date', {
         date: [yyyy, mm, dd],
         startTime: this.get('_startTime'),

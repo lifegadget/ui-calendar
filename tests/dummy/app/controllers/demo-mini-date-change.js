@@ -7,9 +7,9 @@ export default Ember.Controller.extend({
   numDateChoices: 4,
 
   actions: {
-    onDateChanged(yyyy,mm,dd) {
+    onDateChange(yyyy,mm,dd) {
       const flashMessages = Ember.get(this, 'flashMessages');
-      flashMessages.success(`Date has changed to: ${yyyy}-${mm}-${dd}`);
+      flashMessages.success(`Date has changed to: [${yyyy},${mm},${dd}]`);
     }
   }
 

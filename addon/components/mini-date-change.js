@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   classNames: ['ui-calendar', 'mini-date-change', 'noselect', 'floater'],
   classNameBindings: ['_inSync:in-sync'],
 
+  // The containers input can be a moment object or a string of the form of 'YYYY-MM-DD HH:MM:SS'
   datetime: computed.alias('value'),
   value: null,
   _initialValue: on('init', observer(function() {
@@ -17,8 +18,8 @@ export default Ember.Component.extend({
   })),
   _value: computed('value', {
     set(_,value) {
-      if(typeOf(value) !== 'class') {
-        debug('value was set to a scalar value and it should be set to a moment object');
+      if(typeOf(value) !== 'instance' && value._isAMomentObject) {
+        debug('value was set to a scalar value and it should be set to a moment object: ' + value);
       }
       return value;
     },
@@ -60,7 +61,6 @@ export default Ember.Component.extend({
       if (action === 'values') {
         let [yyyy,mm,dd] = value[0].split('-');
         let newValue = this.get('_value').clone().year(yyyy).month(mm).date(dd);
-        // console.log('new value [%s,%s,%s]: %s', yyyy,mm,dd, newValue.format('YYYY-MM-DD'));
         this.set('_value', newValue);
         this.sendAction('onDateChange', newValue.format('YYYY'), newValue.format('MM'), newValue.format('DD'));
       }

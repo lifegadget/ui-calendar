@@ -8,14 +8,14 @@
   <widget class="{{if containerSize 'wide'}}">
     {{mini-date-change
       datetime='2015-05-04 14:45:00'
-      changed='dateChanged'
+      onDateChange='onDateChange'
       numDateChoices=numDateChoices
     }}
   </widget>
   <code>
     {{display-component componentName='mini-date-change'
       datetime='2015-05-04 14:45:00'
-      changed='onDateChanged'
+      onDateChange='onDateChange'
       numDateChoices=numDateChoices
     }}
   </code>
