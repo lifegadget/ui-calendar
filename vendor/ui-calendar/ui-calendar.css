@@ -36,7 +36,10 @@
   display: flex;
   flex: 4 0;
 }
-
+.mini-date-change > div.date-range .btn {
+  padding-left: 0;
+  padding-right: 0;
+}
 /* FLOATERS */
 .ui-calendar.floater {
   top: 10px;

@@ -105,7 +105,6 @@ export default Ember.Component.extend(SharedStylist,{
     },
     onDateChange: function(yyyy,mm,dd) {
       const newDate = this.get('_startTime').clone().year(yyyy).month(mm - 1).date(dd);
-      console.log('start time[%s,%s,%s]: %o', yyyy,mm,dd,newDate);
       this.set('_startTime', newDate);
       this.sendAction('onChange', 'date', {
         date: [yyyy, mm, dd],
@@ -127,7 +126,6 @@ export default Ember.Component.extend(SharedStylist,{
       }
     },
     onDurationChange: function(minutes) {
-      console.log('duration changed: %sm', minutes);
       this.set('_duration', minutes);
       this.sendAction('onChange', 'duration', {
         duration: minutes,

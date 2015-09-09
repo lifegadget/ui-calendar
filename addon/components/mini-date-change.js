@@ -13,8 +13,8 @@ export default Ember.Component.extend({
   // The containers input can be a moment object or a string of the form of 'YYYY-MM-DD HH:MM:SS'
   datetime: computed.alias('value'),
   value: null,
-  _initialValue: on('init', observer(function() {
-    this.set('initValue', this.get('_value').clone());
+  _initialValue: on('init', observer('value',function() {
+    this.set('initialValue', this.get('_value').clone());
   })),
   _value: computed('value', {
     set(_,value) {
@@ -41,11 +41,11 @@ export default Ember.Component.extend({
   }),
   _dateRangeOffset: 0,
   _dateRange: computed('value','_dateRangeOffset', 'numDateChoices', function() {
-    const {_value,numDateChoices, _dateRangeOffset} = this.getProperties('_value','numDateChoices', '_dateRangeOffset');
+    const {initialValue, numDateChoices, _dateRangeOffset} = this.getProperties('initialValue','numDateChoices', '_dateRangeOffset');
     const offsetDays = _dateRangeOffset * numDateChoices;
     let dates = new A([]);
     for(var i=0; i < numDateChoices; i++) {
-      dates.pushObject(_value.clone().add(offsetDays + i, 'days'));
+      dates.pushObject(initialValue.clone().add(offsetDays + i, 'days'));
     }
 
     return dates;
