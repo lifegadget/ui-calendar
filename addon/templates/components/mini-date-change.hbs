@@ -2,16 +2,16 @@
   {{ui-icon icon='chevron-left' size='3x'}}
 </div>
 <div class="date-range">
-  {{#ui-buttons stretch=true changed='changed' as |group|}}
+  {{#ui-buttons stretch=true changed='dateChosen' cardinality='0:1' value='2015-05-04' as |group|}}
     {{#each _dateRange as |dateChoice|}}
     {{#ui-button
       value=(moment-format dateChoice 'YYYY-MM-DD')
       group=group
       size=size
     }}
-      {{moment-format dateChoice "dd"}}<br/>
-      <b>{{moment-format dateChoice "DD"}}</b><br/>
-      {{moment-format dateChoice "MMM"}}
+      <span class="current-dow">{{moment-format dateChoice "ddd"}}</span><br/>
+      <b><span class="current-date">{{moment-format dateChoice "DD"}}</span></b><br/>
+      <span class="current-month">{{moment-format dateChoice "MMM"}}</span>
     {{/ui-button }}
     {{/each}}
   {{/ui-buttons}}

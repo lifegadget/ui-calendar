@@ -12,7 +12,7 @@ import layout from '../templates/components/mini-datetime';
 
 export default Ember.Component.extend(SharedStylist,{
   layout: layout,
-  classNames: ['ui-calendar'],
+  classNames: ['ui-calendar','noselect'],
   classNameBindings: ['actionSupport:action-support','_font', '_size'],
   // API Surface
   // -------------
@@ -88,6 +88,7 @@ export default Ember.Component.extend(SharedStylist,{
 
   // ACTIONS
   actions: {
+    // Adds/removes the mini-date-change helper to the UI
     changeDate: function() {
       const actionSupport = this.get('actionSupport');
       if(actionSupport) {
@@ -95,6 +96,7 @@ export default Ember.Component.extend(SharedStylist,{
         this.toggleProperty('changingDate');
       }
     },
+    // Adds/removes the mini-date-time helper to the UI
     changeTime: function() {
       const actionSupport = this.get('actionSupport');
       if(actionSupport) {
@@ -102,9 +104,10 @@ export default Ember.Component.extend(SharedStylist,{
         this.toggleProperty('changingTime');
       }
     },
-    dateChanged: function(yyyy,mm,dd) {
-      const startTime = this.get('_startTime');
-      this.set('_startTime', startTime.clone().year(yyyy).month(mm - 1).date(dd));
+    onDateChange: function(yyyy,mm,dd) {
+      const newDate = this.get('_startTime').clone().year(yyyy).month(mm - 1).date(dd);
+      console.log('start time[%s,%s,%s]: %o', yyyy,mm,dd,newDate);
+      // this.set('_startTime', newDate);
       this.sendAction('onChange', 'date', {
         date: [yyyy, mm, dd],
         startTime: this.get('_startTime'),
@@ -115,8 +118,6 @@ export default Ember.Component.extend(SharedStylist,{
       const {_startTime} = this.getProperties('_startTime');
       const newStartTime = specifyMinuteOffset(_startTime, minutes);
       if(newStartTime.format(TIME_FORMAT) !== _startTime.format(TIME_FORMAT) ) {
-        console.log('time changed: %sm; start time: %s', minutes, _startTime.format('YYYY-MM-DD HH:MM:SS'));
-
         this.set('_startTime', newStartTime);
         this.sendAction('onChange', 'start-time', {
           startTime: newStartTime,
@@ -129,7 +130,6 @@ export default Ember.Component.extend(SharedStylist,{
     onDurationChange: function(minutes) {
       console.log('duration changed: %sm', minutes);
       this.set('_duration', minutes);
-      // this.notifyPropertyChange('_duration');
       this.sendAction('onChange', 'duration', {
         duration: minutes,
         startTime: this.get('_startTime'),
