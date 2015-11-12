@@ -52,6 +52,9 @@ export default Ember.Component.extend({
     this.sendAction('onTimeChange', minutes);
   }),
   duration: null,
+  displayDuration: computed('duration', function() {
+    return this.get('duration') !== false;
+  }),
   _duration: computed('duration', {
     set: function(prop, value) {
       return value;

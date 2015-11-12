@@ -62,7 +62,6 @@
       font=fontFamily
       ampm=ampm
       cursor=cursorString
-      showDuration=showDuration
     }}
   </widget>
   <code>
@@ -73,7 +72,6 @@
       font=fontFamily
       ampm=ampm
       cursor=cursorString
-      showDuration=showDuration
     }}
   </code>
   <description>
@@ -116,10 +114,10 @@
     {{mini-datetime
       value='2015-05-04 13:34:00'
       duration=duration
+      hideDuration=hideDuration
       size=fontSize
       font=fontFamily
       ampm=ampm
-      showDuration=showDuration
       disabled=disabled
       actionSupport=actionSupport
       numDateChoices=numDateChoices
@@ -129,10 +127,10 @@
     {{display-component componentName='mini-datetime'
       value='2015-05-04 13:34:00'
       duration=duration
+      hideDuration=hideDuration
       size=fontSize
       font=fontFamily
       ampm=ampm
-      showDuration=showDuration
       disabled=disabled
       actionSupport=actionSupport
       numDateChoices=numDateChoices
@@ -145,6 +143,9 @@
     {{ui-toggle-button off='off' on='on' value=actionSupport defaultValue=false}}<br/>
     # of Date Choices<br/>
     {{radio-buttons buttons='4,5,6' value=numDateChoices}}<br/>
+    Hide Duration:<br/>
+    {{ui-toggle-button on='Yes' off='No' onValue=true offValue=false value=hideDuration}}
+
   </description>
 </row>
 

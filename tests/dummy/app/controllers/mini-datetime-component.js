@@ -9,7 +9,6 @@ export default Ember.Controller.extend({
   fontSize: 'default',
   fontFamily: 'inherit',
   ampm: true,
-  showDuration: true,
   disabled: false,
   actionSupport: true
 });

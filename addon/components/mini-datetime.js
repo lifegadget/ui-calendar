@@ -84,6 +84,7 @@ export default Ember.Component.extend(SharedStylist,{
       return  duration + ' minutes';
     }
   }),
+  hideDuration: false,
 
   // ACTIONS
   actions: {
