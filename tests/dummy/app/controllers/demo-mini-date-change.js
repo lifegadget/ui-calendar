@@ -5,6 +5,7 @@ const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, se
 export default Ember.Controller.extend({
   duration: 60,
   numDateChoices: 4,
+  myDate: '2015-12-31',
 
   actions: {
     onDateChange(yyyy,mm,dd) {

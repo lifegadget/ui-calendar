@@ -209,3 +209,18 @@
   padding-top: 12px;
   justify-content: space-between;
 }
+
+.ui-calendar .incrementer {
+  padding-top: 1px;
+}
+.ui-calendar .incrementer.maxed-out > i {
+  padding-top: 1px;
+  cursor: not-allowed;
+  color: darkgrey;
+}
+.ui-calendar .incrementer.left {
+  margin-right: 10px;
+}
+.ui-calendar .incrementer.right {
+  margin-left: 10px;
+}

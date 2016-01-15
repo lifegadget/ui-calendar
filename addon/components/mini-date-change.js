@@ -11,7 +11,7 @@ export default Ember.Component.extend({
   classNameBindings: ['_inSync:in-sync'],
 
   // The containers input can be a moment object or a string of the form of 'YYYY-MM-DD HH:MM:SS'
-  datetime: computed.alias('value'),
+  date: computed.alias('value'),
   value: null,
   _initialValue: on('init', observer('value',function() {
     this.set('initialValue', this.get('_value').clone());
@@ -29,7 +29,9 @@ export default Ember.Component.extend({
     }
   }),
   numDateChoices: 4,
-
+  today: computed(function() {
+    return moment().format('YYYY-MM-DD');
+  }),
   // is component's internal value equal to the containers value
   _inSync: computed('value', '_value', function() {
     let {value,_value} = this.getProperties('value','_value');

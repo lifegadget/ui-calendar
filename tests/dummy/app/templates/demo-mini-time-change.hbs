@@ -1,39 +1,45 @@
 {{#demo-css}}
 <h3 class="title"><b>Component</b>::mini-time-change</h3>
-<desc>A helper component to the <prop>mini-datetime</prop> component which provides a UI for changing both time and duration attributes.</desc>
+<desc>A helper component to the <prop>mini-datetime</prop> component which provides a UI for changing time, timezone, and duration attributes.</desc>
 
 <h3>Basic Example</h3>
 
 <row>
   <widget class="{{if containerSize 'wide'}}">
     {{mini-time-change
-      time='2015-05-04 14:45:00'
+      time=myTime
+      start='9:00'
+      end='18:00'
       duration=duration
-      onTimeChange='onTimeChange'
-      onDurationChange='onDurationChange'
+      onTimeChange=(action 'onTimeChange')
+      onDurationChange=(action 'onDurationChange')
     }}
   </widget>
   <code>
     {{display-component componentName='mini-time-change'
-      time='2015-05-04 14:45:00'
-      duration=duration
-      onTimeChange='onTimeChange'
-      onDurationChange='onDurationChange'
+    time=myTime
+    start='9:00'
+    end='18:00'
+    duration=duration
+    onTimeChange=(action 'onTimeChange')
+    onDurationChange=(action 'onDurationChange')
     }}
   </code>
-  <description>
-    <p>
-      The two key input properties -- <prop>time</prop> and <prop>duration</prop> -- are one way bindings so the container (most likely to be the <b>mini-datetime</b> component) most likely will listen to the two actions provided: <prop>onTimeChange</prop> and <prop>onDurationChange</prop>.
-    </p>
-  </description>
+
 </row>
 <row>
   <description>
     <p>
-      Notice that the slider control moves by 30 minute increments, but the two chevron-buttons can move by 1-minute intervals for finer control. In both the time and duration the actions return a single number which is the number of minutes. For start-time that means the number of minutes since the start of the day. For duration its the number of minutes that the separate start from stop time.
+      Notice that you can set time to either:
+      <ul>
+        <li>A string (demonstrated), using a 24hr time</li>
+        <li>A number; where the number is the number of minutes into the day</li>
+      </ul>
+      The same applies to the <prop>start</prop> and <prop>end</prop> constraints. In the case of the <prop>onTimeChange</prop> event though it is important to note that what is passed back is always the number of minutes since start of the day.
     </p>
-    <p>
-      Also note this control uses <i>flexbox</i> for layout and will horizontally use all of the space given it. You can see this in action by using the button below to vary the container size.
+    <hr/>
+    <p class='downer'>
+      Note that this control uses <i>flexbox</i> for layout and will horizontally use all of the space given it. You can see this by using the button below to vary the container size.
     </p>
     container size: {{ui-toggle-button on='wide' off='narrow' value=containerSize}}
   </description>
