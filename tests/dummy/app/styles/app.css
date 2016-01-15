@@ -346,3 +346,7 @@ ul.components {
 .section-break {
   margin-top: 25px;
 }
+
+.ui-calendar .initial {
+  background-color: rgb(228, 247, 221);
+}

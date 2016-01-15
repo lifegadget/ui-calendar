@@ -5,12 +5,13 @@ const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, se
 export default Ember.Controller.extend({
   duration: 60,
   numDateChoices: 4,
-  myDate: '2015-12-31',
+  myDate: null,
 
   actions: {
-    onDateChange(yyyy,mm,dd) {
+    onDateChange(date) {
       const flashMessages = Ember.get(this, 'flashMessages');
-      flashMessages.success(`Date has changed to: [${yyyy},${mm},${dd}]`);
+      flashMessages.success(`Date has changed to: ${date}`);
+      this.set('myDate', date);
     }
   }
 

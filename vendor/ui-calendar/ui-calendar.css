@@ -224,3 +224,20 @@
 .ui-calendar .incrementer.right {
   margin-left: 10px;
 }
+
+.ui-calendar .today {
+  background-color: rgb(251, 252, 228);
+}
+
+.ui-calendar .weekend {
+  background:
+  /* On "top" */
+  repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(232, 230, 230, 0.35) 10px,
+    rgba(232, 230, 230, 0.35) 20px
+  ),
+
+}
