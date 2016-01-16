@@ -13,49 +13,53 @@ import layout from '../templates/components/mini-datetime';
 export default Ember.Component.extend(SharedStylist,{
   layout: layout,
   classNames: ['ui-calendar','noselect'],
-  classNameBindings: ['actionSupport:action-support','_font', '_size'],
-  // API Surface
-  // -------------
-  // one way interface
-  value: computed.alias('startTime'),
-  startTime: null,
-  stopTime: null,
-  duration: 60,
-  // two way interfaces
+  classNameBindings: ['editable:action-support','_font', '_size'],
+
   ampm: true,
-  actionSupport: false,
+  editable: false,
   maxWidth: null,
   size: 'normal',
   font: 'inherit',
   showDuration: null,
   numDateChoices: 4,
+  durationIsSet: computed.bool('duration'),
 
-  // Boolean flags
-  durationIsSet: computed.bool('_duration'),
-
-  // one-way proxies
-  // ---------------
-  _startTime: computed('startTime', {
-    set: function(_,value) {
-      return value;
-    },
-    get: function() {
-      const startTime = this.get('startTime');
-
-      return typeOf(startTime) === 'class' && startTime._isAMomentObject ? startTime : moment(this.get('startTime'));
-    }
+  /**
+   * START (alias VALUE)
+   *
+   * Expects either a ISO string representing date and time or
+   * a momentjs object
+   */
+  value: computed.alias('start'),
+  start: null,
+  // Internal working state is always a ISO string representation
+  _start: computed('start', function() {
+    const start = this.get('start') || moment().toISOString();
+    return typeOf(start) === 'string' ? start : start.toISOString();
   }),
-  _duration: computed('duration', {
-    set: function(_,value) {
-      return value;
-    },
-    get: function() {
-      return this.get('duration');
-    }
+  _startMinutes: computed('_start', function() {
+    const start = moment(this.get('_start'));
+    return start.hours() * 60 + start.minutes();
   }),
-  _stopTime: computed('_duration','_startTime', function() {
-    const {_duration, _startTime} = this.getProperties('_duration', '_startTime');
-    return moment(_startTime).add(_duration, 'minutes');
+  _startDate: computed('_start', function() {
+    return moment(this.get('_start')).format('YYYY-MM-DD');
+  }),
+  /**
+   * DURATION
+   *
+   * duration is expected to be an integer value, indicating "minutes"
+   * that the said activity has/will be for
+   */
+  duration: 0,
+  _stop: computed('duration','_startTime', function() {
+    const {duration, _start} = this.getProperties('duration', '_start');
+    return moment(_start).add(duration, 'minutes').toISOString();
+  }),
+  _stopTime: computed('_stop', function() {
+    return moment(this.get('_stop')).format('H:mm');
+  }),
+  _stopDate: computed('_stop', function() {
+    return moment(this.get('_stop')).format('YYYY-MM-DD');
   }),
 
   _timeFormat: computed('ampm', function() {
@@ -70,8 +74,8 @@ export default Ember.Component.extend(SharedStylist,{
     return font === 'default' || font === null ? null : `font-${font}`;
   })),
 
-  _durationPretty: computed('_duration', function() {
-    const duration = this.get('_duration');
+  durationPretty: computed('duration', function() {
+    const duration = this.get('duration');
     const hour = 60;
     const dayThreashold = hour * 24;
     if(duration > dayThreashold) {
@@ -89,49 +93,48 @@ export default Ember.Component.extend(SharedStylist,{
   actions: {
     // Adds/removes the mini-date-change helper to the UI
     changeDate: function() {
-      const actionSupport = this.get('actionSupport');
-      if(actionSupport) {
+      const editable = this.get('editable');
+      if(editable) {
         this.set('changingTime', false);
         this.toggleProperty('changingDate');
       }
     },
     // Adds/removes the mini-date-time helper to the UI
     changeTime: function() {
-      const actionSupport = this.get('actionSupport');
-      if(actionSupport) {
+      const editable = this.get('editable');
+      if(editable) {
         this.set('changingDate', false);
         this.toggleProperty('changingTime');
       }
     },
-    onDateChange: function(yyyy,mm,dd) {
-      const newDate = this.get('_startTime').clone().year(yyyy).month(mm - 1).date(dd);
-      this.set('_startTime', newDate);
-      this.sendAction('onChange', 'date', {
-        date: [yyyy, mm, dd],
-        startTime: this.get('_startTime'),
-        duration: this.get('_duration')
-      });
+    onDateChange: function(date) {
+      const newDateTime = moment(date).startOf('day').add(this.get('_startMinutes'), 'minutes');
+      const startType = typeOf(this.get('start'));
+      const _start = this.get('_start');
+      this.attrs.onChange(
+        startType === 'string' ? newDateTime.toISOString() : newDateTime, // new value
+        startType === 'string' ? _start : moment(_start)
+      );
     },
     onTimeChange: function(minutes) {
-      const {_startTime} = this.getProperties('_startTime');
-      const newStartTime = specifyMinuteOffset(_startTime, minutes);
-      if(newStartTime.format(TIME_FORMAT) !== _startTime.format(TIME_FORMAT) ) {
-        this.set('_startTime', newStartTime);
-        this.sendAction('onChange', 'start-time', {
-          startTime: newStartTime,
-          oldStartTime: _startTime,
-          stopTime: this.get('_stopTime'),
-          duration: this.get('_duration')
-        });
-      }
+      const _start = this.get('_start');
+      const newDateTime = moment(_start).startOf('day').add(minutes, 'minutes');
+      const startType = typeOf(this.get('start'));
+      this.attrs.onChange(
+        startType === 'string' ? newDateTime.toISOString() : newDateTime, // new value
+        startType === 'string' ? _start : moment(_start)
+      );
     },
     onDurationChange: function(minutes) {
-      this.set('_duration', minutes);
-      this.sendAction('onChange', 'duration', {
-        duration: minutes,
-        startTime: this.get('_startTime'),
-        stopTime: this.get('_stopTime')
-      });
+      const duration = this.get('duration');
+      if(this.attrs.onDurationChange) {
+        this.attrs.onDurationChange(
+          minutes,  // new
+          duration  // old
+        );
+      } else {
+        debug(`duration changed from "${duration}" to "${minutes}" but the container did not have a "onDurationChange" action handler.`);
+      }
     },
   }
 });

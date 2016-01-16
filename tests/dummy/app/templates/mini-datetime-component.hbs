@@ -5,9 +5,10 @@
 <h3>Basic Example</h3>
 
 <row>
-  <widget class="{{if containerSize 'wide'}}">
+  <widget class="wide">
     {{mini-datetime
       value='2015-05-04 14:45:00'
+      duration=60
       size=fontSize
       font=fontFamily
     }}
@@ -15,6 +16,7 @@
   <code>
     {{display-component componentName='mini-datetime'
       value='2015-05-04 14:45:00'
+      duration=60
       size=fontSize
       font=fontFamily
     }}
@@ -24,11 +26,6 @@
       This example takes a timedate string and then paints it into the space the container provides
       using CSS flexbox as the underlying layout.
     </p>
-    <p>
-      Using the button below allows you to toggle between two container sizes to provide a view on how
-      the component fills in the available space.
-    </p>
-    container size: {{ui-toggle-button on='wide' off='narrow' value=containerSize}}
   </description>
 </row>
 
@@ -54,26 +51,26 @@
 
 <h3 >Start, Stop, and Duration</h3>
 <row>
-  <widget class="{{if containerSize 'wide'}}">
+  <widget class="wide">
     {{mini-datetime
-      startTime='2015-05-04 13:34:00'
+      start='2015-05-04 13:34:00'
       duration=d1
+      showDuration=showDuration
       size=fontSize
       font=fontFamily
       ampm=ampm
       cursor=cursorString
-      showDuration=showDuration
     }}
   </widget>
   <code>
     {{display-component componentName='mini-datetime'
-      startTime='2015-05-04 13:34:00'
+      start='2015-05-04 13:34:00'
       duration=d1
+      showDuration=showDuration
       size=fontSize
       font=fontFamily
       ampm=ampm
       cursor=cursorString
-      showDuration=showDuration
     }}
   </code>
   <description>
@@ -112,39 +109,43 @@
 
 <h3>Data Down, Actions Up</h3>
 <row>
-  <widget class="{{if containerSize 'wide'}}">
+  <widget class="wide">
     {{mini-datetime
-      value='2015-05-04 13:34:00'
+      start=start
       duration=duration
-      size=fontSize
-      font=fontFamily
-      ampm=ampm
-      showDuration=showDuration
+      durationChoices=durationChoices
       disabled=disabled
-      actionSupport=actionSupport
+      editable=editable
       numDateChoices=numDateChoices
+      onTimeChange=(action 'onTimeChange')
+      onDurationChange=(action 'onDurationChange')
+      onDateChange=(action 'onDateChange')
     }}
   </widget>
   <code>
     {{display-component componentName='mini-datetime'
-      value='2015-05-04 13:34:00'
+      start=start
       duration=duration
-      size=fontSize
-      font=fontFamily
-      ampm=ampm
-      showDuration=showDuration
+      durationChoices=durationChoices
       disabled=disabled
-      actionSupport=actionSupport
+      editable=editable
       numDateChoices=numDateChoices
+      onTimeChange=(action 'onTimeChange')
+      onDurationChange=(action 'onDurationChange')
+      onDateChange=(action 'onDateChange')
     }}
   </code>
   <description>
     Disabling<br/>
     {{ui-toggle-button off='enabled' on='disabled' value=disabled}}<br/>
-    Action Support<br/>
-    {{ui-toggle-button off='off' on='on' value=actionSupport defaultValue=false}}<br/>
+    Editable<br/>
+    {{ui-toggle-button off='no' on='yes' value=editable defaultValue=true}}<br/>
     # of Date Choices<br/>
-    {{radio-buttons buttons='4,5,6' value=numDateChoices}}<br/>
+    {{radio-buttons buttons='4:::4,5:::5,6:::6,auto' value=numDateChoices}}<br/>
+    Duration:<br/>
+    {{ui-button title='add durations' action=(action 'changeDuration' 'add')}}
+    {{ui-button title='remove durations' action=(action 'changeDuration' 'remove')}}
+
   </description>
 </row>
 

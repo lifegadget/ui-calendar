@@ -1,51 +1,114 @@
 import Ember from 'ember';
 const { keys, create } = Object; // jshint ignore:line
-const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, set, inject, isEmpty} = Ember;  // jshint ignore:line
+const { RSVP: {Promise} } = Ember; // jshint ignore:line
+const { inject: {service} } = Ember; // jshint ignore:line
+const { computed, observer, $, run, on, typeOf, isPresent } = Ember;  // jshint ignore:line
+const { defineProperty, get, set, inject, isEmpty, merge } = Ember; // jshint ignore:line
+const a = Ember.A; // jshint ignore:line
 
 import layout from '../templates/components/mini-date-change';
 import moment from 'moment';
 
 export default Ember.Component.extend({
   layout: layout,
+
   classNames: ['ui-calendar', 'mini-date-change', 'noselect', 'floater'],
-  classNameBindings: ['_inSync:in-sync'],
+  classNameBindings: ['_hasChanged:has-changed'],
 
   // The containers input can be a moment object or a string of the form of 'YYYY-MM-DD HH:MM:SS'
-  datetime: computed.alias('value'),
+  date: computed.alias('value'),
+  init() {
+    this._super(...arguments);
+    this.set('initialValue', this.get('_value'));
+    run.schedule('afterRender', () => {
+      this._calcAutoChoiceNumber();
+      this.onResize = run.bind(this, 'resize');
+      $(window).on('resize', this.onResize);
+    });
+  },
+  onResize() {
+    this._calcAutoChoiceNumber();
+  },
+  _calcAutoChoiceNumber() {
+    const widgetWidth = $(`#${this.get('elementId')}`).innerWidth();
+
+    this.set('_autoChoiceNumber', Math.floor(widgetWidth / 60));
+  },
+  // ensures the internal represenation is a string and provides
+  // one-way decoupling with container
   value: null,
-  _initialValue: on('init', observer('value',function() {
-    this.set('initialValue', this.get('_value').clone());
-  })),
   _value: computed('value', {
-    set(_,value) {
-      if(typeOf(value) !== 'instance' && value._isAMomentObject) {
-        debug('value was set to a scalar value and it should be set to a moment object: ' + value);
-      }
+    set(_, value) {
+      console.log('set value: ', value);
       return value;
     },
     get() {
-      const value = this.get('value');
-      return value ? moment(value) : moment();
+      const {value} = this.getProperties('value');
+      if (!value) {
+        let defaultValue = this._defaultValue();
+        this.attrs.onChange(defaultValue, null);
+        return defaultValue;
+      } else {
+        return typeOf(value) === 'object' ? value.format('YYYY-MM-DD') : value;
+      }
     }
   }),
-  numDateChoices: 4,
-
+  _defaultValue() {
+    const {defaultValue} = this.getProperties('defaultValue');
+    let value;
+    if (defaultValue) {
+      if(typeOf(defaultValue) === 'object') {
+        value = defaultValue.format('YYYY-MM-DD');
+      } else if (defaultValue.indexOf('-') !== -1) {
+        value = defaultValue;
+      } else if (defaultValue === 'yesterday') {
+        value = moment().subtract(1,'day').format('YYYY-MM-DD');
+      } else if (defaultValue === 'today') {
+        value = moment().format('YYYY-MM-DD');
+      } else if (defaultValue === 'tomorrow') {
+        value = moment().add(1,'day').format('YYYY-MM-DD');
+      } else {
+        console.warn(`The date format sent to mini-date-change's "defaultValue" was invalid: `, defaultValue);
+        value = moment().startOf('day').format('YYYY-MM-DD');
+      }
+    } else {
+      value = moment().format('YYYY-MM-DD').startOf('day');
+    }
+    return value;
+  },
+  today: computed(function() {
+    return moment().format('YYYY-MM-DD');
+  }),
   // is component's internal value equal to the containers value
-  _inSync: computed('value', '_value', function() {
-    let {value,_value} = this.getProperties('value','_value');
-    if(typeOf(value) !== 'instance') {
-      value = moment(value);
-    }
-
-    return value.format('YYYY-MM-DD HH:MM:SS') === _value.format('YYYY-MM-DD HH:MM:SS');
+  _hasChanged: computed('initialValue', '_value', function() {
+    return this.get('initialValue') === this.get('_value');
   }),
+  // DATE RANGES
+  numDateChoices: 4,
+  _numDateChoices: computed('numDateChoices', '_autoChoiceNumber', function() {
+    const {numDateChoices, _autoChoiceNumber} = this.getProperties('numDateChoices', '_autoChoiceNumber');
+    return typeOf(numDateChoices) === 'number' ? numDateChoices : _autoChoiceNumber;
+  }),
+  rangeToValuePosition: 'start', // [start, middle, end]
   _dateRangeOffset: 0,
-  _dateRange: computed('value','_dateRangeOffset', 'numDateChoices', function() {
-    const {initialValue, numDateChoices, _dateRangeOffset} = this.getProperties('initialValue','numDateChoices', '_dateRangeOffset');
-    const offsetDays = _dateRangeOffset * numDateChoices;
-    let dates = new A([]);
-    for(var i=0; i < numDateChoices; i++) {
-      dates.pushObject(initialValue.clone().add(offsetDays + i, 'days'));
+  _dateRangeOrigin: computed('rangeToValuePosition', '_defaultValue', function() {
+    const {rangeToValuePosition, initialValue, _numDateChoices} = this.getProperties('rangeToValuePosition', 'initialValue', '_numDateChoices');
+    switch(rangeToValuePosition) {
+      case 'start':
+        return initialValue;
+      case 'end':
+        return moment(initialValue).subtract(_numDateChoices).format('YYYY-MM-DD');
+      case 'middle':
+        return moment(initialValue).subtract(Math.round(_numDateChoices/2)).format('YYYY-MM-DD');
+    }
+  }),
+  dateRange: computed('_dateRangeOffset', '_numDateChoices', '_dateRangeOrigin', function() {
+    const {_numDateChoices, _dateRangeOffset, initialValue} = this.getProperties('_numDateChoices', '_dateRangeOffset', 'initialValue');
+    const dates = a();
+    const startDate = moment(initialValue).add(_dateRangeOffset * _numDateChoices, 'days');
+    for(var i=0; i < _numDateChoices; i++) {
+      dates.pushObject(startDate.format('YYYY-MM-DD'));
+      startDate.add(1, 'day');
     }
 
     return dates;
@@ -58,11 +121,18 @@ export default Ember.Component.extend({
       this.set('_dateRangeOffset', this.get('_dateRangeOffset') - 1);
     },
     dateChosen(action,value) {
-      if (action === 'values') {
-        let [yyyy,mm,dd] = value[0].split('-');
-        let newValue = this.get('_value').clone().year(yyyy).month(mm).date(dd);
-        this.set('_value', newValue);
-        this.sendAction('onDateChange', newValue.format('YYYY'), newValue.format('MM'), newValue.format('DD'));
+      value = value[0];
+      // INITIAL VALUE
+
+      if (action === 'values' && value !== this.get('_value')) {
+        const oldValue = this.get('value');
+        const responseType = typeOf(this.get('value'));
+        const response = [
+          responseType === 'object' ? moment(value).startOf('day') : value, // new value
+          responseType === 'object' ? moment(oldValue).startOf('day') : oldValue // old value
+        ];
+
+        this.attrs.onChange(...response);
       }
     }
   }
