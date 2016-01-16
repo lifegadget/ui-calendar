@@ -13,7 +13,7 @@
     "moment": ">= 2.8.0",
     "jquery": "1.11.3",
     "moment-timezone": ">= 0.1.0",
-    "seiyria-bootstrap-slider": "~5.2.6"
+    "seiyria-bootstrap-slider": "~6.0.6"
   },
   "devDependencies": {
     "loader.js": "ember-cli/loader.js#3.4.0",
