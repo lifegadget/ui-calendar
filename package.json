@@ -1,6 +1,6 @@
 {
   "name": "ui-calendar",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Date and time based controls for ambition Ember applications.",
   "directories": {
     "doc": "doc",
@@ -68,7 +68,7 @@
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-stylist": "^0.1.0",
     "ember-truth-helpers": "^1.2.0",
-    "ui-ember-slider": "0.3.1"
+    "ui-ember-slider": "^0.3.2"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
