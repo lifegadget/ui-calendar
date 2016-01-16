@@ -111,7 +111,7 @@ export default Ember.Component.extend(SharedStylist,{
       const newDateTime = moment(date).startOf('day').add(this.get('_startMinutes'), 'minutes');
       const startType = typeOf(this.get('start'));
       const _start = this.get('_start');
-      this.attrs.onDateChange(
+      this.attrs.onChange(
         startType === 'string' ? newDateTime.toISOString() : newDateTime, // new value
         startType === 'string' ? _start : moment(_start)
       );
@@ -120,7 +120,7 @@ export default Ember.Component.extend(SharedStylist,{
       const _start = this.get('_start');
       const newDateTime = moment(_start).startOf('day').add(minutes, 'minutes');
       const startType = typeOf(this.get('start'));
-      this.attrs.onTimeChange(
+      this.attrs.onChange(
         startType === 'string' ? newDateTime.toISOString() : newDateTime, // new value
         startType === 'string' ? _start : moment(_start)
       );

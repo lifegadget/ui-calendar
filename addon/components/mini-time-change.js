@@ -123,6 +123,7 @@ export default Ember.Component.extend({
     decreaseTime: function() {
       let minutes = this.get('_shadowTime') - this.get('chevronStep');
       this.set('_shadowTime', minutes);
+      this.attrs.onTimeChange(minutes);
     },
     onDurationChange: function(action, value) {
       value = value[0];
