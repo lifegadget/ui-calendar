@@ -31,9 +31,8 @@ export default Ember.Component.extend({
   },
   _calcAutoChoiceNumber() {
     const widgetWidth = $(`#${this.get('elementId')}`).innerWidth();
-    console.log('widget width: ', widgetWidth);
 
-    this.set('_autoChoiceNumber', Math.floor(widgetWidth / 58));
+    this.set('_autoChoiceNumber', Math.floor(widgetWidth / 60));
   },
   // ensures the internal represenation is a string and provides
   // one-way decoupling with container
@@ -132,6 +131,7 @@ export default Ember.Component.extend({
           responseType === 'object' ? moment(value).startOf('day') : value, // new value
           responseType === 'object' ? moment(oldValue).startOf('day') : oldValue // old value
         ];
+
         this.attrs.onChange(...response);
       }
     }

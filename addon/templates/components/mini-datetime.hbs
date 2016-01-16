@@ -1,23 +1,23 @@
-<div class="mini-datetime {{if actionSupport 'action-support'}} {{_size}} {{if disabled 'disabled' 'enabled'}}">
+<div class="mini-datetime {{if editable 'action-support'}} {{_size}} {{if disabled 'disabled' 'enabled'}}">
   <div class="display date {{if changingDate 'changing-date'}}" {{action 'changeDate'}}>
-    <div class="dow">{{moment-format _startTime 'dddd'}}</div>
-    <div class="dom">{{moment-format _startTime 'DD'}}</div>
-    <div class="month">{{moment-format _startTime 'MMMM'}}</div>
+    <div class="dow">{{moment-format _start 'dddd'}}</div>
+    <div class="dom">{{moment-format _start 'DD'}}</div>
+    <div class="month">{{moment-format _start 'MMMM'}}</div>
   </div>
   <div class="display time {{if changingTime 'changing-time'}}"
     {{action 'changeTime'}}>
     <div class="pad vertical"></div>
     <div class="from">
-      {{moment-format _startTime _timeFormat}}{{#if ampm}}
-      <span class="ampm">{{moment-format _startTime 'a'}}</span>{{/if}}
+      {{moment-format _start _timeFormat}}{{#if ampm}}
+      <span class="ampm">{{moment-format _start 'a'}}</span>{{/if}}
     </div>
     {{#if durationIsSet}}
     <div class="to">
       {{#if showDuration}}
-        for {{_durationPretty}}
+        for {{durationPretty}}
       {{else}}
-        until&nbsp;<span class="stop-time">{{moment-format _stopTime _timeFormat}}</span>
-        {{#if ampm}}<span class="ampm dim">{{moment-format _stopTime 'a'}}</span>{{/if}}
+        until&nbsp;<span class="stop-time">{{moment-format _stop _timeFormat}}</span>
+        {{#if ampm}}<span class="ampm dim">{{moment-format _stop 'a'}}</span>{{/if}}
       {{/if}}
     </div>
     {{/if}}
@@ -25,24 +25,23 @@
   </div>
 </div>
 
-{{#if actionSupport}}
+{{#if editable}}
   <div class="change-actions">
     {{#if changingDate}}
       {{mini-date-change
         value=value
         size=size
-        stopTime=stopTime
-        onDateChange='onDateChange'
+        onChange=(action 'onDateChange')
         numDateChoices=numDateChoices
       }}
     {{/if}}
     {{#if changingTime}}
       {{mini-time-change
-        time=value
-        hideDuration=hideDuration
-        duration=_duration
-        onTimeChange='onTimeChange'
-        onDurationChange='onDurationChange'
+        value=_startMinutes
+        durationChoices=durationChoices
+        duration=duration
+        onTimeChange=(action 'onTimeChange')
+        onDurationChange=(action 'onDurationChange')
       }}
     {{/if}}
   </div>

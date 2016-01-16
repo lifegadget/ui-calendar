@@ -15,30 +15,22 @@ export default Ember.Component.extend({
    * The time interval choices available in UI, if
    * null or false UI will not display duration at all
    */
-  durationChoices: [30,45,60,90,120],
-  _durationChoices: computed(function() {
+  durationChoices: [30,45,60,90],
+  _durationChoices: computed('durationChoices', function() {
     let choices = this.get('durationChoices');
     if(typeOf(choices) === 'string') {
       choices = choices.split(',');
     }
 
-    return typeOf(choices) !== 'array' ? false : choices.map( choice => {
+    return typeOf(choices) !== 'array' ? false : a(choices.map( choice => {
       return typeOf(choice) === 'object' ? choice : { title: `${choice}m`, value: Number(choice) };
-    });
+    }));
   }),
   duration: null,
-  _duration: computed('duration', {
-    set(_, value) {
-      // return value;
-      return this.get('duration');
-    },
-    get() {
-      return this.get('duration');
-    }
-  }),
   /**
    * The current time that was set by the container
    */
+  value: computed.alias('time'),
   time: null,
   _time: computed('time', function() {
     const {time, _start, _end, midPoint, timeDefault} = this.getProperties('time', 'midPoint', 'timeDefault');
@@ -48,7 +40,7 @@ export default Ember.Component.extend({
         center: midPoint,
         right: _end
       };
-      this.attr.onTimeChange(suggestedTime[timeDefault]);
+      this.attrs.onTimeChange(suggestedTime[timeDefault]);
     }
     else if(typeOf(time) === 'number') {
       return time;
@@ -108,7 +100,7 @@ export default Ember.Component.extend({
   ticks: '720', // default to a tick at 12 noon
 
   tooltip(value) {
-    return moment().startOf('day').add(value + 1, 'minutes').format('h:mm a');
+    return moment().startOf('day').add(value, 'minutes').format('h:mm a');
   },
   minedOut: computed('_start', '_shadowTime', function() {
     const {_start, _shadowTime} = this.getProperties('_start', '_shadowTime');
@@ -132,9 +124,13 @@ export default Ember.Component.extend({
       let minutes = this.get('_shadowTime') - this.get('chevronStep');
       this.set('_shadowTime', minutes);
     },
-    onDurationChange: function(action, values) {
-      if(action === 'values') {
-        this.attrs.onDurationChange(values[0]);
+    onDurationChange: function(action, value) {
+      value = value[0];
+      if(action === 'values' && value !== this.get('duration')) {
+        this.attrs.onDurationChange(
+          value,
+          this.get('duration')
+        );
       }
     },
   }

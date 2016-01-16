@@ -5,7 +5,7 @@
 <h3>Basic Example</h3>
 
 <row>
-  <widget class="{{if containerSize 'wide'}}">
+  <widget class="wide">
     {{mini-time-change
       time=myTime
       start='9:00'
@@ -39,9 +39,8 @@
     </p>
     <hr/>
     <p class='downer'>
-      Note that this control uses <i>flexbox</i> for layout and will horizontally use all of the space given it. You can see this by using the button below to vary the container size.
+      Note that this control uses <i>flexbox</i> for layout and will horizontally use all of the space given it.
     </p>
-    container size: {{ui-toggle-button on='wide' off='narrow' value=containerSize}}
   </description>
 </row>
 

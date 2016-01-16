@@ -5,7 +5,7 @@
   {{#if _value}}
     {{#radio-buttons
       stretch=true
-      changed='dateChosen'
+      changed=(action 'dateChosen')
       as |group|
     }}
       {{#each dateRange as |dateChoice|}}

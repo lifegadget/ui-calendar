@@ -22,8 +22,7 @@
 </div>
 
 {{! BOTTOM ROW }}
-{{#if hideDuration}}
-{{else}}
+{{#if (gt _durationChoices.length 0)}}
 <div class="duration">
   {{radio-buttons
     value=_duration

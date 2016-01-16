@@ -10,5 +10,27 @@ export default Ember.Controller.extend({
   fontFamily: 'inherit',
   ampm: true,
   disabled: false,
-  actionSupport: true
+  editable: true,
+  actionSupport: true,
+  durationChoices: [15,30,45,60,90,120],
+  start: '2016-01-10 12:00:00',
+
+  actions: {
+    onTimeChange(datetime) {
+      this.set('start', datetime);
+    },
+    onDurationChange(duration) {
+      this.set('duration', duration);
+    },
+    onDateChange(datetime) {
+      this.set('start', datetime);
+    },
+    changeDuration(direction) {
+      const o = {
+        add: [15,30,45,60,90,120],
+        remove: false
+      };
+      this.set('durationChoices', o[direction]);
+    }
+  }
 });
