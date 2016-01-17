@@ -22,9 +22,6 @@ export default Ember.Controller.extend({
     onDurationChange(duration) {
       this.set('duration', duration);
     },
-    onDateChange(datetime) {
-      this.set('start', datetime);
-    },
     changeDuration(direction) {
       const o = {
         add: [15,30,45,60,90,120],
