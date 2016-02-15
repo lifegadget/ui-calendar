@@ -1,12 +1,8 @@
 import Ember from 'ember';
 import moment from 'moment';
 import SharedStylist from 'ember-cli-stylist/mixins/shared-stylist';
-const TIME_FORMAT = 'HH:mm:ss';
 const { keys, create } = Object; // jshint ignore:line
 const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, set, inject, isEmpty} = Ember;  // jshint ignore:line
-const specifyMinuteOffset = (day, minutes) => {
-  return day ? day.clone().startOf('day').add(minutes, 'minutes') : null;
-};
 
 import layout from '../templates/components/mini-datetime';
 
