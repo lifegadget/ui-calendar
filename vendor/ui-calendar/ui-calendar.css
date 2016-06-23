@@ -1,7 +1,44 @@
 /* FLEXBOX */
+.ui-calendar .flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.ui-calendar .flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-calendar .fit {
+  display: flex;
+  flex: 0 0;
+}
+
+.ui-calendar .fill {
+  display: flex;
+  flex: 1 0;
+}
+
+.ui-calendar .flex {
+  display: flex;
+}
+
+.ui-calendar .align-start {
+  align-items: flex-start;
+}
+.ui-calendar .align-end {
+  align-items: flex-end;
+}
+.ui-calendar .align-baseline {
+  align-items: baseline;
+}
+
 .mini-datetime {
   display: flex;
 }
+
+
 .mini-datetime .display.date,
 .mini-datetime .display.time {
   display: flex;
@@ -28,10 +65,22 @@
   align-items: center;
 }
 
-.mini-date-change > div.side {
+.mini-date-change div.side {
   display: flex;
-  flex-shrink: 1;
+  flex: 0 0;
+  font-size: 2rem;
 }
+
+.mini-date-change div.left-side {
+  padding-left: 3px;
+  padding-right: 8px;
+}
+
+.mini-date-change div.right-side {
+  padding-left: 8px;
+  padding-right: 3px;
+}
+
 .mini-date-change > div.date-range {
   display: flex;
   flex: 4 0;
@@ -210,9 +259,10 @@
   justify-content: space-between;
 }
 
-.ui-calendar .incrementer {
-  padding-top: 1px;
+.incrementer {
+  font-size: 2rem;
 }
+
 .ui-calendar .incrementer.maxed-out > i {
   padding-top: 1px;
   cursor: not-allowed;
@@ -239,5 +289,38 @@
     rgba(232, 230, 230, 0.35) 10px,
     rgba(232, 230, 230, 0.35) 20px
   ),
+}
 
+@keyframes bumpRight {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  70% {
+    transform: translate3d(25%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+.ui-calendar-bump-right {
+  animation-name: bumpRight;
+}
+
+@keyframes bumpLeft {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  70% {
+    transform: translate3d(-25%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+.ui-calendar-bump-left {
+  animation-name: bumpLeft;
 }

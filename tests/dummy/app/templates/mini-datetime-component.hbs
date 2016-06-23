@@ -1,8 +1,8 @@
 {{#demo-css}}
-<h3 class="title"><b>Component</b>::mini-datetime</h3>
+<h1>datetime component</h1>
 <desc>A lightweight component for displaying both date and time in a relatively small screen real estate.</desc>
 
-<h3>Basic Example</h3>
+{{!-- <h3>Basic Example</h3>
 
 <row>
   <widget class="wide">
@@ -43,8 +43,22 @@
     of <css>.size-XXX</css> and <css>.font-YYY</css> respectively.
   </column>
   <column>
-    size: {{radio-buttons buttons='tiny,small,default,large,huge' value=fontSize defaultValue='normal' size='small'}}<br/>
-    family: {{radio-buttons buttons='inherit,fantasy,monospace,cursive,serif,sans-serif' value=fontFamily defaultValue='inherit' size='small'}}<br/>
+    size:
+    {{ui-buttons
+      buttons='tiny,small,default,large,huge'
+      value=fontSize
+      defaultValue='normal'
+      size='small'
+      onChange=(mut fontSize)
+    }}<br/>
+    family:
+    {{ui-buttons
+      buttons='inherit,fantasy,monospace,cursive,serif,sans-serif'
+      value=fontFamily
+      defaultValue='inherit'
+      size='small'
+      onChange=(mut fontFamily)
+    }}<br/>
   </column>
 </row>
 
@@ -76,20 +90,20 @@
   <description>
    <div class="row">
      <div class="col-xs-4">Ending Style:</div>
-     <div class="col-xs-8">{{radio-buttons buttons='stop time:::null,duration:::true' value=showDuration size='small' stretch=true defaultValue=true}}</div>
+     <div class="col-xs-8">{{ui-buttons buttons='stop time:::null,duration:::true' value=showDuration size='small' stretch=true defaultValue=true onChange=(mut showDuration)}}</div>
    </div>
    <div class="row">
      <div class="col-xs-4">Duration:</div>
-     <div class="col-xs-8">{{radio-buttons buttons='0:::0,30:::30,60:::60,90:::90' value=d1 size='small' stretch=true}}</div>
+     <div class="col-xs-8">{{ui-buttons buttons='0:::0,30:::30,60:::60,90:::90' value=d1 size='small' stretch=true onChange=(mut d1)}}</div>
    </div>
    <div class="row">
       <div class="col-xs-5">
         Time Format<br/>
-      {{ui-toggle-button off='24hr time' on='am/pm' value=ampm size='small'}}<br/>
+      {{ui-toggle-button off='24hr time' on='am/pm' value=ampm size='small' onToggle=(mut ampm)}}<br/>
       </div>
       <div class="col-xs-7">
         Cursor<br/>
-        {{ui-toggle-button off='default' on='not-allowed' value=cursor size='small'}}<br/>
+        {{ui-toggle-button off='default' on='not-allowed' value=cursor size='small' onToggle=(mut cursor)}}<br/>
       </div>
     </div>
 
@@ -105,9 +119,9 @@
 <desc>
   In addition to providing two interfaces, the user interface can also be asked to display the secondary date information as a <em>duration</em> or a concluding <em>time</em>. The components attempts to be smart by mimicking the input format to the user interface for intra-day durations. For any multi-day durations the
   component switches to <em>duration </em> mode.
-</desc>
+</desc> --}}
 
-<h3>Data Down, Actions Up</h3>
+<h3>Demo</h3>
 <row>
   <widget class="wide">
     {{mini-datetime
@@ -117,7 +131,7 @@
       disabled=disabled
       editable=editable
       numDateChoices=numDateChoices
-      onChange=(action 'onTimeChange')
+      onDateChange=(mut start)
       onDurationChange=(action 'onDurationChange')
     }}
   </widget>
@@ -135,14 +149,31 @@
   </code>
   <description>
     Disabling<br/>
-    {{ui-toggle-button off='enabled' on='disabled' value=disabled}}<br/>
+    {{ui-toggle-button off='enabled' on='disabled' value=disabled onToggle=(mut disabled)}}<br/>
     Editable<br/>
-    {{ui-toggle-button off='no' on='yes' value=editable defaultValue=true}}<br/>
+    {{ui-toggle-button off='no' on='yes' value=editable defaultValue=true onToggle=(mut editable)}}<br/>
     # of Date Choices<br/>
-    {{radio-buttons buttons='4:::4,5:::5,6:::6,auto' value=numDateChoices}}<br/>
+    {{ui-buttons
+      name='number-of-date-choices'
+      buttons='4:::4,5:::5,7:::7,auto'
+      values=numDateChoices
+      onChange=(mut numDateChoices)
+      cardinality='1:1'
+    }}
+    <br/>
     Duration:<br/>
-    {{ui-button title='add durations' action=(action 'changeDuration' 'add')}}
-    {{ui-button title='remove durations' action=(action 'changeDuration' 'remove')}}
+    {{ui-toggle-button
+      on='add'
+      off='remove'
+      onTitle='add durations'
+      offTitle='remove durations'
+      value=showDuration
+      onToggle=(action 'changeDuration' value)
+    }}
+    {{ui-button
+      title='remove durations'
+      onChange=(action 'changeDuration' 'remove')
+    }}
 
   </description>
 </row>

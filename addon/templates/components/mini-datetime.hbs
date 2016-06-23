@@ -29,7 +29,7 @@
   <div class="change-actions">
     {{#if changingDate}}
       {{mini-date-change
-        value=value
+        datetime=value
         size=size
         onChange=(action 'onDateChange')
         numDateChoices=numDateChoices
@@ -37,11 +37,11 @@
     {{/if}}
     {{#if changingTime}}
       {{mini-time-change
-        value=_startMinutes
+        value=startTime
         durationChoices=durationChoices
         duration=duration
         onTimeChange=(action 'onTimeChange')
-        onDurationChange=(action 'onDurationChange')
+        onDurationChange=(mut duration)
       }}
     {{/if}}
   </div>

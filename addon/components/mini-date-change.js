@@ -9,14 +9,12 @@ const a = Ember.A; // jshint ignore:line
 import layout from '../templates/components/mini-date-change';
 import moment from 'moment';
 
-export default Ember.Component.extend({
+const dateChange = Ember.Component.extend({
   layout: layout,
 
   classNames: ['ui-calendar', 'mini-date-change', 'noselect', 'floater'],
   classNameBindings: ['_hasChanged:has-changed'],
 
-  // The containers input can be a moment object or a string of the form of 'YYYY-MM-DD HH:MM:SS'
-  date: computed.alias('value'),
   init() {
     this._super(...arguments);
     this.set('initialValue', this.get('_value'));
@@ -34,6 +32,8 @@ export default Ember.Component.extend({
 
     this.set('_autoChoiceNumber', Math.floor(widgetWidth / 60));
   },
+
+  date: computed.alias('value'),
   // ensures the internal represenation is a string and provides
   // one-way decoupling with container
   value: null,
@@ -43,39 +43,41 @@ export default Ember.Component.extend({
       return value;
     },
     get() {
-      const {value} = this.getProperties('value');
-      if (!value) {
-        let defaultValue = this._defaultValue();
-        this.attrs.onChange(defaultValue, null);
-        return defaultValue;
-      } else {
-        return typeOf(value) === 'object' ? value.format('YYYY-MM-DD') : value;
-      }
+      return this.get('value');
     }
+    //   const {value} = this.getProperties('value');
+    //   if (!value) {
+    //     let defaultValue = this._defaultValue();
+    //     this.attrs.onChange(defaultValue, null);
+    //     return defaultValue;
+    //   } else {
+    //     return typeOf(value) === 'object' ? value.format('YYYY-MM-DD') : value;
+    //   }
+    // }
   }),
-  _defaultValue() {
-    const {defaultValue} = this.getProperties('defaultValue');
-    let value;
-    if (defaultValue) {
-      if(typeOf(defaultValue) === 'object') {
-        value = defaultValue.format('YYYY-MM-DD');
-      } else if (defaultValue.indexOf('-') !== -1) {
-        value = defaultValue;
-      } else if (defaultValue === 'yesterday') {
-        value = moment().subtract(1,'day').format('YYYY-MM-DD');
-      } else if (defaultValue === 'today') {
-        value = moment().format('YYYY-MM-DD');
-      } else if (defaultValue === 'tomorrow') {
-        value = moment().add(1,'day').format('YYYY-MM-DD');
-      } else {
-        console.warn(`The date format sent to mini-date-change's "defaultValue" was invalid: `, defaultValue);
-        value = moment().startOf('day').format('YYYY-MM-DD');
-      }
-    } else {
-      value = moment().format('YYYY-MM-DD').startOf('day');
-    }
-    return value;
-  },
+  // _defaultValue() {
+  //   const {defaultValue} = this.getProperties('defaultValue');
+  //   let value;
+  //   if (defaultValue) {
+  //     if(typeOf(defaultValue) === 'object') {
+  //       value = defaultValue.format('YYYY-MM-DD');
+  //     } else if (defaultValue.indexOf('-') !== -1) {
+  //       value = defaultValue;
+  //     } else if (defaultValue === 'yesterday') {
+  //       value = moment().subtract(1,'day').format('YYYY-MM-DD');
+  //     } else if (defaultValue === 'today') {
+  //       value = moment().format('YYYY-MM-DD');
+  //     } else if (defaultValue === 'tomorrow') {
+  //       value = moment().add(1,'day').format('YYYY-MM-DD');
+  //     } else {
+  //       console.warn(`The date format sent to mini-date-change's "defaultValue" was invalid: `, defaultValue);
+  //       value = moment().startOf('day').format('YYYY-MM-DD');
+  //     }
+  //   } else {
+  //     value = moment().format('YYYY-MM-DD').startOf('day');
+  //   }
+  //   return value;
+  // },
   today: computed(function() {
     return moment().format('YYYY-MM-DD');
   }),
@@ -84,10 +86,10 @@ export default Ember.Component.extend({
     return this.get('initialValue') === this.get('_value');
   }),
   // DATE RANGES
-  numDateChoices: 4,
   _numDateChoices: computed('numDateChoices', '_autoChoiceNumber', function() {
-    const {numDateChoices, _autoChoiceNumber} = this.getProperties('numDateChoices', '_autoChoiceNumber');
-    return typeOf(numDateChoices) === 'number' ? numDateChoices : _autoChoiceNumber;
+    let {numDateChoices, _autoChoiceNumber} = this.getProperties('numDateChoices', '_autoChoiceNumber');
+    if (!numDateChoices) { numDateChoices = 'auto'; }
+    return numDateChoices === 'auto' ?  _autoChoiceNumber : numDateChoices;
   }),
   rangeToValuePosition: 'start', // [start, middle, end]
   _dateRangeOffset: 0,
@@ -122,6 +124,7 @@ export default Ember.Component.extend({
     },
     dateChosen(action,value) {
       value = value[0];
+      console.log(action, value);
       // INITIAL VALUE
 
       if (action === 'values' && value !== this.get('_value')) {
@@ -138,3 +141,6 @@ export default Ember.Component.extend({
   }
 
 });
+
+dateChange[Ember.NAME_KEY] = 'ui-date-change';
+export default dateChange;

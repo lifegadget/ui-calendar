@@ -27,7 +27,13 @@
 </row>
 <row>
   <p>
-    Number of Choices: {{radio-buttons buttons='3:::3,4:::4,5:::5,auto' value=numDateChoices}}
+    Number of Choices:
+    {{ui-buttons
+      buttons='3:::3,4:::4,5:::5,auto'
+      value=numDateChoices
+      onChange=(mut numDateChoices)
+      cardinality="1:1"
+    }}
   </p>
 </row>
 <row>

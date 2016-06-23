@@ -1,9 +1,11 @@
 {{! TOP ROW }}
-<div class="time">
-  <div class="incrementer left decrease-time {{minedOut}}" {{action 'decreaseTime'}}>
-    {{ui-icon icon='chevron-left' size='2x'}}
+<div class="time fill">
+  <div class="incrementer side side-left fit decrease-time {{minedOut}}" {{action 'decreaseTime'}}>
+    {{#ui-animate 'ui-calendar-bump-left' event='click' duration=0.25}}
+      {{ui-icon icon='chevron-left' cursor=true fw=false}}
+    {{/ui-animate}}
   </div>
-  <div class="start-time">
+  <div class="start-time fill">
     {{ui-slider
       min=_start
       max=_end
@@ -14,21 +16,21 @@
       class='needsclick'
     }}
   </div>
-  <div class="pad flexy-item pointer">
-    <span class="incrementer right increase-time {{maxedOut}}" {{action 'increaseTime'}}>
-      {{ui-icon icon='chevron-right' size='2x'}}
-    </span>
+  <div class="incrementer side fit right-side increase-time {{maxedOut}} pointer" {{action 'increaseTime'}}>
+    {{#ui-animate 'ui-calendar-bump-right' event='click' duration=0.25}}
+      {{ui-icon icon='chevron-right' cursor=true fw=false}}
+    {{/ui-animate}}
   </div>
 </div>
 
 {{! BOTTOM ROW }}
 {{#if (gt _durationChoices.length 0)}}
 <div class="duration">
-  {{radio-buttons
-    value=_duration
+  {{ui-buttons
+    value=duration
     buttons=_durationChoices
-    changed=(action 'onDurationChange')
     stretch=true
+    onChange=(action 'onDurationChange' duration)
   }}
 </div>
 {{/if}}

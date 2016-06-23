@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('mini-time-change', 'Unit | Component | mini-time-change', {
   // Specify the other units that are required for this test
-  needs: ['component:ui-icon', 'component:radio-buttons', 'component:ui-button']
+  needs: ['component:ui-icon', 'component:ui-buttons', 'component:ui-button']
 });
 
 test('it renders', function(assert) {

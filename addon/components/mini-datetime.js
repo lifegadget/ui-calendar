@@ -1,12 +1,13 @@
 import Ember from 'ember';
 import moment from 'moment';
 import SharedStylist from 'ember-cli-stylist/mixins/shared-stylist';
+import ddau from 'ui-calendar/mixins/ddau';
 const { keys, create } = Object; // jshint ignore:line
 const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, set, inject, isEmpty} = Ember;  // jshint ignore:line
 
 import layout from '../templates/components/mini-datetime';
 
-export default Ember.Component.extend(SharedStylist,{
+const datetime = Ember.Component.extend(ddau, SharedStylist,{
   layout: layout,
   classNames: ['ui-calendar','noselect'],
   classNameBindings: ['editable:action-support','_font', '_size'],
@@ -19,7 +20,6 @@ export default Ember.Component.extend(SharedStylist,{
   showDuration: null,
   numDateChoices: 4,
   durationIsSet: computed.bool('duration'),
-
   /**
    * START (alias VALUE)
    *
@@ -27,19 +27,33 @@ export default Ember.Component.extend(SharedStylist,{
    * a momentjs object
    */
   value: computed.alias('start'),
+  datetime: computed.alias('start'),
   start: null,
-  // Internal working state is always a ISO string representation
   _start: computed('start', function() {
-    const start = this.get('start') || moment().toISOString();
-    return typeOf(start) === 'string' ? start : start.toISOString();
+    return moment(this.get('start'));
   }),
-  _startMinutes: computed('_start', function() {
-    const start = moment(this.get('_start'));
-    return start.hours() * 60 + start.minutes();
+  // Internal working state of time aspects of datetime
+  startMinutes: computed('start', {
+    set(_, value) {
+      const datetime = this.combine(this.get('startDate'), value);
+      this.ddau('onDateChange', datetime, datetime);
+      return value;
+    },
+    get() {
+      return this.getMinutes(this.get('start'));
+    }
   }),
-  _startDate: computed('_start', function() {
-    return moment(this.get('_start')).format('YYYY-MM-DD');
+  startDate: computed('start', {
+    set(_, value) {
+      const datetime = this.combine(value, this.get('startMinutes'));
+      this.ddau('onDateChange', datetime, datetime);
+      return value;
+    },
+    get() {
+      return moment(this.convertFormat(this.get('start'))).startOf('day').toISOString();
+    }
   }),
+
   /**
    * DURATION
    *
@@ -47,9 +61,9 @@ export default Ember.Component.extend(SharedStylist,{
    * that the said activity has/will be for
    */
   duration: 0,
-  _stop: computed('duration','_startTime', function() {
-    const {duration, _start} = this.getProperties('duration', '_start');
-    return moment(_start).add(duration, 'minutes').toISOString();
+  _stop: computed('duration','startTime', function() {
+    const {duration, startTime} = this.getProperties('duration', 'startTime');
+    return moment(startTime).add(duration, 'minutes').toISOString();
   }),
   _stopTime: computed('_stop', function() {
     return moment(this.get('_stop')).format('H:mm');
@@ -84,6 +98,46 @@ export default Ember.Component.extend(SharedStylist,{
       return  duration + ' minutes';
     }
   }),
+  getMinutes(datetime) {
+    const m = moment(this.convertFormat(datetime));
+    return m.hours() * 60 + m.minutes();
+  },
+  convertFormat(f) {
+    switch(typeOf(f)) {
+      case 'string':
+        this.format = f.indexOf('-') !== -1 ? 'string' : 'unix';
+        return f.indexOf('-') !== -1 ? f : moment(f).toISOString();
+      case 'object':
+        this.format = 'object';
+        return f.toISOString();
+      case 'number':
+        this.format = 'unix';
+        return moment(f).toISOString();
+
+      default:
+        debug('unknown format passed in as date/time');
+        return false;
+    }
+  },
+  convertFormatBack(o) {
+    switch(this.format) {
+      case 'string':
+        return o.toISOString();
+      case 'object':
+        return moment(o.toISOString());
+      case 'unix':
+        return o.toUnix();
+
+      default:
+        debug('can not convert back to unknown format ');
+        return false;
+    }
+  },
+  combine(date, minutes) {
+    const combined = moment(date).add('minutes', minutes);
+    // ensure in same format as container expects
+    return this.convertFormatBack(combined);
+  },
 
   // ACTIONS
   actions: {
@@ -113,24 +167,15 @@ export default Ember.Component.extend(SharedStylist,{
       );
     },
     onTimeChange: function(minutes) {
-      const _start = this.get('_start');
-      const newDateTime = moment(_start).startOf('day').add(minutes, 'minutes');
-      const startType = typeOf(this.get('start'));
-      this.attrs.onChange(
-        startType === 'string' ? newDateTime.toISOString() : newDateTime, // new value
-        startType === 'string' ? _start : moment(_start)
-      );
+      console.log('onTimeChange', minutes);
+      const combined = this.combine(this.get('startMinutes'), minutes);
+      this.ddau('onDateChange', combined, combined);
     },
     onDurationChange: function(minutes) {
-      const duration = this.get('duration');
-      if(this.attrs.onDurationChange) {
-        this.attrs.onDurationChange(
-          minutes,  // new
-          duration  // old
-        );
-      } else {
-        debug(`duration changed from "${duration}" to "${minutes}" but the container did not have a "onDurationChange" action handler.`);
-      }
+      this.ddau('onDurationChange', minutes, minutes);
     },
   }
 });
+
+datetime[Ember.NAME_KEY] = 'mini-datetime';
+export default datetime;

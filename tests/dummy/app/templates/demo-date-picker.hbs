@@ -1,0 +1,26 @@
+<h1>{{ui-label 'date-picker'}}</h1>
+<br>
+<h3>High-Level Design</h3>
+
+<p>
+  The {{ui-pill 'date-picker'}} component is a pure Ember/JS addon for choosing a date. The intent is to provide a desktop and mobile-friendly interface. The high-level components that are used to <i>compose</i> this addon are listed below.
+</p>
+<img src='/images/pick-date-rough-design.jpg' style='width:75%; max-width: 700px'/>
+
+{{yield}}
+
+<h3>Componsable Components and Dependencies</h3>
+
+<p>
+  The demos below will highlight both inline and block formats of this component. For the block component, which will provide ultimate flexibility, you may want to go to pages for the yielded component that you're using to understand its API surface.
+</p>
+<p>
+  Composable component pages:
+</p>
+<ul>
+  <li>{{ui-pill 'date-picker-input'}}</li>
+  <li>{{ui-pill 'date-picker-xxx-display'}}</li>
+  <li>{{ui-pill 'date-picker-xxx-view'}}</li>
+</ul>
+
+<h3>Demo</h3>

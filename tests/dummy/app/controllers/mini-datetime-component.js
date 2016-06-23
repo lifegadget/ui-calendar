@@ -27,7 +27,8 @@ export default Ember.Controller.extend({
         add: [15,30,45,60,90,120],
         remove: false
       };
-      this.set('durationChoices', o[direction]);
+      console.log('changing dirction', direction);
+      this.set('durationChoices', o[direction || 'add']);
     }
   }
 });

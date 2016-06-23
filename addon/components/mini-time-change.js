@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import ddau from 'ui-calendar/mixins/ddau';
+
 const { keys, create } = Object; // jshint ignore:line
 const { RSVP: {Promise} } = Ember; // jshint ignore:line
 const { inject: {service} } = Ember; // jshint ignore:line
@@ -8,7 +10,7 @@ const a = Ember.A; // jshint ignore:line
 import layout from '../templates/components/mini-time-change';
 import moment from 'moment';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ddau, {
   layout: layout,
   classNames: ['ui-calendar','mini-time-change', 'noselect', 'floater'],
   /**
@@ -113,7 +115,7 @@ export default Ember.Component.extend({
 
   actions: {
     timeChanged: function(value) {
-      this.attrs.onTimeChange(value);
+      this.ddau('onTimeChange', value, value);
     },
     increaseTime: function() {
       let minutes = this.get('_shadowTime') + this.get('chevronStep');
@@ -126,12 +128,14 @@ export default Ember.Component.extend({
       this.attrs.onTimeChange(minutes);
     },
     onDurationChange: function(action, value) {
-      value = value[0];
-      if(action === 'values' && value !== this.get('duration')) {
-        this.attrs.onDurationChange(
-          value,
-          this.get('duration')
-        );
+      // value = value[0];
+      console.log(value);
+      if(value.values[0] !== this.get('duration')) {
+        if (this.attrs.onDurationChange && this.attrs.onDurationChange.update) {
+          this.attrs.onDurationChange.update(value.values[0]);
+        } else {
+          this.attrs.onDurationChange(value.values[0]);
+        }
       }
     },
   }

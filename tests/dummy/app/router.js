@@ -9,6 +9,7 @@ Router.map(function() {
   this.route('mini-datetime-component');
   this.route('demo-mini-time-change');
   this.route('demo-mini-date-change');
+  this.route('demo-date-picker');
 });
 
 export default Router;
