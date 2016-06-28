@@ -30,7 +30,10 @@
   {{/if}}
 </div>
 <div class="incrementer side right-side increase-date-range" onclick={{action 'increaseDateRange'}}>
-  {{#ui-animate 'ui-calendar-bump-right' event='click' duration=0.35}}
+  {{#ui-animate 'ui-calendar-bump-right'
+    event='click'
+    duration=0.35
+  }}
     {{ui-icon icon='chevron-right' cursor=true fw=false}}
   {{/ui-animate}}
 </div>

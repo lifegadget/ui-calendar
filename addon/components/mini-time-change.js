@@ -42,7 +42,7 @@ export default Ember.Component.extend(ddau, {
         center: midPoint,
         right: _end
       };
-      this.attrs.onTimeChange(suggestedTime[timeDefault]);
+      this.ddau('onTimeChange', suggestedTime[timeDefault], suggestedTime[timeDefault]);
     }
     else if(typeOf(time) === 'number') {
       return time;
@@ -99,7 +99,21 @@ export default Ember.Component.extend(ddau, {
     return this.get('intervals') / 2;
   }),
   timeDefault: 'center', // if time is not set, then event fired to move it to middle of range [left, center, right]
-  ticks: '720', // default to a tick at 12 noon
+  ticks: computed(() => ['0:00', '6:00', '12:00', '18:00', '23:59']),
+  tickLabels: computed(() => ['', '6am','Noon', '6pm', '']),
+  // parses CSV or array ticks input
+  // returns a numeric values based on
+  // configuration
+  _ticks: computed('ticks', 'intervals', function() {
+    const ticks = this.get('ticks');
+    const t = typeOf(ticks) === 'string' ? ticks.split(',') : ticks;
+
+    return t.map(tick => {
+      const [hours, minutes] = tick.split(':');
+      return Number(hours * 60) + Number(minutes);
+    });
+  }),
+
 
   tooltip(value) {
     return moment().startOf('day').add(value, 'minutes').format('h:mm a');
@@ -120,21 +134,16 @@ export default Ember.Component.extend(ddau, {
     increaseTime: function() {
       let minutes = this.get('_shadowTime') + this.get('chevronStep');
       this.set('_shadowTime', minutes);
-      this.attrs.onTimeChange(minutes);
+      this.ddau('onTimeChange', minutes, minutes);
     },
     decreaseTime: function() {
       let minutes = this.get('_shadowTime') - this.get('chevronStep');
       this.set('_shadowTime', minutes);
-      this.attrs.onTimeChange(minutes);
+      this.ddau('onTimeChange', minutes, minutes);
     },
     onDurationChange: function(action, value) {
-      console.log(value);
       if(value.values[0] !== this.get('duration')) {
-        if (this.attrs.onDurationChange && this.attrs.onDurationChange.update) {
-          this.attrs.onDurationChange.update(value.values[0]);
-        } else {
-          this.attrs.onDurationChange(value.values[0]);
-        }
+        this.ddau('onDurationChange', value.values[0],value.values[0]);
       }
     },
   }

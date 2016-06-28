@@ -114,7 +114,6 @@ const dateChange = Ember.Component.extend(ddau, {
       this.set('_dateRangeOffset', this.get('_dateRangeOffset') - 1);
     },
     dateChosen(hash) {
-      console.log(hash);
       const newValue = hash.value;
       const oldValue = hash.oldValues ? hash.oldValues[0] : undefined;
 

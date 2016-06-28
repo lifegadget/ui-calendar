@@ -4,7 +4,7 @@ const { keys, create } = Object; // jshint ignore:line
 const {computed, observer, $, A, run, on, typeOf, debug, defineProperty, get, set, inject, isEmpty} = Ember;  // jshint ignore:line
 
 
-moduleForComponent('mini-datetime', 'Unit | Component | mini datetime', {
+moduleForComponent('mini-datetime', 'Unit | Component | mini-datetime', {
   // Specify the other units that are required for this test
   needs: ['helper:moment-format'],
   unit: true

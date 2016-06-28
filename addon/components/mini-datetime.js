@@ -157,22 +157,18 @@ const datetime = Ember.Component.extend(ddau, SharedStylist,{
       }
     },
     onDateChange: function(hash) {
-      console.log('hash: ', hash);
       const newDateTime = moment(hash.newValue).startOf('day').add(this.get('startMinutes'), 'minutes');
       const formatted = this.convertFormatBack(newDateTime);
-      console.log('Formatted date: ', formatted, newDateTime);
 
       this.ddau('onDateChange', formatted, formatted);
       this.ddau('onChange', formatted, formatted);
     },
     onTimeChange: function(minutes) {
-      console.log('onTimeChange', minutes);
       const combined = this.combine(this.get('startDate'), minutes);
       this.ddau('onTimeChange', combined, combined);
       this.ddau('onChange', combined, combined);
     },
     onDurationChange: function(minutes) {
-      console.log('onDurationChange', minutes);
       this.ddau('onDurationChange', minutes, minutes);
     },
   }

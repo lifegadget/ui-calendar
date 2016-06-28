@@ -1,8 +1,11 @@
 {{! TOP ROW }}
 <div class="time fill">
   <div class="incrementer side left-side fit decrease-time {{minedOut}}" {{action 'decreaseTime'}}>
-    {{#ui-animate 'ui-calendar-bump-left' event='click' duration=0.25}}
-      {{ui-icon icon='chevron-left' cursor=true fw=false}}
+    {{#ui-animate 'ui-calendar-bump-left'
+      event='click'
+      duration=0.25
+    }}
+    {{ui-icon id='left-incrementer' icon='chevron-left' cursor=true fw=false}}
     {{/ui-animate}}
   </div>
   <div class="start-time fill">
@@ -12,12 +15,17 @@
       step=step
       value=_shadowTime
       formatter=tooltip
-      changed=(action 'timeChanged')
       class='needsclick'
+      ticks=_ticks
+      ticksLabels=tickLabels
+      changed=(action 'timeChanged')
     }}
   </div>
   <div class="incrementer side fit right-side increase-time {{maxedOut}} pointer" {{action 'increaseTime'}}>
-    {{#ui-animate 'ui-calendar-bump-right' event='click' duration=0.25}}
+    {{#ui-animate 'ui-calendar-bump-right'
+      event='click'
+      duration=0.25
+    }}
       {{ui-icon icon='chevron-right' cursor=true fw=false}}
     {{/ui-animate}}
   </div>

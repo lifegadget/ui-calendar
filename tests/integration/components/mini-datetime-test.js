@@ -26,18 +26,18 @@ test('clicking time UI with actionSupport on brings up mini-change-time', functi
   assert.expect(3);
   var dateString = '2015-05-04 14:45:00';
   this.set('dateString', dateString);
-  // var minutes = getMinutes(moment(dateString));
 
   this.render(hbs`
-    {{mini-datetime value=dateString onTimeChange='onTimeChange' actionSupport=true}}
+    {{mini-datetime
+      value=dateString
+      actionSupport=true
+    }}
   `);
 
   assert.equal(this.$('.display.time').length, 1, 'PREP: .display.time selector is available');
   this.$('.display.time').click();
   run.next(()=> {
-    console.log(this.$('.mini-time-change'));
     assert.equal(this.$('.increase-time').length, 1, 'increase-time button is available');
     assert.equal(this.$('.decrease-time').length, 1, 'decrease-time button is available');
   });
-
 });
