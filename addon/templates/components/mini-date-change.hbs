@@ -10,16 +10,16 @@
       cardinality="1:1"
       value=date
       class='choose-date fill'
-      onChange=(mut date)
+      onChange=(action 'dateChosen')
       as |g|
     }}
       {{#each dateRange as |dateChoice|}}
       {{#g.button
         value=dateChoice
-        class=(concat 'fill' (if (eq today dateChoice) 'today' null) (if (weekend dateChoice) ' weekend' ' weekday'))
+        class=(concat 'fill' (if (eq today dateChoice) ' today' '') (if (weekend dateChoice) ' weekend' ' weekday'))
         size=size
       }}
-        <div class="flex-column fill">
+        <div class="choice flex-column fill">
           <span class="current-dow fit">{{moment-format dateChoice "ddd"}}</span>
           <span class="current-date fit">{{moment-format dateChoice "DD"}}</span>
           <span class="current-month fit">{{moment-format dateChoice "MMM"}}</span>

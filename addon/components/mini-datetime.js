@@ -43,22 +43,17 @@ const datetime = Ember.Component.extend(ddau, SharedStylist,{
       return this.getMinutes(this.get('start'));
     }
   }),
-  startDate: computed('start', {
-    set(_, value) {
-      const datetime = this.combine(value, this.get('startMinutes'));
-      this.ddau('onDateChange', datetime, datetime);
-      return value;
-    },
-    get() {
-      return moment(this.convertFormat(this.get('start'))).startOf('day').toISOString();
-    }
+
+  startDate: computed('start', function() {
+    const start = this.get('start');
+    return moment(start).format('YYYY-MM-DD');
   }),
 
   /**
    * DURATION
    *
-   * duration is expected to be an integer value, indicating "minutes"
-   * that the said activity has/will be for
+   * duration is expected to be an integer value, indicating
+   * "minutes" that the said activity spans
    */
   duration: 0,
   _stop: computed('duration','startTime', function() {
@@ -133,9 +128,13 @@ const datetime = Ember.Component.extend(ddau, SharedStylist,{
         return false;
     }
   },
+  /**
+   * Takes date and time as inputs and combines into a singular
+   * form for both. The format of the returned value will match
+   * the format that the container sent the data in as.
+   */
   combine(date, minutes) {
-    const combined = moment(date).add('minutes', minutes);
-    // ensure in same format as container expects
+    const combined = moment(date).add(minutes, 'minutes');
     return this.convertFormatBack(combined);
   },
 
@@ -157,21 +156,23 @@ const datetime = Ember.Component.extend(ddau, SharedStylist,{
         this.toggleProperty('changingTime');
       }
     },
-    onDateChange: function(date) {
-      const newDateTime = moment(date).startOf('day').add(this.get('_startMinutes'), 'minutes');
-      const startType = typeOf(this.get('start'));
-      const _start = this.get('_start');
-      this.attrs.onChange(
-        startType === 'string' ? newDateTime.toISOString() : newDateTime, // new value
-        startType === 'string' ? _start : moment(_start)
-      );
+    onDateChange: function(hash) {
+      console.log('hash: ', hash);
+      const newDateTime = moment(hash.newValue).startOf('day').add(this.get('startMinutes'), 'minutes');
+      const formatted = this.convertFormatBack(newDateTime);
+      console.log('Formatted date: ', formatted, newDateTime);
+
+      this.ddau('onDateChange', formatted, formatted);
+      this.ddau('onChange', formatted, formatted);
     },
     onTimeChange: function(minutes) {
       console.log('onTimeChange', minutes);
-      const combined = this.combine(this.get('startMinutes'), minutes);
-      this.ddau('onDateChange', combined, combined);
+      const combined = this.combine(this.get('startDate'), minutes);
+      this.ddau('onTimeChange', combined, combined);
+      this.ddau('onChange', combined, combined);
     },
     onDurationChange: function(minutes) {
+      console.log('onDurationChange', minutes);
       this.ddau('onDurationChange', minutes, minutes);
     },
   }

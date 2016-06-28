@@ -128,7 +128,6 @@ export default Ember.Component.extend(ddau, {
       this.attrs.onTimeChange(minutes);
     },
     onDurationChange: function(action, value) {
-      // value = value[0];
       console.log(value);
       if(value.values[0] !== this.get('duration')) {
         if (this.attrs.onDurationChange && this.attrs.onDurationChange.update) {

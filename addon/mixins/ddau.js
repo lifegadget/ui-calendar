@@ -9,7 +9,7 @@ export default Ember.Mixin.create({
    * @return {boolean}        Pass back true if `mut` not used; if used then proxies mut's response back
    */
   ddau(action, hash, value) {
-    console.log(action, hash, value);
+    console.log(`action: ${action}\nvalue: ${value}`);
     if (this.attrs[action] && this.attrs[action].update) {
       this.attrs[action].update(value);
       return true;

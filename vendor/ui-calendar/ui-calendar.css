@@ -89,6 +89,14 @@
   padding-left: 0;
   padding-right: 0;
 }
+
+div.date-range .choice {
+  height: 100%;
+}
+div.date-range .current-date {
+  font-size: 1.3rem;
+}
+
 /* FLOATERS */
 .ui-calendar.floater {
   top: 10px;
@@ -134,6 +142,7 @@
 }
 .mini-datetime .date .dom {
   font-size: 3em;
+  padding: 0.15em;
 }
 .mini-datetime .date .month {
   border-top: 1px solid lightgrey;
@@ -263,6 +272,13 @@
   font-size: 2rem;
 }
 
+.incrementer.left-side {
+  padding: 0 0.5em 0 0;
+}
+.incrementer.right-side {
+  padding: 0 0 0 0.5em;
+}
+
 .ui-calendar .incrementer.maxed-out > i {
   padding-top: 1px;
   cursor: not-allowed;
@@ -280,15 +296,28 @@
 }
 
 .ui-calendar .weekend {
-  background:
-  /* On "top" */
-  repeating-linear-gradient(
+  background: repeating-linear-gradient(
     45deg,
     transparent,
     transparent 10px,
     rgba(232, 230, 230, 0.35) 10px,
     rgba(232, 230, 230, 0.35) 20px
-  ),
+  )
+}
+.ui-calendar .weekend.active {
+  border-color: rgb(106, 106, 106);
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(136, 136, 136, 0.35) 10px,
+    rgba(136, 136, 136, 0.35) 20px
+  )
+}
+
+.ui-calendar .active {
+  border-color: rgb(106, 106, 106);
+  border-width: 2px;
 }
 
 @keyframes bumpRight {

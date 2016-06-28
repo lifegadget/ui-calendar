@@ -1,153 +1,38 @@
 {{#demo-css}}
-<h1>datetime component</h1>
+<h1>{{ui-pill 'mini-datetime'}}</h1>
 <desc>A lightweight component for displaying both date and time in a relatively small screen real estate.</desc>
 
-{{!-- <h3>Basic Example</h3>
-
-<row>
-  <widget class="wide">
-    {{mini-datetime
-      value='2015-05-04 14:45:00'
-      duration=60
-      size=fontSize
-      font=fontFamily
-    }}
-  </widget>
-  <code>
-    {{display-component componentName='mini-datetime'
-      value='2015-05-04 14:45:00'
-      duration=60
-      size=fontSize
-      font=fontFamily
-    }}
-  </code>
-  <description>
-    <p>
-      This example takes a timedate string and then paints it into the space the container provides
-      using CSS flexbox as the underlying layout.
-    </p>
-  </description>
-</row>
-
-<row>
-  <p>
-    Two other style properties that can be passed to the component are font <i>size</i> and <i>family</i>.
-    Rather than actually setting the <prop>style</prop> on the various DIV's we instead use a set of CSS
-    classes which can be easily overriden by the user and exposed to lower risk of XSS attacks.
-  </p>
-</row>
-<row>
-  <column>
-    Try adjusting the two properties and then inspect the HTML with your debugger.
-    You will see that the <prop>size</prop> parameter translates into a css property
-    of <css>.size-XXX</css> and <css>.font-YYY</css> respectively.
-  </column>
-  <column>
-    size:
-    {{ui-buttons
-      buttons='tiny,small,default,large,huge'
-      value=fontSize
-      defaultValue='normal'
-      size='small'
-      onChange=(mut fontSize)
-    }}<br/>
-    family:
-    {{ui-buttons
-      buttons='inherit,fantasy,monospace,cursive,serif,sans-serif'
-      value=fontFamily
-      defaultValue='inherit'
-      size='small'
-      onChange=(mut fontFamily)
-    }}<br/>
-  </column>
-</row>
-
-
-<h3 >Start, Stop, and Duration</h3>
-<row>
-  <widget class="wide">
-    {{mini-datetime
-      start='2015-05-04 13:34:00'
-      duration=d1
-      showDuration=showDuration
-      size=fontSize
-      font=fontFamily
-      ampm=ampm
-      cursor=cursorString
-    }}
-  </widget>
-  <code>
-    {{display-component componentName='mini-datetime'
-      start='2015-05-04 13:34:00'
-      duration=d1
-      showDuration=showDuration
-      size=fontSize
-      font=fontFamily
-      ampm=ampm
-      cursor=cursorString
-    }}
-  </code>
-  <description>
-   <div class="row">
-     <div class="col-xs-4">Ending Style:</div>
-     <div class="col-xs-8">{{ui-buttons buttons='stop time:::null,duration:::true' value=showDuration size='small' stretch=true defaultValue=true onChange=(mut showDuration)}}</div>
-   </div>
-   <div class="row">
-     <div class="col-xs-4">Duration:</div>
-     <div class="col-xs-8">{{ui-buttons buttons='0:::0,30:::30,60:::60,90:::90' value=d1 size='small' stretch=true onChange=(mut d1)}}</div>
-   </div>
-   <div class="row">
-      <div class="col-xs-5">
-        Time Format<br/>
-      {{ui-toggle-button off='24hr time' on='am/pm' value=ampm size='small' onToggle=(mut ampm)}}<br/>
-      </div>
-      <div class="col-xs-7">
-        Cursor<br/>
-        {{ui-toggle-button off='default' on='not-allowed' value=cursor size='small' onToggle=(mut cursor)}}<br/>
-      </div>
-    </div>
-
-  </description>
-</row>
-
-<desc>
-  In the example above we've added another property "stopTime" which allows another <em>datetime</em> object to be included as the "stop time". Another similar alternative would be to instead specify the
-  <code>duration</code> property which is the number minutes which is really just another way of providing the
-  same information but having both input formats helps to provide a more flexible API surface for two very common
-  ways of expressing this kind of information.
-</desc>
-<desc>
-  In addition to providing two interfaces, the user interface can also be asked to display the secondary date information as a <em>duration</em> or a concluding <em>time</em>. The components attempts to be smart by mimicking the input format to the user interface for intra-day durations. For any multi-day durations the
-  component switches to <em>duration </em> mode.
-</desc> --}}
 
 <h3>Demo</h3>
-<row>
-  <widget class="wide">
+<div class="col-xs-12">
+
+  <div class="col-xs-12 col-lg-5">
     {{mini-datetime
-      start=start
+      value=start
       duration=duration
-      durationChoices=durationChoices
-      disabled=disabled
-      editable=editable
       numDateChoices=numDateChoices
-      onDateChange=(mut start)
-      onDurationChange=(action 'onDurationChange')
+      durationChoices=durationChoices
+      editable=editable
+      ampm=ampm
+      disabled=disabled
+      onChange=(mut start)
+      onDurationChange=(mut duration)
     }}
-  </widget>
-  <code>
+  </div>
+  <div class="col-xs-7 col-lg-4">
     {{display-component componentName='mini-datetime'
       start=start
       duration=duration
       durationChoices=durationChoices
       disabled=disabled
       editable=editable
+      ampm=ampm
       numDateChoices=numDateChoices
-      onChange=(action 'onTimeChange')
-      onDurationChange=(action 'onDurationChange')
+      onChange=(mut start)
+      onDurationChange=(mut onDurationChange)
     }}
-  </code>
-  <description>
+  </div>
+  <div class="col-xs-5 col-lg-3">
     Disabling<br/>
     {{ui-toggle-button off='enabled' on='disabled' value=disabled onToggle=(mut disabled)}}<br/>
     Editable<br/>
@@ -161,21 +46,18 @@
       cardinality='1:1'
     }}
     <br/>
-    Duration:<br/>
+    AM/PM:<br/>
     {{ui-toggle-button
-      on='add'
-      off='remove'
-      onTitle='add durations'
-      offTitle='remove durations'
-      value=showDuration
-      onToggle=(action 'changeDuration' value)
-    }}
-    {{ui-button
-      title='remove durations'
-      onChange=(action 'changeDuration' 'remove')
+      on=true
+      off=false
+      onTitle='true'
+      offTitle='false'
+      value=ampm
+      onToggle=(mut ampm)
     }}
 
-  </description>
-</row>
+  </div>
+</div>
+
 
 {{/demo-css}}

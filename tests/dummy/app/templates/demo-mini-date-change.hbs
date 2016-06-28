@@ -8,11 +8,11 @@
   <widget class="wide">
     <div>
       {{mini-date-change
-        onChange=(action 'onDateChange')
         value=myDate
-        defaultValue="yesterday"
-        rangeToValuePosition='middle'
+        defaultValue='yesterday'
+        rangeToValuePosition='start'
         numDateChoices=numDateChoices
+        onChange=(action 'onDateChange')
       }}
     </div>
   </widget>
@@ -43,27 +43,19 @@
       <li>
         <h4>value</h4>
         <p>
-          The <prop>value</prop> property provides a one-way bound input to the component which can be of type:
-          <ul>
-            <li>momentjs object</li>
-            <li>string of format <i>YYYY-MM-DD</i></li>
-          </ul>
-          The component will convert all values into the internal representation (<prop>_value</prop>) which is always a string representation.
-        </p>
-        <p>
-          Because this is one-way binding, no changes will be made to the container's value input but instead it should listen to the <prop>onChange</prop> event which will be passed back the date in whichever format was provided (e.g., momentjs or string). Please note, however, that the momentjs object passed back will only have date-specific info, all time information will have been stripped off.
+          The <prop>value</prop> property expects a value of format <i>YYYY-MM-DD</i>.
+          This is one-way bound and so any user choices to change the date will trigger a {{ui-label 'onChange'}} event.
         </p>
       </li>
       <li>
         <h4>defaultValue</h4>
         <p>
-          If you are passing in an uninitialized value to the <prop>value</prop> property you can specify a default date for the UI to start at. You can state this value as:
+          If you are passing in an uninitialized value to the <prop>value</prop> property you can specify a default date for the UI to start at. The "defaultValue" must be a string but can be in either of either format:
           <ul>
-            <li>momentjs object</li>
             <li>string of format <i>YYYY-MM-DD</i></li>
-            <li>"yesterday", "today", "tomorrow"</li>
+            <li>named dates: "yesterday", "today", "tomorrow"</li>
           </ul>
-          If you don't state this explicitly the default is "today".
+          If you don't state this explicitly the <i>default</i> will be set to "today". In the case where no value property exists, the {{ui-label 'onChange'}} property will be fired with a code of 'suggested-default'. Both {{ui-pill 'mut'}} and {{ui-pill 'action'}} helpers will help facilitate the agreement with the container on switching to the default value.
         </p>
       </li>
       <li>
@@ -85,27 +77,33 @@
 
       <ul>
         <li>
-          <h4>has-changed</h4>
+          <h4>{{ui-pill '.ui-calendar .has-changed'}}</h4>
           <p>
             the <prop>has-changed</prop> class is added when the value has changed from the when the component first entered the stage.
           </p>
         </li>
         <li>
-          <h4>.ui-calendar .today</h4>
+          <h4>{{ui-pill '.ui-calendar .today'}}</h4>
           <p>
             Name says it all. There is some subtle default styling for this which you can override.
           </p>
         </li>
         <li>
-          <h4>.ui-calendar .initial</h4>
+          <h4>{{ui-pill '.ui-calendar .initial'}}</h4>
           <p>
             The "initial" value is the value that this component started with when it entered the stage. This is not styled as a default but we've added some styling to the demo to allow you to "see" the effect.
           </p>
         </li>
         <li>
-          <h4>.ui-calendar .weekend</h4>
+          <h4>{{ui-pill '.ui-calendar .weekend'}}</h4>
           <p>
             Name says it all but also note that the contra "weekday" is also added. There is some subtle default styling for this which you can override.
+          </p>
+        </li>
+        <li>
+          <h4>{{ui-pill '.ui-calendar .active'}}</h4>
+          <p>
+            The currently selected date.
           </p>
         </li>
       </ul>
@@ -124,7 +122,6 @@
         </ul>
       </p>
     </p>
-    container size: {{ui-toggle-button on='wide' off='narrow' value=containerSize}}
   </div>
 </row>
 

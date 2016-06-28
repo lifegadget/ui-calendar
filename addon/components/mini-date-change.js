@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import ddau from 'ui-calendar/mixins/ddau';
+
 const { keys, create } = Object; // jshint ignore:line
 const { RSVP: {Promise} } = Ember; // jshint ignore:line
 const { inject: {service} } = Ember; // jshint ignore:line
@@ -9,7 +11,7 @@ const a = Ember.A; // jshint ignore:line
 import layout from '../templates/components/mini-date-change';
 import moment from 'moment';
 
-const dateChange = Ember.Component.extend({
+const dateChange = Ember.Component.extend(ddau, {
   layout: layout,
 
   classNames: ['ui-calendar', 'mini-date-change', 'noselect', 'floater'],
@@ -17,12 +19,26 @@ const dateChange = Ember.Component.extend({
 
   init() {
     this._super(...arguments);
-    this.set('initialValue', this.get('_value'));
-    run.schedule('afterRender', () => {
-      this._calcAutoChoiceNumber();
-      this.onResize = run.bind(this, 'resize');
-      $(window).on('resize', this.onResize);
-    });
+    const {_value, _defaultValue, defaultValue} = this.getProperties('_value', '_defaultValue', 'defaultValue');
+    // set default value
+    run.later(() => {
+      if(!_value) {
+        this.ddau('onChange', {
+          code: 'suggested-default',
+          oldValue: undefined,
+          newValue: _defaultValue,
+          defaultValue: defaultValue,
+          context: this
+        }, _defaultValue);
+      }
+      // set initial value
+      this.set('initialValue', _value);
+      run.schedule('afterRender', () => {
+        this._calcAutoChoiceNumber();
+        this.onResize = run.bind(this, 'resize');
+        $(window).on('resize', this.onResize);
+      });
+    }, 0);
   },
   onResize() {
     this._calcAutoChoiceNumber();
@@ -33,51 +49,26 @@ const dateChange = Ember.Component.extend({
     this.set('_autoChoiceNumber', Math.floor(widgetWidth / 60));
   },
 
-  date: computed.alias('value'),
-  // ensures the internal represenation is a string and provides
-  // one-way decoupling with container
-  value: null,
-  _value: computed('value', {
-    set(_, value) {
-      console.log('set value: ', value);
-      return value;
-    },
-    get() {
-      return this.get('value');
-    }
-    //   const {value} = this.getProperties('value');
-    //   if (!value) {
-    //     let defaultValue = this._defaultValue();
-    //     this.attrs.onChange(defaultValue, null);
-    //     return defaultValue;
-    //   } else {
-    //     return typeOf(value) === 'object' ? value.format('YYYY-MM-DD') : value;
-    //   }
-    // }
+  defaultValue: null,
+  _defaultValue: computed('defaultValue', function() {
+    const defaultValue = this.get('defaultValue') || 'today';
+    const namedDays = {
+      today: 0,
+      tomorrow: 1,
+      yesterday: -1
+    };
+    return a(keys(namedDays)).contains(defaultValue) ? moment().add(namedDays[defaultValue], 'days').format('YYYY-MM-DD') : moment(defaultValue).format('YYYY-MM-DD');
   }),
-  // _defaultValue() {
-  //   const {defaultValue} = this.getProperties('defaultValue');
-  //   let value;
-  //   if (defaultValue) {
-  //     if(typeOf(defaultValue) === 'object') {
-  //       value = defaultValue.format('YYYY-MM-DD');
-  //     } else if (defaultValue.indexOf('-') !== -1) {
-  //       value = defaultValue;
-  //     } else if (defaultValue === 'yesterday') {
-  //       value = moment().subtract(1,'day').format('YYYY-MM-DD');
-  //     } else if (defaultValue === 'today') {
-  //       value = moment().format('YYYY-MM-DD');
-  //     } else if (defaultValue === 'tomorrow') {
-  //       value = moment().add(1,'day').format('YYYY-MM-DD');
-  //     } else {
-  //       console.warn(`The date format sent to mini-date-change's "defaultValue" was invalid: `, defaultValue);
-  //       value = moment().startOf('day').format('YYYY-MM-DD');
-  //     }
-  //   } else {
-  //     value = moment().format('YYYY-MM-DD').startOf('day');
-  //   }
-  //   return value;
-  // },
+
+  date: computed.alias('value'),
+  // normalizes internal date representation as
+  // a string of "YYYY-MM-DD"
+  value: null,
+  _value: computed('value', function() {
+    const value = this.get('value');
+    return value ? moment(value).format('YYYY-MM-DD') : undefined;
+  }),
+
   today: computed(function() {
     return moment().format('YYYY-MM-DD');
   }),
@@ -93,7 +84,7 @@ const dateChange = Ember.Component.extend({
   }),
   rangeToValuePosition: 'start', // [start, middle, end]
   _dateRangeOffset: 0,
-  _dateRangeOrigin: computed('rangeToValuePosition', '_defaultValue', function() {
+  _dateRangeOrigin: computed('rangeToValuePosition', 'defaultValue', 'value', function() {
     const {rangeToValuePosition, initialValue, _numDateChoices} = this.getProperties('rangeToValuePosition', 'initialValue', '_numDateChoices');
     switch(rangeToValuePosition) {
       case 'start':
@@ -104,7 +95,7 @@ const dateChange = Ember.Component.extend({
         return moment(initialValue).subtract(Math.round(_numDateChoices/2)).format('YYYY-MM-DD');
     }
   }),
-  dateRange: computed('_dateRangeOffset', '_numDateChoices', '_dateRangeOrigin', function() {
+  dateRange: computed('_dateRangeOffset', '_numDateChoices', '_dateRangeOrigin', 'value', function() {
     const {_numDateChoices, _dateRangeOffset, initialValue} = this.getProperties('_numDateChoices', '_dateRangeOffset', 'initialValue');
     const dates = a();
     const startDate = moment(initialValue).add(_dateRangeOffset * _numDateChoices, 'days');
@@ -122,21 +113,17 @@ const dateChange = Ember.Component.extend({
     decreaseDateRange() {
       this.set('_dateRangeOffset', this.get('_dateRangeOffset') - 1);
     },
-    dateChosen(action,value) {
-      value = value[0];
-      console.log(action, value);
-      // INITIAL VALUE
+    dateChosen(hash) {
+      console.log(hash);
+      const newValue = hash.value;
+      const oldValue = hash.oldValues ? hash.oldValues[0] : undefined;
 
-      if (action === 'values' && value !== this.get('_value')) {
-        const oldValue = this.get('value');
-        const responseType = typeOf(this.get('value'));
-        const response = [
-          responseType === 'object' ? moment(value).startOf('day') : value, // new value
-          responseType === 'object' ? moment(oldValue).startOf('day') : oldValue // old value
-        ];
+        this.ddau('onChange', {
+          code: 'date-changed',
+          oldValue,
+          newValue
+        }, newValue);
 
-        this.attrs.onChange(...response);
-      }
     }
   }
 

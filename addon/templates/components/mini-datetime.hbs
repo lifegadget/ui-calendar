@@ -1,4 +1,4 @@
-<div class="mini-datetime {{if editable 'action-support'}} {{_size}} {{if disabled 'disabled' 'enabled'}}">
+<div class="ui-calendar mini-datetime {{if editable 'action-support'}} {{_size}} {{if disabled 'disabled' 'enabled'}}">
   <div class="display date {{if changingDate 'changing-date'}}" {{action 'changeDate'}}>
     <div class="dow">{{moment-format _start 'dddd'}}</div>
     <div class="dom">{{moment-format _start 'DD'}}</div>
@@ -29,7 +29,7 @@
   <div class="change-actions">
     {{#if changingDate}}
       {{mini-date-change
-        datetime=value
+        value=startDate
         size=size
         onChange=(action 'onDateChange')
         numDateChoices=numDateChoices
@@ -37,11 +37,11 @@
     {{/if}}
     {{#if changingTime}}
       {{mini-time-change
-        value=startTime
-        durationChoices=durationChoices
+        value=startMinutes
         duration=duration
+        durationChoices=durationChoices
         onTimeChange=(action 'onTimeChange')
-        onDurationChange=(mut duration)
+        onDurationChange=(action 'onDurationChange')
       }}
     {{/if}}
   </div>

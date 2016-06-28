@@ -1,1 +1,0 @@
-export { default } from 'ui-calendar/components/date-picker';
