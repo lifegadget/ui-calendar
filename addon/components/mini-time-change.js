@@ -132,7 +132,6 @@ export default Ember.Component.extend(ddau, {
       this.ddau('onTimeChange', value, value);
     },
     increaseTime: function() {
-      console.log('increading time');
       let minutes = this.get('_shadowTime') + this.get('chevronStep');
       this.set('_shadowTime', minutes);
       this.ddau('onTimeChange', minutes, minutes);
