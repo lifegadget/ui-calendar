@@ -18,15 +18,14 @@
 ## Usage ##
 For more details on the syntax check out the interactive demo:
 
-> [ui-calendar demo and examples](http://development.ui-calendar.divshot.io)
+> [ui-calendar demo and examples](https://ui-calendar.firebaseapp.com/)
 
 
 ## Version Compatibility
 
 This may very well work with older version of Ember and Ember-CLI but it was intended for:
 
-- Ember 1.12.0+
-- Ember-CLI 0.2.5+
+- Ember 2.11.0+
 
 ## Repo Contribution
 
