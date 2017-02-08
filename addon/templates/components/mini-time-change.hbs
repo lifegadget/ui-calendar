@@ -1,12 +1,7 @@
 {{! TOP ROW }}
 <div class="time fill">
-  <div class="incrementer side left-side fit decrease-time {{minedOut}}" {{action 'decreaseTime'}}>
-    {{#ui-animate 'ui-calendar-bump-left'
-      event='click'
-      duration=0.25
-    }}
+  <div class="incrementer side left-side fit decrease-time {{minedOut}}" onclick={{action 'decreaseTime'}}>
     {{ui-icon id='left-incrementer' icon='chevron-left' cursor=true fw=false}}
-    {{/ui-animate}}
   </div>
   <div class="start-time fill">
     {{ui-slider
@@ -21,13 +16,8 @@
       changed=(action 'timeChanged')
     }}
   </div>
-  <div class="incrementer side fit right-side increase-time {{maxedOut}} pointer" {{action 'increaseTime'}}>
-    {{#ui-animate 'ui-calendar-bump-right'
-      event='click'
-      duration=0.25
-    }}
-      {{ui-icon icon='chevron-right' cursor=true fw=false}}
-    {{/ui-animate}}
+  <div class="incrementer side fit right-side increase-time {{maxedOut}} pointer" onclick={{action 'increaseTime'}}>
+    {{ui-icon icon='chevron-right' cursor=true fw=false}}
   </div>
 </div>
 

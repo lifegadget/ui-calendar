@@ -90,6 +90,10 @@
   padding-right: 0;
 }
 
+div.date-range > .btn-group > .btn {
+  flex: 1 0;
+}
+
 div.date-range .choice {
   height: 100%;
 }
@@ -270,6 +274,7 @@ div.date-range .current-date {
 
 .incrementer {
   font-size: 2rem;
+  z-index: 10;
 }
 
 .incrementer.left-side {

@@ -56,11 +56,11 @@ const datetime = Ember.Component.extend(ddau, SharedStylist,{
    * "minutes" that the said activity spans
    */
   duration: 0,
-  _stop: computed('duration','startTime', function() {
-    const {duration, startTime} = this.getProperties('duration', 'startTime');
-    return moment(startTime).add(duration, 'minutes').toISOString();
+  _stop: computed('_start', 'duration', function() {
+    const {duration, _start} = this.getProperties('duration', '_start');
+    return moment(_start).add(duration, 'minutes').toISOString();
   }),
-  _stopTime: computed('_stop', function() {
+  _stopTime: computed('_start','_stop','duration', function() {
     return moment(this.get('_stop')).format('H:mm');
   }),
   _stopDate: computed('_stop', function() {

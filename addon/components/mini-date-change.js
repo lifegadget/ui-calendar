@@ -45,7 +45,6 @@ const dateChange = Ember.Component.extend(ddau, {
   },
   _calcAutoChoiceNumber() {
     const widgetWidth = $(`#${this.get('elementId')}`).innerWidth();
-
     this.set('_autoChoiceNumber', Math.floor(widgetWidth / 60));
   },
 

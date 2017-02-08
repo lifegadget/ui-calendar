@@ -14,6 +14,7 @@
       durationChoices=durationChoices
       editable=editable
       ampm=ampm
+      showDuration=showDuration
       disabled=disabled
       onChange=(mut start)
       onDurationChange=(mut duration)
@@ -26,6 +27,7 @@
       durationChoices=durationChoices
       disabled=disabled
       editable=editable
+      showDuration=showDuration
       ampm=ampm
       numDateChoices=numDateChoices
       onChange=(mut start)
@@ -41,7 +43,7 @@
     {{ui-buttons
       name='number-of-date-choices'
       buttons='4:::4,5:::5,7:::7,auto'
-      values=numDateChoices
+      value=numDateChoices
       onChange=(mut numDateChoices)
       cardinality='1:1'
     }}
@@ -54,6 +56,16 @@
       offTitle='false'
       value=ampm
       onToggle=(mut ampm)
+    }}
+    <br/>
+    Show Duration:<br/>
+    {{ui-toggle-button
+      on=true
+      off=false
+      onTitle='true'
+      offTitle='false'
+      value=showDuration
+      onToggle=(mut showDuration)
     }}
 
   </div>
