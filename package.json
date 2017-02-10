@@ -75,7 +75,7 @@
     "ember-cli-htmlbars": "^1.0.3",
     "ember-cli-stylist": "^0.4.11",
     "ember-truth-helpers": "^1.2.0",
-    "ui-ember-slider": "^0.4.1"
+    "ui-ember-slider": "^0.4.3"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
