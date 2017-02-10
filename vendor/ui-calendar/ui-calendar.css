@@ -273,6 +273,7 @@ div.date-range .current-date {
 }
 
 .incrementer {
+  margin-top: -8px;
   font-size: 2rem;
   z-index: 10;
 }
@@ -294,6 +295,10 @@ div.date-range .current-date {
 }
 .ui-calendar .incrementer.right {
   margin-left: 10px;
+}
+
+.ui-calendar .tooltip.top.in {
+  opacity: 0.9;
 }
 
 .ui-calendar .today {
