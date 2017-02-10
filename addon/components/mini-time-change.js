@@ -114,7 +114,6 @@ export default Ember.Component.extend(ddau, {
     });
   }),
 
-
   tooltip(value) {
     return moment().startOf('day').add(value, 'minutes').format('h:mm a');
   },
